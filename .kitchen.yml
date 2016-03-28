@@ -6,6 +6,16 @@ provisioner:
   name: chef_zero
 
 platforms:
+  - name: centos-7.2-vbox
+    driver:
+      box: bento/centos-7.2
+      box_url: bento/centos-7.2
+      provider: virtualbox
+  - name: centos-7.2-vmware
+    driver:
+      box: bento/centos-7.2
+      box_url: bento/centos-7.2
+      provider: vmware_fusion
   - name: centos-7.1-vbox
     driver:
       box: bento/centos-7.1

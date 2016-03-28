@@ -2,6 +2,7 @@ require 'spec_helper'
 
 # CENTOS
 if ['rhel', 'fedora', 'centos', 'redhat'].include?(os[:family])
+
   # CENTOS6: 1.4.1
   describe command('grep selinux=0 /etc/grub.conf') do
     its(:stdout) { should match /^$/ }

@@ -69,10 +69,12 @@ end
 end
 
 file "/etc/at.allow" do
+  mode 0600
   action :create
 end
 
 file "/etc/cron.allow" do
+  mode 0600
   action :create
 end
 

@@ -40,30 +40,47 @@ end
 
 # This is not scored (or even suggested by CIS) in Ubuntu
 if %w{rhel fedora centos}.include?(node["platform"])
+  
+  # Get major version for RHEL distro
+  major_version = node["platform_version"][0,1].to_i
 
-  # 1.4.1
-  execute "Remove selinux=0 from /etc/grub.conf" do
-    command "sed -i 's/selinux=0//' /etc/grub.conf"
-    only_if "grep -q 'selinux=0' /etc/grub.conf"
-  end
-  execute "Remove enforcing=0 from /etc/grub.conf" do
-    command "sed -i 's/enforcing=0//' /etc/grub.conf"
-    only_if "grep -q 'enforcing=0' /etc/grub.conf"
-  end
+  if (major_version < 7) 
+    # 1.4.1
+    execute "Remove selinux=0 from /etc/grub.conf" do
+      command "sed -i 's/selinux=0//' /etc/grub.conf"
+      only_if "grep -q 'selinux=0' /etc/grub.conf"
+    end
+    execute "Remove enforcing=0 from /etc/grub.conf" do
+      command "sed -i 's/enforcing=0//' /etc/grub.conf"
+      only_if "grep -q 'enforcing=0' /etc/grub.conf"
+    end
 
-  # 1.5.3
-  if node['stig']['grub']['hashedpassword'] != ''
-    password = node['stig']['grub']['hashedpassword']
-    execute "Add password to grub" do
-      command "sed -i '11i password --md5 #{password}' /etc/grub.conf"
-      not_if "grep -q '#{password}' /etc/grub.conf"
+    # 1.5.3
+    if node['stig']['grub']['hashedpassword'] != ''
+      password = node['stig']['grub']['hashedpassword']
+      execute "Add password to grub" do
+        command "sed -i '11i password --md5 #{password}' /etc/grub.conf"
+        not_if "grep -q '#{password}' /etc/grub.conf"
+      end
+    else
+      execute "Add password to grub" do
+        command "sed -i '/password/d' /etc/grub.conf"
+        only_if "grep -q 'password' /etc/grub.conf"
+      end
     end
   else
-    execute "Add password to grub" do
-      command "sed -i '/password/d' /etc/grub.conf"
-      only_if "grep -q 'password' /etc/grub.conf"
+    # 1.4.1
+    execute "Remove selinux=0 from /etc/grub.conf" do
+      command "sed -i 's/selinux=0//' /boot/grub2/grub.cfg"
+      only_if "grep -q 'selinux=0' /boot/grub2/grub.cfg"
+    end
+    execute "Remove enforcing=0 from /etc/grub.conf" do
+      command "sed -i 's/enforcing=0//' /boot/grub2/grub.cfg"
+      only_if "grep -q 'enforcing=0' /boot/grub2/grub.cfg"
     end
   end
+
+  
   
   enabled_selinux = node['stig']['selinux']['enabled']
   status_selinux = node['stig']['selinux']['status']
