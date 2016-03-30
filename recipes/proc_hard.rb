@@ -27,6 +27,7 @@ template "/etc/security/limits.conf" do
   group "root"
   mode 0644
 end
+
 if %w{debian ubuntu}.include?(node["platform"])
   package "apport" do
     action :remove

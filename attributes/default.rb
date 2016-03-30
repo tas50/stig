@@ -9,7 +9,7 @@ default['stig']['grub']['hashedpassword'] = ''
 default['stig']['limits'] = [
   {
     '*' => {
-      'hard' => 'core 65535'
+      'hard' => 'core 0'
     }
   }
 ]

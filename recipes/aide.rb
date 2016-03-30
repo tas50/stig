@@ -13,9 +13,7 @@
 # - Install AIDE
 # - Implement Periodic Execution of File Integrity
 
-package "aide" do
-  action :install
-end
+package "aide"
 
 if %w{debian ubuntu}.include?(node["platform"])
   # CIS Benchmarks suggest: The prelinking feature can interfere with AIDE because it alters binaries to 
@@ -33,16 +31,6 @@ if %w{debian ubuntu}.include?(node["platform"])
     user "root"
     source "file:///var/lib/aide/aide.db.new"
   end
-  
-  cron "aide_cron" do
-    command "/usr/bin/aide --check"
-    minute "0"
-    hour "5"
-    day "*"
-    month "*"
-    action :create
-    not_if 'crontab -u root -l | grep aide'
-  end
 end
 
 if %w{rhel fedora centos}.include?(node["platform"])
@@ -52,8 +40,9 @@ if %w{rhel fedora centos}.include?(node["platform"])
     creates "/var/lib/aide/aide.db.gz"
     action :run
   end
-  
-  cron "aide_cron" do
+end
+
+cron "aide_cron" do
     command "/usr/sbin/aide --check"
     minute "0"
     hour "5"
@@ -62,5 +51,4 @@ if %w{rhel fedora centos}.include?(node["platform"])
     action :create
     not_if 'crontab -u root -l | grep aide'
   end
-end
 

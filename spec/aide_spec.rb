@@ -8,7 +8,7 @@ describe "stig::aide" do
     expect(chef_run).to install_package("aide")
   end
   
-  it "actually initializes aid" do
+  it "actually initializes aide" do
     expect(chef_run).to run_execute("init_aide").with(
     user: "root",
     command: "/usr/sbin/aide --init -B 'database_out=file:/var/lib/aide/aide.db.gz'",
