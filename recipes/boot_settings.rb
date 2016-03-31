@@ -7,16 +7,16 @@
 # CIS Benchmark Items
 # RHEL6:  1.5.1, 1.5.2, 1.5.3, 1.5.4, 1.5.5, 1.5.6, 1.6.1, 1.6.2, 1.6.3, 1.6.4, 4.2.1, 4.2.2, 4.2.3
 # CENTOS6: 1.4.1, 1.4.2, 1.4.3, 1.4.4, 1.4.5, 1.4.6, 1.5.1, 1.5.2, 1.5.3, 1.5.5, 5.2.1, 5.2.2, 5.2.3
-# UBUNTU: 3.1, 3.2, 
-# - Enable SELinux in /etc/grub.conf. 
+# UBUNTU: 3.1, 3.2,
+# - Enable SELinux in /etc/grub.conf.
 # - Set SELinux state
 # - Set SELinux policy
 # - Remove SETroubleshoot
 # - Remove MCS Translation Service
 # - Check for unconfined daemons - NOTE: This doesn't have an action plan associated with it
-# - Set User/Group Owner on /etc/grub.conf 
-# - Set Permissions on /etc/grub.conf 
-# - Set Boot Loader Password 
+# - Set User/Group Owner on /etc/grub.conf
+# - Set Permissions on /etc/grub.conf
+# - Set Boot Loader Password
 # - Require Authentication for Single-User Mode.
 # - Disable Interactive Boot.
 # - Disable Source Routed Packet Acceptance
@@ -32,7 +32,7 @@ if %w{debian ubuntu}.include?(node["platform"])
     sensitive true
     notifies :run, "execute[update-grub]", :immediately
   end
-  
+
   execute "update-grub" do
     action :nothing
   end
@@ -40,11 +40,17 @@ end
 
 # This is not scored (or even suggested by CIS) in Ubuntu
 if %w{rhel fedora centos}.include?(node["platform"])
-  
+
   # Get major version for RHEL distro
   major_version = node["platform_version"][0,1].to_i
 
-  if (major_version < 7) 
+  if (major_version < 7)
+    file "/boot/grub/grub.conf" do
+      owner "root"
+      group "root"
+      mode '0600'
+    end
+
     # 1.4.1
     execute "Remove selinux=0 from /etc/grub.conf" do
       command "sed -i 's/selinux=0//' /etc/grub.conf"
@@ -80,8 +86,10 @@ if %w{rhel fedora centos}.include?(node["platform"])
     end
   end
 
-  
-  
+  cookbook_file "/etc/inittab" do
+    source "etc_inittab"
+  end
+
   enabled_selinux = node['stig']['selinux']['enabled']
   status_selinux = node['stig']['selinux']['status']
   type_selinux = node['stig']['selinux']['type']
@@ -91,25 +99,25 @@ if %w{rhel fedora centos}.include?(node["platform"])
     owner "root"
     group "root"
     variables({
-      :enabled_selinux => enabled_selinux,
-      :status_selinux => status_selinux,
-      :type_selinux => type_selinux
+                :enabled_selinux => enabled_selinux,
+                :status_selinux => status_selinux,
+                :type_selinux => type_selinux
     })
     mode 0644
     sensitive true
-    # notifies :run, "execute[restart_selinux]", :immediately
+    notifies :run, "execute[toggle_selinux]", :delayed
   end
 
   link "/etc/sysconfig/selinux" do
     to "/etc/selinux/config"
   end
-  
-   template "/selinux/enforce" do
+
+  template "/selinux/enforce" do
     source "selinux_enforce.erb"
     owner "root"
     group "root"
     variables({
-      :enforcing => (enabled_selinux ? 1 : 0)
+                :enforcing => (enabled_selinux ? 1 : 0)
     })
     only_if { ::File.directory?("/selinux/enforce") }
     mode 0644

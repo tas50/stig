@@ -1,5 +1,23 @@
 require 'spec_helper'
 
+
+# CENTOS6 1.6.1
+# UBUNTU 4.1
+describe file('/etc/security/limits.conf') do
+  it { should exist }
+  it { should be_file }
+  it { should be_owned_by 'root' }
+  it { should be_mode 644 }
+  its(:content) { should contain "hard core 0" }
+end
+
+describe file('/etc/sysctl.conf') do
+  it { should exist }
+  it { should be_file }
+  it { should be_owned_by 'root' }
+  it { should be_mode 644 }
+end
+
 # CENTOS
 if ['redhat', 'fedora', 'centos', 'rhel'].include?(host_inventory['platform'])
   
@@ -17,11 +35,6 @@ if ['debian','ubuntu'].include?(host_inventory['platform'])
   end
 end
 
-# CENTOS6 1.6.1
-# UBUNTU 4.1
-describe command('grep "hard core" /etc/security/limits.conf') do
-  its(:stdout) { should match /\* hard core 0/ }
-end
 describe command('sysctl fs.suid_dumpable') do
   its(:stdout) { should match /fs.suid_dumpable = 0/ }
 end

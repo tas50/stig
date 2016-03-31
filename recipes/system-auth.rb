@@ -10,6 +10,8 @@
 # UBUNTU: 9.2.3
 #
 # - Limit Password Reuse
+#
+# Checked against CIS RHEL 6 STIG 1.4.0
 
 if %w{rhel fedora centos}.include?(node["platform"])
   template "/etc/pam.d/system-auth" do
@@ -18,7 +20,7 @@ if %w{rhel fedora centos}.include?(node["platform"])
     group "root"
     mode 0644
     variables(
-      :pass_reuse_limit => node["stig"]["system_auth"]["pass_reuse_limit"] 
+      :pass_reuse_limit => node["stig"]["system_auth"]["pass_reuse_limit"]
     )
   end
 end
@@ -30,7 +32,7 @@ if %w{debian ubuntu}.include?(node["platform"])
     group "root"
     mode 0644
     variables(
-      :pass_reuse_limit => node["stig"]["system_auth"]["pass_reuse_limit"] 
+      :pass_reuse_limit => node["stig"]["system_auth"]["pass_reuse_limit"]
     )
   end
 end

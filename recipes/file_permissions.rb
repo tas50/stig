@@ -2,7 +2,7 @@
 # Recipe:: file_permissions
 # Author: Ivan Suftin <isuftin@usgs.gov>
 #
-# Description: File permission configuration 
+# Description: File permission configuration
 #
 # CIS Benchmark Items
 # RHEL6:  6.1.3, 6.1.4, 6.1.5, 6.1.6, 6.1.7, 6.1.8, 6.1.9, 6.1.10, 9.1.1, 9.1.2, 9.1.3, 9.1.4, 9.1.5, 9.1.6, 9.1.7, 9.1.8
@@ -30,7 +30,7 @@
   file f do
     owner "root"
     group "root"
-    mode 0600  
+    mode 0600
   end
 end
 
@@ -38,7 +38,7 @@ end
   directory d do
     owner "root"
     group "root"
-    mode 0600 
+    mode 0600
   end
 end
 
@@ -46,7 +46,7 @@ if %w{debian ubuntu}.include?(node["platform"])
   file "/etc/shadow" do
     owner "root"
     group "root"
-    mode 0640  
+    mode 0640
   end
 end
 
@@ -55,7 +55,7 @@ if %w{rhel fedora centos}.include?(node["platform"])
     file f do
       owner "root"
       group "root"
-      mode 0000  
+      mode 0000
     end
   end
 end
@@ -64,7 +64,7 @@ end
   file f do
     owner "root"
     group "root"
-    mode 0644  
+    mode 0644
   end
 end
 

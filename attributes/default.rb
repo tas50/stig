@@ -215,7 +215,7 @@ default['stig']['sshd_config']['permit_empty_passwords'] = false
 # Allow Users to Set Environment Options
 default['stig']['sshd_config']['allow_users_set_env_opts'] = false
 
-default['stig']['sshd_config']['banner_path'] = '/etc/issue'
+default['stig']['sshd_config']['banner_path'] = '/etc/issue.net'
 
 # Limit Access via SSH
 default['stig']['sshd_config']['deny_users'] = [

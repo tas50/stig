@@ -20,7 +20,7 @@ end
 
 # CENTOS6: 9.2.1
 # UBUNTU: 13.1
-describe command("cat /etc/shadow | awk -F: '($2 == \"\" ) { print $1 \" does not have a password \"}'") do
+describe command("/bin/cat /etc/shadow | /bin/awk -F: '($2 == \"\" ) { print $1 \" does not have a password \"}'") do
   its(:stdout) { should match /^$/ }
 end
 
@@ -44,6 +44,6 @@ end
 
 # CENTOS6: 9.2.5
 # UBUNTU: 13.5
-describe command("cat /etc/passwd | awk -F: '($3 == 0) { print $1 }'") do
+describe command("/bin/cat /etc/passwd | /bin/awk -F: '($3 == 0) { print $1 }'") do
   its(:stdout) { should match /root/ }
 end

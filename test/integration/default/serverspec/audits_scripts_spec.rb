@@ -2,6 +2,9 @@ require 'spec_helper'
 
 describe file('/root/.audit') do
   it { should be_directory }
+  it { should be_owned_by 'root' }
+  it { should be_grouped_into 'root' }
+  it { should be_mode 600 }
 end
 
 describe file('/root/.audit/find_suid_system_executables.sh') do

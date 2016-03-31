@@ -2,16 +2,6 @@ require "spec_helper"
 
 describe "stig::boot_settings" do
   let(:chef_run) { ChefSpec::SoloRunner.converge(described_recipe) }
-
-    it "creates /boot/grub/grub.conf template" do
-      expect(chef_run).to create_template("/boot/grub/grub.conf").with(
-        source: "etc_grub.conf.erb",
-        owner: "root",
-        group: "root",
-        mode: 0600,
-        sensitive: true
-      )
-    end
     
     it "creates /etc/sysconfig/init template" do
       expect(chef_run).to create_template("/etc/sysconfig/init").with(

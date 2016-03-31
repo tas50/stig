@@ -13,6 +13,18 @@ Requirements
 ### Cookbooks
 - auditd
 
+Changelog
+---------
+- 0.3.8
+-- Updated STIG and Audit rules to CIS RHEL Stig 1.4.0 
+-- Added CentOS 6 ruleset 3.2 - "Remove the X Window System"
+-- Fixed and added many Serverspec tests
+-- Corrected a typo in `check_duplicate_gid.sh` to correct STIG control number
+-- Removed CIS wording from audit scripts
+-- Enforced permissions on /boot/grub/grub.conf as per STIG 1.5.2
+-- Removed grub.conf template
+-- Updated mounting of /dev/shm to be idempotent
+
 Attributes
 ----------
 - `node['stig']['limits']` = A hash of items that go into /etc/security/limits.conf (Array of Hashes of Hashes)
