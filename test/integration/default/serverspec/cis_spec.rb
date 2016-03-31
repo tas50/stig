@@ -1,5 +1,12 @@
 require 'spec_helper'
 
+describe file('/etc/modprobe.d/CIS.conf') do
+  it { should exist }
+  it { should be_file }
+  it { should be_owned_by 'root' }
+  it { should be_mode 644 }
+end
+
 # UBUNTU 2.18
 # CENTOS 1.1.18
 describe command('/sbin/modprobe -n -v cramfs') do

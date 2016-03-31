@@ -8,6 +8,7 @@
 # RHEL6:  3.1.16
 # CENTOS6: 3.16
 # Ubuntu 6.15
+
 source = "";
 if %w{rhel fedora centos}.include?(node["platform"])
   source = "etc_main.cf_rhel.erb"

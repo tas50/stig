@@ -50,8 +50,7 @@ if %w{rhel fedora centos}.include?(node["platform"])
   mount "/dev/shm" do
     fstype "tmpfs"
     device "none"
-    options "remount,nodev,nosuid,noexec"
-    mounted false
+    options "nodev,nosuid,noexec"
     enabled true
     action [:mount, :enable]
   end

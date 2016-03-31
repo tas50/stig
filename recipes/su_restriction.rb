@@ -3,6 +3,8 @@
 # Recipe:: su_restriction
 # Author: Ivan Suftin < isuftin@usgs.gov >
 #
+# CENTOS6: 6.5
+#
 # Description: Restrict access to the su command
 
 if %w{rhel fedora centos}.include?(node["platform"])
@@ -22,4 +24,3 @@ if %w{debian ubuntu}.include?(node["platform"])
     mode 0644
   end
 end
-
