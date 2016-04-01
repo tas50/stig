@@ -14,16 +14,36 @@ default['stig']['limits'] = [
   }
 ]
 
-# Configure Audit Log Storage Size - In megabytes
+# See http://man7.org/linux/man-pages/man5/auditd.conf.5.html
+default['stig']['auditd']['log_file'] = "/var/log/audit/audit.log"
+default['stig']['auditd']['log_format'] = "RAW"
+default['stig']['auditd']['log_group'] = "root"
+default['stig']['auditd']['priority_boost'] = "4"
+default['stig']['auditd']['flush'] = "INCREMENTAL"
+default['stig']['auditd']['freq'] = "freq"
+default['stig']['auditd']['num_logs'] = "5"
+default['stig']['auditd']['disp_qos'] = "lossy"
+default['stig']['auditd']['dispatcher'] = "/sbin/audispd"
+default['stig']['auditd']['name_format'] = "NONE"
 default['stig']['auditd']['max_log_file'] = '25' 
-# Disable System on Audit Log Full (Not Scored)
+default['stig']['auditd']['max_log_file_action'] = 'keep_logs'
+default['stig']['auditd']['space_left'] = '75'
 default['stig']['auditd']['space_left_action'] = 'email'
 default['stig']['auditd']['action_mail_acct'] = 'root'
-default['stig']['auditd']['admin_space_left_action'] = 'halt' # YIKES!
-# Keep All Auditing Information (Scored)
-default['stig']['auditd']['max_log_file_action'] = 'keep_logs'
-# Enable Auditing for Processes That Start Prior to auditd (Scored)
-default['stig']['auditd']['kernel_audit_grub'] = 'audit=1'
+default['stig']['auditd']['admin_space_left'] = "50"
+default['stig']['auditd']['admin_space_left_action'] = 'halt'
+default['stig']['auditd']['disk_full_action'] = "SUSPEND"
+default['stig']['auditd']['disk_error_action'] = "SUSPEND"
+default['stig']['auditd']['tcp_listen_queue'] = "5"
+default['stig']['auditd']['tcp_max_per_addr'] = "1"
+default['stig']['auditd']['tcp_client_ports'] = "1024-65535"
+default['stig']['auditd']['use_libwrap'] = "yes"
+default['stig']['auditd']['tcp_client_max_idle'] = "0"
+default['stig']['auditd']['enable_krb5'] = "no"
+default['stig']['auditd']['krb5_principal'] = "auditd"
+default['stig']['auditd']['krb5_key_file'] = ""
+default['stig']['auditd']['distribute_network'] = "no"
+
 
 # Removing support for unneeded filesystem types
 default['stig']['mount_disable']['cramfs'] = true
