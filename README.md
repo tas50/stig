@@ -15,6 +15,11 @@ Requirements
 
 Changelog
 ---------
+- 0.3.9 
+-- Fully parameterized auditd configuration file
+-- No longer calling the auditd cookbook directly from auditd.rb
+-- Auditd cookbook is no longer a direct dependency of the STIG cookbook. Should be part of an overall runlist
+
 - 0.3.8
 -- Updated STIG and Audit rules to CIS RHEL Stig 1.4.0 
 -- Added CentOS 6 ruleset 3.2 - "Remove the X Window System"

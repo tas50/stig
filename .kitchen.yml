@@ -62,6 +62,7 @@ suites:
     run_list:
       - recipe[stig::default]
       - recipe[stig::auditd]
+      - recipe[auditd::rules]
     attributes: {
       "auditd" : {
         "ruleset" : "stig"

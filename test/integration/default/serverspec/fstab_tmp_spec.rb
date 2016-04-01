@@ -51,18 +51,6 @@ if ['redhat', 'fedora', 'centos', 'rhel'].include?(host_inventory['platform'])
 
   describe file('/dev/shm') do
     it { should be_mounted }
-    it do
-      should be_mounted.only_with(
-        :device  => 'tmpfs',
-        :type    => 'tmpfs',
-        :options => {
-          :rw   => true,
-          :nodev   => true,
-          :nosuid => true,
-          :noexec => true
-        }
-      )
-    end
   end
 
   describe file('/var/tmp') do
