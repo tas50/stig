@@ -18,7 +18,7 @@ Changelog
 - 0.3.9 
 -- Fully parameterized auditd configuration file
 -- No longer calling the auditd cookbook directly from auditd.rb
--- Auditd cookbook is no longer a direct dependency o the STIG cookbook. Should be part of an overall runlist
+-- Auditd cookbook is no longer a direct dependency of the STIG cookbook. Should be part of an overall runlist
 
 - 0.3.8
 -- Updated STIG and Audit rules to CIS RHEL Stig 1.4.0 
