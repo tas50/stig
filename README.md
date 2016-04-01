@@ -15,6 +15,8 @@ Requirements
 
 Changelog
 ---------
+- 0.3.11
+-- More Auditd fixes
 
 - 0.3.10
 -- Fix auditd default parameters which break the build
