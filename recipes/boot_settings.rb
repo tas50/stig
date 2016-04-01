@@ -126,6 +126,7 @@ if %w{rhel fedora centos}.include?(node["platform"])
   execute "toggle_selinux" do
     command "setenforce #{(enabled_selinux ? 1 : 0)}"
     not_if "echo $(getenforce) | awk '{print tolower($0)}' | grep #{status_selinux}"
+    ignore_failure true # This seems to not work properly on CentOS
   end
 
   template "/etc/sysconfig/init" do
