@@ -60,9 +60,10 @@ platforms:
 suites:
   - name: default
     run_list:
+      - recipe[auditd]
       - recipe[stig::default]
       - recipe[stig::auditd]
-      - recipe[auditd::rules]
+      - recipe[stig::auditd_rules]
     attributes: {
       "auditd" : {
         "ruleset" : "stig"

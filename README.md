@@ -15,6 +15,9 @@ Requirements
 
 Changelog
 ---------
+- 0.4.0
+-- Users may now add auditd rules directly as a series of attributes
+
 - 0.3.11
 -- More Auditd fixes
 
