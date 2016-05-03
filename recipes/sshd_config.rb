@@ -63,6 +63,8 @@ template "/etc/ssh/sshd_config" do
     :allow_groups => node["stig"]["sshd_config"]["allow_groups"],
     :banner_path => node["stig"]["sshd_config"]["banner_path"],
     :ciphers => node["stig"]["sshd_config"]["ciphers"],
+    :challenge_response_authentication => node["stig"]["sshd_config"]["challenge_response_authentication"],
+    :use_pam_auth => node["stig"]["sshd_config"]["use_pam_auth"],
     :ignore_rhosts => ignore_rhosts,
     :host_based_auth => host_based_auth,
     :permit_root_login => permit_root_login,

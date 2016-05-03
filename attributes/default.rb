@@ -273,7 +273,17 @@ default['stig']['sshd_config']['allow_users_set_env_opts'] = false
 
 default['stig']['sshd_config']['banner_path'] = '/etc/issue.net'
 
+# Specifies the ciphers allowed.  Multiple ciphers must be comma-
+#  separated.	 If the	specified value	begins with a `+' character,
+#  then the specified	ciphers	will be	appended to the	default	set
+#  instead of	replacing them.
+# See: https://www.freebsd.org/cgi/man.cgi?query=sshd_config&sektion=5#end
 default['stig']['sshd_config']['ciphers'] = 'aes128-ctr,aes192-ctr,aes256-ctr'
+
+# Specifies whether challenge-response authentication is allowed
+default["stig"]["sshd_config"]["challenge_response_authentication"] = "no"
+
+default["stig"]["sshd_config"]["use_pam_auth"] = "yes"
 
 # Limit Access via SSH
 default['stig']['sshd_config']['deny_users'] = [

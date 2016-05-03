@@ -3,6 +3,9 @@
 
 - 0.4.1
 -- Updated sshd config to include approved ciphers (RHEL6 STIG 6.2.11)
+-- Added the ability to change `ChallengeResponseAuthentication` in sshd config
+-- Added the ability to change `UsePAM` in sshd config
+
 - 0.4.0
 -- Users may now add auditd rules directly as a series of attributes
 

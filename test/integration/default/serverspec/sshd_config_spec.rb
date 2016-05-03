@@ -43,5 +43,9 @@ describe file('/etc/ssh/sshd_config') do
   # UBUNTU: 9.3.14
   its(:content) { should contain "Banner /etc/issue.net" }
 
+  # RHEL6: 6.2.11
   its(:content) { should contain "Ciphers aes128-ctr,aes192-ctr,aes256-ctr" }
+  
+  its(:content) { should contain "ChallengeResponseAuthentication no" }
+  its(:content) { should contain "UsePAM yes" }
 end
