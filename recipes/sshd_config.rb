@@ -6,7 +6,7 @@
 #
 # CIS Benchmark Items
 # RHEL6: 6.2.2, 6.2.3, 6.2.5, 6.2.6, 6.2.7, 6.2.8, 6.2.9, 6.2.10, 6.2.13
-# CENTOS6: 6.2.2, 6.2.3, 6.2.5, 6.2.6, 6.2.7, 6.2.8, 6.2.9, 6.2.10, 6.2.13, 6.2.14
+# CENTOS6: 6.2.2, 6.2.3, 6.2.5, 6.2.6, 6.2.7, 6.2.8, 6.2.9, 6.2.10, 6.2.11, 6.2.13, 6.2.14
 # UBUNTU: 9.3.1, 9.3.2, 9.3.3, 9.3.6, 9.3.7, 9.3.8, 9.3.9, 9.3.10, 9.3.13, 9.3.14
 #
 # - Set LogLevel to INFO
@@ -62,10 +62,16 @@ template "/etc/ssh/sshd_config" do
     :allow_users => node["stig"]["sshd_config"]["allow_users"],
     :allow_groups => node["stig"]["sshd_config"]["allow_groups"],
     :banner_path => node["stig"]["sshd_config"]["banner_path"],
+    :ciphers => node["stig"]["sshd_config"]["ciphers"],
     :ignore_rhosts => ignore_rhosts,
     :host_based_auth => host_based_auth,
     :permit_root_login => permit_root_login,
     :permit_empty_passwords => permit_empty_passwords,
     :allow_users_set_env_opts => allow_users_set_env_opts
   )
+  notifies :restart, 'service[sshd]', :delayed
+end
+
+service 'sshd' do
+  action :nothing
 end

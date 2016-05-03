@@ -42,4 +42,6 @@ describe file('/etc/ssh/sshd_config') do
   # CENTOS: 6.2.14
   # UBUNTU: 9.3.14
   its(:content) { should contain "Banner /etc/issue.net" }
+
+  its(:content) { should contain "Ciphers aes128-ctr,aes192-ctr,aes256-ctr" }
 end

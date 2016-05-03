@@ -273,6 +273,8 @@ default['stig']['sshd_config']['allow_users_set_env_opts'] = false
 
 default['stig']['sshd_config']['banner_path'] = '/etc/issue.net'
 
+default['stig']['sshd_config']['ciphers'] = 'aes128-ctr,aes192-ctr,aes256-ctr'
+
 # Limit Access via SSH
 default['stig']['sshd_config']['deny_users'] = [
   'bin',
