@@ -43,6 +43,7 @@ default['stig']['auditd']['enable_krb5'] = "no"
 default['stig']['auditd']['krb5_principal'] = "auditd"
 default['stig']['auditd']['krb5_key_file'] = ""
 default['stig']['auditd']['distribute_network'] = "no"
+
 # Specific to creating ruleset
 default['stig']['auditd']['buffer'] = "8192"
 default['stig']['auditd']['failure_mode'] = "1"
@@ -79,7 +80,6 @@ default['stig']['auditd']['rules'] = [
   "-a always,exit -F arch=b64 -S mount -F auid>=500 -F auid!=4294967295 -k export",
   "-w /etc/sudoers -p wa -k actions"
 ]
-
 
 # Removing support for unneeded filesystem types
 default['stig']['mount_disable']['cramfs'] = true

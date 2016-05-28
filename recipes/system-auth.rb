@@ -13,26 +13,26 @@
 #
 # Checked against CIS RHEL 6 STIG 1.4.0
 
-if %w{rhel fedora centos}.include?(node["platform"])
-  template "/etc/pam.d/system-auth" do
-    source "etc_pam.d_system-auth.erb"
-    owner "root"
-    group "root"
-    mode 0644
-    variables(
-      :pass_reuse_limit => node["stig"]["system_auth"]["pass_reuse_limit"]
-    )
-  end
+platform = node['platform']
+
+template "/etc/pam.d/system-auth" do
+  source "etc_pam.d_system-auth.erb"
+  owner "root"
+  group "root"
+  mode 0644
+  variables(
+    :pass_reuse_limit => node["stig"]["system_auth"]["pass_reuse_limit"]
+  )
+  only_if { %w{rhel fedora centos}.include? platform }
 end
 
-if %w{debian ubuntu}.include?(node["platform"])
-  template "/etc/pam.d/common-password" do
-    source "etc_pam.d_common-password.erb"
-    owner "root"
-    group "root"
-    mode 0644
-    variables(
-      :pass_reuse_limit => node["stig"]["system_auth"]["pass_reuse_limit"]
-    )
-  end
+template "/etc/pam.d/common-password" do
+  source "etc_pam.d_common-password.erb"
+  owner "root"
+  group "root"
+  mode 0644
+  variables(
+    :pass_reuse_limit => node["stig"]["system_auth"]["pass_reuse_limit"]
+  )
+  only_if { %w{debian ubuntu}.include? platform }
 end

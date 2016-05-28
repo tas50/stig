@@ -18,6 +18,7 @@
 # - Set noexec option for /tmp Partition
 # - Bind Mount the /var/tmp directory to /tmp
 
+platform = node['platform']
 var_tmp = "/var/tmp"
 tmp = "/tmp"
 
@@ -28,30 +29,29 @@ mount var_tmp do
   not_if 'mount | grep /var/tmp'
 end
 
-if %w{debian ubuntu}.include?(node["platform"])
-  mount "/run/shm" do
-    fstype "tmpfs"
-    device "none"
-    options "rw,nodev,nosuid,noexec"
-    action [:mount, :enable]
-    notifies :run, "execute[remount]", :immediately
-  end
-  
-  # The initial mount for whatever reason doesn't seem to mount
-  # with the noexec flag. I need to remount after noexec is written 
-  # to fstab
-  execute "remount" do
-    command "mount -o remount /run/shm"
-    action :nothing
-  end
+mount "/run/shm" do
+  fstype "tmpfs"
+  device "none"
+  options "rw,nodev,nosuid,noexec"
+  action [:mount, :enable]
+  notifies :run, "execute[remount]", :immediately
+  only_if { %w{debian ubuntu}.include? platform }
 end
 
-if %w{rhel fedora centos}.include?(node["platform"])
-  mount "/dev/shm" do
-    fstype "tmpfs"
-    device "none"
-    options "nodev,nosuid,noexec"
-    enabled true
-    action [:mount, :enable]
-  end
+# The initial mount for whatever reason doesn't seem to mount
+# with the noexec flag. I need to remount after noexec is written 
+# to fstab
+execute "remount" do
+  command "mount -o remount /run/shm"
+  action :nothing
+  only_if { %w{debian ubuntu}.include? platform }
+end
+
+mount "/dev/shm" do
+  fstype "tmpfs"
+  device "none"
+  options "nodev,nosuid,noexec"
+  enabled true
+  action [:mount, :enable]
+  only_if { %w{rhel fedora centos}.include? platform }
 end

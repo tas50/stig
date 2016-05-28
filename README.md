@@ -13,6 +13,9 @@ Requirements
 ### Cookbooks
 - logrotate
 
+### Suggests
+- auditd, ~> 0.1.8
+
 Changelog
 ---------
 - 0.4.0

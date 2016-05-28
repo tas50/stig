@@ -1,32 +1,35 @@
 ## Changelog
 ---------
 
+- 0.4.2
+-- [isuftin@usgs.gov] - Fix most foodcritic errors and warnings
+
 - 0.4.1
--- Updated sshd config to include approved ciphers (RHEL6 STIG 6.2.11)
--- Added the ability to change `ChallengeResponseAuthentication` in sshd config
--- Added the ability to change `UsePAM` in sshd config
+-- [isuftin@usgs.gov] - Updated sshd config to include approved ciphers (RHEL6 STIG 6.2.11)
+-- [isuftin@usgs.gov] - Added the ability to change `ChallengeResponseAuthentication` in sshd config
+-- [isuftin@usgs.gov] - Added the ability to change `UsePAM` in sshd config
 
 - 0.4.0
--- Users may now add auditd rules directly as a series of attributes
+-- [isuftin@usgs.gov] - Users may now add auditd rules directly as a series of attributes
 
 - 0.3.11
--- More Auditd fixes
+-- [isuftin@usgs.gov] - More Auditd fixes
 
 - 0.3.10
--- Fix auditd default parameters which break the build
--- Add documentation for new attributes
+-- [isuftin@usgs.gov] - Fix auditd default parameters which break the build
+-- [isuftin@usgs.gov] - Add documentation for new attributes
 
 - 0.3.9
--- Fully parameterized auditd configuration file
--- No longer calling the auditd cookbook directly from auditd.rb
--- Auditd cookbook is no longer a direct dependency of the STIG cookbook. Should be part of an overall runlist
+-- [isuftin@usgs.gov] - Fully parameterized auditd configuration file
+-- [isuftin@usgs.gov] - No longer calling the auditd cookbook directly from auditd.rb
+-- [isuftin@usgs.gov] - Auditd cookbook is no longer a direct dependency of the STIG cookbook. Should be part of an overall runlist
 
 - 0.3.8
--- Updated STIG and Audit rules to CIS RHEL Stig 1.4.0
--- Added CentOS 6 ruleset 3.2 - "Remove the X Window System"
--- Fixed and added many Serverspec tests
--- Corrected a typo in `check_duplicate_gid.sh` to correct STIG control number
--- Removed CIS wording from audit scripts
--- Enforced permissions on /boot/grub/grub.conf as per STIG 1.5.2
--- Removed grub.conf template
--- Updated mounting of /dev/shm to be idempotent
+-- [isuftin@usgs.gov] - Updated STIG and Audit rules to CIS RHEL Stig 1.4.0
+-- [isuftin@usgs.gov] - Added CentOS 6 ruleset 3.2 - "Remove the X Window System"
+-- [isuftin@usgs.gov] - Fixed and added many Serverspec tests
+-- [isuftin@usgs.gov] - Corrected a typo in `check_duplicate_gid.sh` to correct STIG control number
+-- [isuftin@usgs.gov] - Removed CIS wording from audit scripts
+-- [isuftin@usgs.gov] - Enforced permissions on /boot/grub/grub.conf as per STIG 1.5.2
+-- [isuftin@usgs.gov] - Removed grub.conf template
+-- [isuftin@usgs.gov] - Updated mounting of /dev/shm to be idempotent

@@ -2,7 +2,7 @@
 # Recipe:: proc_hard
 # Author: David Blodgett <dblodgett@usgs.gov>
 #
-# Description: Sets a few policies 
+# Description: Sets a few policies
 #
 # TODO- This recipe should probably be refactored into separate recipes for the 1.x.x and 4.x.x items
 #
@@ -21,6 +21,8 @@
 # - Enable RFC-recommended Source Route Validation
 # - Disable IPv6 Redirect Acceptance
 
+platform = node['platform']
+
 template "/etc/security/limits.conf" do
   source "limits.conf.erb"
   owner "root"
@@ -28,14 +30,14 @@ template "/etc/security/limits.conf" do
   mode 0644
 end
 
-if %w{debian ubuntu}.include?(node["platform"])
-  package "apport" do
-    action :remove
-  end
-  
-  package "whoopsie" do
-    action :remove
-  end
+package "apport" do
+  action :remove
+  only_if { %w{debian ubuntu}.include? platform }
+end
+
+package "whoopsie" do
+  action :remove
+  only_if { %w{debian ubuntu}.include? platform }
 end
 
 if node["stig"]["network"]["ip_forwarding"]
@@ -92,64 +94,62 @@ else
   ipv6_disable = 0
 end
 
-if %w{rhel fedora centos}.include?(node["platform"])
-  template "/etc/sysctl.conf" do
-    source "etc_sysctl.conf_rhel.erb"
-    owner "root"
-    group "root"
-    mode 0644
-    variables(
-      :ip_forwarding => ip_forwarding,
-      :send_redirects => send_redirects,
-      :icmp_redirect_accept => icmp_redirect_accept,
-      :log_suspicious_packets => log_suspicious_packets,
-      :rfc_source_route_validation => rfc_source_route_validation,
-      :ipv6_redirect_accept => ipv6_redirect_accept,
-      :icmp_all_secure_redirect_accept => icmp_all_secure_redirect_accept,
-      :ipv6_ra_accept => ipv6_ra_accept,
-      :ipv6_disable => ipv6_disable
-      )
-    notifies :run, "execute[sysctl_ip_forward]", :immediately
-    notifies :run, "execute[sysctl_send_redirects]", :immediately
-    notifies :run, "execute[sysctl_icmp_redirect_accept]", :immediately
-    notifies :run, "execute[sysctl_icmp_secure_redirect_accept]", :immediately
-    notifies :run, "execute[sysctl_log_suspicious_packets]", :immediately
-    notifies :run, "execute[sysctl_rfc_source_route_validation]", :immediately
-    notifies :run, "execute[sysctl_ipv4_flush]", :immediately
-    notifies :run, "execute[sysctl_ipv6_redirect_accept]", :immediately
-    notifies :run, "execute[sysctl_ipv6_router_advertisement]", :immediately
-    notifies :run, "execute[ipv6_disable]", :immediately
-  end
+template "/etc/sysctl.conf" do
+  source "etc_sysctl.conf_rhel.erb"
+  owner "root"
+  group "root"
+  mode 0644
+  variables(
+    :ip_forwarding => ip_forwarding,
+    :send_redirects => send_redirects,
+    :icmp_redirect_accept => icmp_redirect_accept,
+    :log_suspicious_packets => log_suspicious_packets,
+    :rfc_source_route_validation => rfc_source_route_validation,
+    :ipv6_redirect_accept => ipv6_redirect_accept,
+    :icmp_all_secure_redirect_accept => icmp_all_secure_redirect_accept,
+    :ipv6_ra_accept => ipv6_ra_accept,
+    :ipv6_disable => ipv6_disable
+  )
+  notifies :run, "execute[sysctl_ip_forward]", :immediately
+  notifies :run, "execute[sysctl_send_redirects]", :immediately
+  notifies :run, "execute[sysctl_icmp_redirect_accept]", :immediately
+  notifies :run, "execute[sysctl_icmp_secure_redirect_accept]", :immediately
+  notifies :run, "execute[sysctl_log_suspicious_packets]", :immediately
+  notifies :run, "execute[sysctl_rfc_source_route_validation]", :immediately
+  notifies :run, "execute[sysctl_ipv4_flush]", :immediately
+  notifies :run, "execute[sysctl_ipv6_redirect_accept]", :immediately
+  notifies :run, "execute[sysctl_ipv6_router_advertisement]", :immediately
+  notifies :run, "execute[ipv6_disable]", :immediately
+  only_if { %w{rhel fedora centos}.include? platform }
 end
 
-if %w{debian ubuntu}.include?(node["platform"])
-  template "/etc/sysctl.conf" do
-    source "etc_sysctl.conf_ubuntu.erb"
-    owner "root"
-    group "root"
-    mode 0644
-    variables(
-      :ip_forwarding => ip_forwarding,
-      :send_redirects => send_redirects,
-      :icmp_redirect_accept => icmp_redirect_accept,
-      :log_suspicious_packets => log_suspicious_packets,
-      :rfc_source_route_validation => rfc_source_route_validation,
-      :ipv6_redirect_accept => ipv6_redirect_accept,
-      :icmp_all_secure_redirect_accept => icmp_all_secure_redirect_accept,
-      :ipv6_ra_accept => ipv6_ra_accept,
-      :ipv6_disable => ipv6_disable
-      )
-    notifies :run, "execute[sysctl_ip_forward]", :immediately
-    notifies :run, "execute[sysctl_send_redirects]", :immediately
-    notifies :run, "execute[sysctl_icmp_redirect_accept]", :immediately
-    notifies :run, "execute[sysctl_icmp_secure_redirect_accept]", :immediately
-    notifies :run, "execute[sysctl_log_suspicious_packets]", :immediately
-    notifies :run, "execute[sysctl_rfc_source_route_validation]", :immediately
-    notifies :run, "execute[sysctl_ipv4_flush]", :immediately
-    notifies :run, "execute[sysctl_ipv6_redirect_accept]", :immediately
-    notifies :run, "execute[sysctl_ipv6_router_advertisement]", :immediately
-    notifies :run, "execute[ipv6_disable]", :immediately
-  end
+template "/etc/sysctl.conf" do
+  source "etc_sysctl.conf_ubuntu.erb"
+  owner "root"
+  group "root"
+  mode 0644
+  variables(
+    :ip_forwarding => ip_forwarding,
+    :send_redirects => send_redirects,
+    :icmp_redirect_accept => icmp_redirect_accept,
+    :log_suspicious_packets => log_suspicious_packets,
+    :rfc_source_route_validation => rfc_source_route_validation,
+    :ipv6_redirect_accept => ipv6_redirect_accept,
+    :icmp_all_secure_redirect_accept => icmp_all_secure_redirect_accept,
+    :ipv6_ra_accept => ipv6_ra_accept,
+    :ipv6_disable => ipv6_disable
+  )
+  notifies :run, "execute[sysctl_ip_forward]", :immediately
+  notifies :run, "execute[sysctl_send_redirects]", :immediately
+  notifies :run, "execute[sysctl_icmp_redirect_accept]", :immediately
+  notifies :run, "execute[sysctl_icmp_secure_redirect_accept]", :immediately
+  notifies :run, "execute[sysctl_log_suspicious_packets]", :immediately
+  notifies :run, "execute[sysctl_rfc_source_route_validation]", :immediately
+  notifies :run, "execute[sysctl_ipv4_flush]", :immediately
+  notifies :run, "execute[sysctl_ipv6_redirect_accept]", :immediately
+  notifies :run, "execute[sysctl_ipv6_router_advertisement]", :immediately
+  notifies :run, "execute[ipv6_disable]", :immediately
+  only_if { %w{debian ubuntu}.include? platform }
 end
 
 execute "sysctl_ip_forward" do

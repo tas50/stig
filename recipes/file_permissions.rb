@@ -26,6 +26,8 @@
 # - Verify Permissions on /etc/group
 # - Verify User/Group Ownership on /etc/group
 
+platform = node['platform']
+
 %w{/etc/anacrontab /etc/crontab}.each do |f|
   file f do
     owner "root"
@@ -42,21 +44,19 @@ end
   end
 end
 
-if %w{debian ubuntu}.include?(node["platform"])
-  file "/etc/shadow" do
-    owner "root"
-    group "root"
-    mode 0640
-  end
+file "/etc/shadow" do
+  owner "root"
+  group "root"
+  mode 0640
+  only_if { %w{debian ubuntu}.include? platform }
 end
 
-if %w{rhel fedora centos}.include?(node["platform"])
-  %w{/etc/shadow /etc/gshadow}.each do |f|
-    file f do
-      owner "root"
-      group "root"
-      mode 0000
-    end
+%w{/etc/shadow /etc/gshadow}.each do |f|
+  file f do
+    owner "root"
+    group "root"
+    mode 0000
+    only_if { %w{debian ubuntu}.include? platform }
   end
 end
 
