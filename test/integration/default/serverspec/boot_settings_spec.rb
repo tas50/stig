@@ -37,7 +37,7 @@ if ['rhel', 'fedora', 'centos', 'redhat'].include?(os[:family])
     it { should be_owned_by 'root' }
     it { should be_grouped_into 'root' }
   end
-  # CENTOS6: 1.5.1
+  #
   describe command('stat -L -c "%u %g" /etc/grub.conf | egrep "0 0"') do
     its(:stdout) { should match /0 0/ }
   end

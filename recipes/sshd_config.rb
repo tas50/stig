@@ -43,6 +43,12 @@ else
   permit_empty_passwords = "no"
 end
 
+if node["stig"]["sshd_config"]["password_authentication"]
+  password_authentication = "yes"
+else
+  password_authentication = "no"
+end
+
 if node["stig"]["sshd_config"]["allow_users_set_env_opts"]
   allow_users_set_env_opts = "yes"
 else
@@ -69,7 +75,8 @@ template "/etc/ssh/sshd_config" do
     :host_based_auth => host_based_auth,
     :permit_root_login => permit_root_login,
     :permit_empty_passwords => permit_empty_passwords,
-    :allow_users_set_env_opts => allow_users_set_env_opts
+    :allow_users_set_env_opts => allow_users_set_env_opts,
+    :password_authentication => password_authentication
   )
   notifies :restart, 'service[sshd]', :delayed
 end

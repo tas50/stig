@@ -81,9 +81,8 @@ HostbasedAuthentication <%= @host_based_auth %>
 IgnoreRhosts <%= @ignore_rhosts %>
 
 # To disable tunneled clear text passwords, change to no here!
-#PasswordAuthentication yes
 PermitEmptyPasswords <%= @permit_empty_passwords %>
-PasswordAuthentication yes
+PasswordAuthentication <%= @password_authentication %>
 
 
 # Change to no to disable s/key passwords

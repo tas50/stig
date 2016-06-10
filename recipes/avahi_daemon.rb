@@ -11,21 +11,22 @@
 #
 # - Disable AVAHI server.
 
-if %w{rhel fedora centos}.include?(node["platform"])
-  execute "chkconfig_avahi-daemon_off" do
-    user "root"
-    command "/sbin/chkconfig avahi-daemon off"
-    action :run
-    only_if "/sbin/chkconfig | grep 'avahi-daemon' | grep 'on'"
-  end
+platform = node['platform']
 
-  package "avahi" do
-    action :remove
-  end
+execute "chkconfig_avahi-daemon_off" do
+  user "root"
+  command "/sbin/chkconfig avahi-daemon off"
+  action :run
+  only_if "/sbin/chkconfig | grep 'avahi-daemon' | grep 'on'"
+  only_if { %w{rhel fedora centos}.include? platform }
 end
 
-if %w{debian ubuntu}.include?(node["platform"])
-  package "avahi-daemon" do
-    action :purge
-  end
+package "avahi" do
+  action :remove
+  only_if { %w{rhel fedora centos}.include? platform }
+end
+
+package "avahi-daemon" do
+  action :purge
+  only_if { %w{debian ubuntu}.include? platform }
 end
