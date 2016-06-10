@@ -1,14 +1,12 @@
 ## Changelog
 ---------
 
-- 0.4.3
--- [isuftin@usgs.gov] - Added updates to SSHD config to allow boolean for password authentication
--- [isuftin@usgs.gov] - Updated system auth recipe to be less destructive to /etc/pam.d/system-auth since that may be updated by authconfig 
--- [isuftin@usgs.gov] - Fixed a few tests
-
 - 0.4.2
 -- [isuftin@usgs.gov] - Fix most foodcritic errors and warnings
 -- [isuftin@usgs.gov] - CIS 1.6.2 (Configure ExecShield) was removed in 2.0.0 of all CIS STIG. No longer testing for it
+-- [isuftin@usgs.gov] - Added updates to SSHD config to allow boolean for password authentication
+-- [isuftin@usgs.gov] - Updated system auth recipe to be less destructive to /etc/pam.d/system-auth since that may be updated by authconfig 
+-- [isuftin@usgs.gov] - Fixed a few tests
 
 
 - 0.4.1
