@@ -15,12 +15,12 @@ if ['debian','ubuntu'].include?(host_inventory['platform'])
 end
 
 if ['redhat', 'fedora', 'centos', 'rhel'].include?(host_inventory['platform'])
-	describe file('/etc/pam.d/system-auth') do
+	describe file('/etc/pam.d/system-auth-ac') do
     it { should be_file }
     it { should exist }
-    it { should be_linked_to 'system-auth-ac' }
+    it { should be_linked_to '/etc/pam.d/system-auth' }
   end
-  describe file('/etc/pam.d/system-auth-ac') do
+  describe file('/etc/pam.d/system-auth') do
     it { should be_file }
     it { should exist }
     it { should be_owned_by 'root' }

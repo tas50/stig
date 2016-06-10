@@ -1,8 +1,6 @@
 require 'spec_helper'
 
-
-# CENTOS6 1.6.1
-# UBUNTU 4.1
+# CENTOS/RHEL 6/7 (2.0.0) 1.5.1
 describe file('/etc/security/limits.conf') do
   it { should exist }
   it { should be_file }
@@ -16,15 +14,6 @@ describe file('/etc/sysctl.conf') do
   it { should be_file }
   it { should be_owned_by 'root' }
   it { should be_mode 644 }
-end
-
-# CENTOS
-if ['redhat', 'fedora', 'centos', 'rhel'].include?(host_inventory['platform'])
-  
-  # CENTOS 1.6.2
-  describe command('sysctl kernel.exec-shield') do
-    its(:stdout) { should match /kernel.exec-shield = 1/ }
-  end
 end
 
 # UBUNTU

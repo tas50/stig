@@ -6,19 +6,21 @@
 # Description: Update mounts to comply with CIS reccomendations
 #
 # CIS Benchmark Items
+
 # RHEL6: 1.1.2, 1.1.3, 1.1.4, 1.1.6, 1.14, 1.1.15, 1.1.16
 # CENTOS6: 1.1.2, 1.1.3, 1.1.4, 1.1.6, 1.1.14, 1.1.15, 1.1.16
 # CENTOS7: 1.1.2, 1.1.3, 1.1.4, 1.1.6, 1.1.14, 1.1.15, 1.1.16
 # UBUNTU: 2.2, 2.3, 2.4, 2.6, 2.14, 2.15, 2.16
 # TODO: UBUNTU 2.1 - Need to figure out LVM to create new /tmp partition
 # since a separate /tmp partition does not exist by default
-#
+
 # - Set nodev option for /tmp Partition
 # - Set nosuid option for /tmp Partition
 # - Set noexec option for /tmp Partition
 # - Bind Mount the /var/tmp directory to /tmp
 
 platform = node['platform']
+
 var_tmp = "/var/tmp"
 tmp = "/tmp"
 

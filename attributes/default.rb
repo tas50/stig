@@ -5,7 +5,7 @@
 # grub.pbkdf2.sha512.10000.018CE115164107059077A[... cut for brevity ...]525DE71E3FF5FC734461C6
 default['stig']['grub']['hashedpassword'] = ''
 
-# Set hard core to 0 according to CIS 1.6.1
+# Set hard core to 0 according to CIS 1.5.1
 default['stig']['limits'] = [
   {
     '*' => {
@@ -267,6 +267,9 @@ default['stig']['sshd_config']['permit_root_login'] = false
 
 # Set SSH PermitEmptyPasswords
 default['stig']['sshd_config']['permit_empty_passwords'] = false
+
+# Set SSH PasswordAuthentication
+default['stig']['sshd_config']['password_authentication'] = true
 
 # Allow Users to Set Environment Options
 default['stig']['sshd_config']['allow_users_set_env_opts'] = false

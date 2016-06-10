@@ -6,12 +6,16 @@
 #
 # TODO- This recipe should probably be refactored into separate recipes for the 1.x.x and 4.x.x items
 #
+# RHEL6 (2.0.0) : 1.5.1
+# RHEL7 (2.0.0) : 1.5.1
+# CENTOS6 (2.0.0) : 1.5.1
+# CENTOS7 (2.0.0) : 1.5.1
+#
 # CIS Benchmark Items
 # RHEL6:  1.7.1, 1.7.2, 1.7.3, 4.1.1, 4.1.2, 4.2.2, 4.2.3, 4.2.4, 4.2.7, 4.4.2.2
-# CENTOS6: 1.6.1, 1.6.2, 1.6.3, 5.1.1, 5.1.2, 5.2.2, 5.2.3, 5.2.4, 5.2.7, 5.4.1.1, 5.4.1.2
+# CENTOS6: 1.6.3, 5.1.1, 5.1.2, 5.2.2, 5.2.3, 5.2.4, 5.2.7, 5.4.1.1, 5.4.1.2
 # UBUNTU: 4.1, 4.3, 7.1.1, 7.1.2, 7.2.2, 7.2.3, 7.2.4, 7.2.7, 7.3.1, 7.3.2, 7.3.3
 # - Restrict Core Dumps
-# - Configure ExecShield
 # - Enable Randomized Virtual Memory Region Placement
 # - Disable IP Forwarding
 # - Disable Send Packet Redirects
