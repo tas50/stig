@@ -16,7 +16,7 @@
 platform = node['platform']
 
 pass_reuse_limit = node["stig"]["system_auth"]["pass_reuse_limit"]
-system_auth_file = "/etc/pam.d/system-auth"
+system_auth_file = "/etc/pam.d/system-auth-ac"
 
 bash 'update_pass_reuse_in_pam_sysauth' do
   code <<-EOF
@@ -42,12 +42,12 @@ bash 'update_pass_reuse_in_pam_sysauth' do
   not_if "grep -q 'remember=#{pass_reuse_limit}'' #{system_auth_file}"
 end
 
-file '/etc/pam.d/system-auth-ac' do
+file '/etc/pam.d/system-auth' do
   action :delete
-  not_if 'test -L /etc/pam.d/system-auth-ac'
+  not_if 'test -L /etc/pam.d/system-auth'
 end
 
-link '/etc/pam.d/system-auth-ac' do
+link '/etc/pam.d/system-auth' do
   to system_auth_file
   mode '0644'
 end
