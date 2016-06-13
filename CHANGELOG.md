@@ -1,6 +1,9 @@
 ## Changelog
 ---------
 
+- 0.4.3
+-- [isuftin@usgs.gov] - Updated to switch out which file in /etc/pam.d/system-auth* gets symlinked
+
 - 0.4.2
 -- [isuftin@usgs.gov] - Fix most foodcritic errors and warnings
 -- [isuftin@usgs.gov] - CIS 1.6.2 (Configure ExecShield) was removed in 2.0.0 of all CIS STIG. No longer testing for it
