@@ -24,6 +24,12 @@ if ['debian','ubuntu'].include?(host_inventory['platform'])
   end
 end
 
+# CENTOS 5.1.1
+# UBUNTU 7.1.1
+describe command('/sbin/sysctl net.ipv4.ip_forward') do
+  its(:stdout) { should match /net.ipv4.ip_forward = 0/ }
+end
+
 describe command('sysctl fs.suid_dumpable') do
   its(:stdout) { should match /fs.suid_dumpable = 0/ }
 end
