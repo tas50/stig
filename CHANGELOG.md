@@ -1,6 +1,12 @@
 ## Changelog
 ---------
 
+- 0.5.3
+-- [isuftin@usgs.gov] - Switch sysctl write flags
+
+- 0.5.2
+-- [isuftin@usgs.gov] - Ignore errors on unknown sysctl keys
+
 - 0.5.1
 -- [isuftin@usgs.gov] - Included third-party sysctl cookbook as a hard-coupled dependency by calling it in proc_hard recipe
 
