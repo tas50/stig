@@ -1,6 +1,10 @@
 ## Changelog
 ---------
 
+- 0.5.0
+-- [isuftin@usgs.gov] - Switched sysctl.conf template writing out and brought in the third-party sysctl cookbook to handle writing .d config file
+-- [isuftin@usgs.gov] - Updated serverspec testing
+
 - 0.4.3
 -- [isuftin@usgs.gov] - Updated to switch out which file in /etc/pam.d/system-auth* gets symlinked
 

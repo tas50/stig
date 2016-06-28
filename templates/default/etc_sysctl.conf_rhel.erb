@@ -8,24 +8,6 @@
 # sysctl.conf(5) for more details.
 
 # Controls IP packet forwarding
-net.ipv4.ip_forward = <%= @ip_forwarding %>
-net.ipv4.conf.all.send_redirects = <%= @send_redirects %>
-net.ipv4.conf.default.send_redirects = <%= @send_redirects %>
-net.ipv4.conf.all.accept_redirects = <%= @icmp_redirect_accept %>
-net.ipv4.conf.default.accept_redirects = <%= @icmp_redirect_accept %>
-net.ipv4.conf.all.log_martians = <%= @log_suspicious_packets %>
-net.ipv4.conf.default.log_martians = <%= @log_suspicious_packets %>
-net.ipv4.conf.all.rp_filter = <%= @rfc_source_route_validation %>
-net.ipv4.conf.default.rp_filter = <%= @rfc_source_route_validation %>
-net.ipv6.conf.all.accept_redirects = <%= @ipv6_redirect_accept %>
-net.ipv6.conf.default.accept_redirects = <%= @ipv6_redirect_accept %>
-net.ipv4.conf.all.secure_redirects = <%= @icmp_all_secure_redirect_accept %>
-net.ipv4.conf.default.secure_redirects = <%= @icmp_all_secure_redirect_accept %>
-net.ipv6.conf.all.accept_ra=<%= @ipv6_ra_accept %>
-net.ipv6.conf.default.accept_ra=<%= @ipv6_ra_accept %>
-net.ipv6.conf.all.disable_ipv6=<%= @ipv6_disable %>
-net.ipv6.conf.default.disable_ipv6=<%= @ipv6_disable %>
-net.ipv6.conf.lo.disable_ipv6=<%= @ipv6_disable %>
 
 # Controls source route verification
 net.ipv4.conf.default.rp_filter = 1
@@ -69,3 +51,5 @@ kernel.randomize_va_space = 2
 #  logs packets with un-routable source addresses to the kernel log
 net.ipv4.conf.all.log_martians = 1
 net.ipv4.conf.default.log_martians = 1
+
+# extra parameters

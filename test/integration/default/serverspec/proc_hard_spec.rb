@@ -17,7 +17,7 @@ describe file('/etc/sysctl.conf') do
 end
 
 # UBUNTU
-if ['debian','ubuntu'].include?(host_inventory['platform'])  
+if ['debian','ubuntu'].include?(host_inventory['platform'])
   # UBUNTU 7.3.3
   describe command('ip addr | grep inet6') do
     its(:stdout) { should match /^$/ }
@@ -32,12 +32,6 @@ end
 # UBUNTU 4.3
 describe command('sysctl kernel.randomize_va_space') do
   its(:stdout) { should match /kernel.randomize_va_space = 2/ }
-end
-
-# CENTOS 5.1.1
-# UBUNTU 7.1.1
-describe command('/sbin/sysctl net.ipv4.ip_forward') do
-  its(:stdout) { should match /net.ipv4.ip_forward = 0/ }
 end
 
 # CENTOS 5.1.2
