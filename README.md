@@ -12,6 +12,7 @@ Requirements
 
 ### Cookbooks
 - logrotate
+- sysctl
 
 ### Suggests
 - auditd, ~> 0.1.8
@@ -67,6 +68,10 @@ Boolean)
 - `node['stig']['network']['disable_tipc']` = Disable TIPC (true = disable, false = enable) (Boolean)
 
 - `node['stig']['network']['ipv6']` = Disable IPV6 ("no" = disable, "yes" = enable) (String)
+
+( See https://supermarket.chef.io/cookbooks/sysctl )
+- `node['sysctl']['*']` = Sets configuration in sysctl config file. See default attributes.
+
 
 - `node['stig']['logging']['rsyslog_rules']` = Configure /etc/rsyslog.conf - Include rules for logging in array with space separating rule with log location (Array of String)
 - `node['stig']['logging']['rsyslog_rules_rhel']` = Configure /etc/rsyslog.conf for RHEL - Include rules for logging in array with space separating rule with log location (Array of String)

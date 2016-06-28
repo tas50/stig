@@ -101,45 +101,65 @@ default['stig']['network']['zeroconf'] = true
 # Disable IP Forwarding
 # false = IP forwarding disabled
 # true = IP forwarding enabled
-default['stig']['network']['ip_forwarding'] = false
+default['stig']['network']['ip_forwarding'] = 0
+default["sysctl"]["params"]["net.ipv4.ip_forward"] = node['stig']['network']['ip_forwarding']
 
 # Disable Send Packet Redirects
 # false = Disable redirects
 # true = Enable redirects
-default['stig']['network']['packet_redirects'] = false
+default['stig']['network']['packet_redirects'] = 0
+default["sysctl"]["params"]["net.ipv4.conf.all.send_redirects"] = node['stig']['network']['packet_redirects']
+default["sysctl"]["params"]["net.ipv4.conf.default.send_redirects"] = node['stig']['network']['packet_redirects']
+
 
 # Disable ICMP Redirect Acceptance
 # false = Disable redirect acceptance
 # true = Enable redirect acceptance
-default['stig']['network']['icmp_redirect_accept'] = false
-
-# Disable Secure ICMP Redirect Acceptance
-# false = Disable redirect acceptance
-# true = Enable redirect acceptance
-default['stig']['network']['icmp_all_secure_redirect_accept'] = false
+default['stig']['network']['icmp_redirect_accept'] = 0
+default["sysctl"]["params"]["net.ipv4.conf.all.accept_redirects"] = node['stig']['network']['icmp_redirect_accept']
+default["sysctl"]["params"]["net.ipv4.conf.default.accept_redirects"] = node['stig']['network']['icmp_redirect_accept']
 
 # Log Suspicious Packets
 # true / false
-default['stig']['network']['log_suspicious_packets'] = true
+default['stig']['network']['log_suspicious_packets'] = 1
+default["sysctl"]["params"]["net.ipv4.conf.all.log_martians"] = node['stig']['network']['log_suspicious_packets']
+default["sysctl"]["params"]["net.ipv4.conf.default.log_martians"] = node['stig']['network']['log_suspicious_packets']
 
 # Enable RFC-recommended Source Route Validation
 # true / false
-default['stig']['network']['rfc_source_route_validation'] = true
+default['stig']['network']['rfc_source_route_validation'] = 1
+default["sysctl"]["params"]["net.ipv4.conf.all.rp_filter"] = node['stig']['network']['rfc_source_route_validation']
+default["sysctl"]["params"]["net.ipv4.conf.default.rp_filter"] = node['stig']['network']['rfc_source_route_validation']
 
 # Disable IPv6 Redirect Acceptance
 # false = Disable redirect acceptance
 # true = Enable redirect acceptance
-default['stig']['network']['ipv6_redirect_accept'] = false
+default['stig']['network']['ipv6_redirect_accept'] = 0
+default["sysctl"]["params"]["net.ipv6.conf.all.accept_redirects"] = node['stig']['network']['ipv6_redirect_accept']
+default["sysctl"]["params"]["net.ipv6.conf.default.accept_redirects"] = node['stig']['network']['ipv6_redirect_accept']
+
+# Disable Secure ICMP Redirect Acceptance
+# false = Disable redirect acceptance
+# true = Enable redirect acceptance
+default['stig']['network']['icmp_all_secure_redirect_accept'] = 0
+default["sysctl"]["params"]["net.ipv4.conf.all.secure_redirects"] = node['stig']['network']['icmp_all_secure_redirect_accept']
+default["sysctl"]["params"]["net.ipv4.conf.default.secure_redirects"] = node['stig']['network']['icmp_all_secure_redirect_accept']
 
 # Disable IPv6 Router Advertisements
 # false = Disable IPv6 router advertisements
 # true = Enable IPv6 router advertisements
-default['stig']['network']['ipv6_ra_accept'] = false
+default['stig']['network']['ipv6_ra_accept'] = 0
+default["sysctl"]["params"]["net.ipv6.conf.all.accept_ra"] = node['stig']['network']['ipv6_ra_accept']
+default["sysctl"]["params"]["net.ipv6.conf.default.accept_ra"] = node['stig']['network']['ipv6_ra_accept']
+default["sysctl"]["params"]["net.ipv6.conf.default.accept_ra"] = node['stig']['network']['ipv6_ra_accept']
 
 # Disable IPv6
 # false = Do not disable ipv6
 # true = Disable ipv6
-default['stig']['network']['ipv6_disable'] = true
+default['stig']['network']['ipv6_disable'] = 1
+default["sysctl"]["params"]["net.ipv6.conf.all.disable_ipv6"] = node['stig']['network']['ipv6_disable']
+default["sysctl"]["params"]["net.ipv6.conf.default.disable_ipv6"] = node['stig']['network']['ipv6_disable']
+default["sysctl"]["params"]["net.ipv6.conf.lo.disable_ipv6"] = node['stig']['network']['ipv6_disable']
 
 # Create /etc/hosts.allow
 # An array of <net>/<mask> combinations or ['ALL']
@@ -277,9 +297,9 @@ default['stig']['sshd_config']['allow_users_set_env_opts'] = false
 default['stig']['sshd_config']['banner_path'] = '/etc/issue.net'
 
 # Specifies the ciphers allowed.  Multiple ciphers must be comma-
-#  separated.	 If the	specified value	begins with a `+' character,
-#  then the specified	ciphers	will be	appended to the	default	set
-#  instead of	replacing them.
+#  separated.  If the specified value begins with a `+' character,
+#  then the specified ciphers will be appended to the default set
+#  instead of replacing them.
 # See: https://www.freebsd.org/cgi/man.cgi?query=sshd_config&sektion=5#end
 default['stig']['sshd_config']['ciphers'] = 'aes128-ctr,aes192-ctr,aes256-ctr'
 

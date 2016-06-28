@@ -44,180 +44,131 @@ package "whoopsie" do
   only_if { %w{debian ubuntu}.include? platform }
 end
 
-if node["stig"]["network"]["ip_forwarding"]
-  ip_forwarding = 1
-else
-  ip_forwarding = 0
-end
+ip_forwarding = node["stig"]["network"]["ip_forwarding"]
 
-if node["stig"]["network"]["packet_redirects"]
-  send_redirects = 1
-else
-  send_redirects = 0
-end
+send_redirects = node["stig"]["network"]["packet_redirects"]
 
-if node["stig"]["network"]["icmp_redirect_accept"]
-  icmp_redirect_accept = 1
-else
-  icmp_redirect_accept = 0
-end
+icmp_redirect_accept =  node["stig"]["network"]["icmp_redirect_accept"]
 
-if node["stig"]["network"]["log_suspicious_packets"]
-  log_suspicious_packets = 1
-else
-  log_suspicious_packets = 0
-end
+log_suspicious_packets =  node["stig"]["network"]["log_suspicious_packets"]
 
-if node["stig"]["network"]["rfc_source_route_validation"]
-  rfc_source_route_validation = 1
-else
-  rfc_source_route_validation = 0
-end
+rfc_source_route_validation =  node["stig"]["network"]["rfc_source_route_validation"]
 
-if node["stig"]["network"]["ipv6_redirect_accept"]
-  ipv6_redirect_accept = 1
-else
-  ipv6_redirect_accept = 0
-end
+ipv6_redirect_accept = node["stig"]["network"]["ipv6_redirect_accept"]
 
-if node["stig"]["network"]["icmp_all_secure_redirect_accept"]
-  icmp_all_secure_redirect_accept = 1
-else
-  icmp_all_secure_redirect_accept = 0
-end
+icmp_all_secure_redirect_accept = node["stig"]["network"]["icmp_all_secure_redirect_accept"]
 
-if node["stig"]["network"]["ipv6_ra_accept"]
-  ipv6_ra_accept = 1
-else
-  ipv6_ra_accept = 0
-end
+ipv6_ra_accept = node["stig"]["network"]["ipv6_ra_accept"]
 
-if node["stig"]["network"]["ipv6_disable"]
-  ipv6_disable = 1
-else
-  ipv6_disable = 0
-end
-
-template "/etc/sysctl.conf" do
-  source "etc_sysctl.conf_rhel.erb"
-  owner "root"
-  group "root"
-  mode 0644
-  variables(
-    :ip_forwarding => ip_forwarding,
-    :send_redirects => send_redirects,
-    :icmp_redirect_accept => icmp_redirect_accept,
-    :log_suspicious_packets => log_suspicious_packets,
-    :rfc_source_route_validation => rfc_source_route_validation,
-    :ipv6_redirect_accept => ipv6_redirect_accept,
-    :icmp_all_secure_redirect_accept => icmp_all_secure_redirect_accept,
-    :ipv6_ra_accept => ipv6_ra_accept,
-    :ipv6_disable => ipv6_disable
-  )
-  notifies :run, "execute[sysctl_ip_forward]", :immediately
-  notifies :run, "execute[sysctl_send_redirects]", :immediately
-  notifies :run, "execute[sysctl_icmp_redirect_accept]", :immediately
-  notifies :run, "execute[sysctl_icmp_secure_redirect_accept]", :immediately
-  notifies :run, "execute[sysctl_log_suspicious_packets]", :immediately
-  notifies :run, "execute[sysctl_rfc_source_route_validation]", :immediately
-  notifies :run, "execute[sysctl_ipv4_flush]", :immediately
-  notifies :run, "execute[sysctl_ipv6_redirect_accept]", :immediately
-  notifies :run, "execute[sysctl_ipv6_router_advertisement]", :immediately
-  notifies :run, "execute[ipv6_disable]", :immediately
-  only_if { %w{rhel fedora centos}.include? platform }
-end
-
-template "/etc/sysctl.conf" do
-  source "etc_sysctl.conf_ubuntu.erb"
-  owner "root"
-  group "root"
-  mode 0644
-  variables(
-    :ip_forwarding => ip_forwarding,
-    :send_redirects => send_redirects,
-    :icmp_redirect_accept => icmp_redirect_accept,
-    :log_suspicious_packets => log_suspicious_packets,
-    :rfc_source_route_validation => rfc_source_route_validation,
-    :ipv6_redirect_accept => ipv6_redirect_accept,
-    :icmp_all_secure_redirect_accept => icmp_all_secure_redirect_accept,
-    :ipv6_ra_accept => ipv6_ra_accept,
-    :ipv6_disable => ipv6_disable
-  )
-  notifies :run, "execute[sysctl_ip_forward]", :immediately
-  notifies :run, "execute[sysctl_send_redirects]", :immediately
-  notifies :run, "execute[sysctl_icmp_redirect_accept]", :immediately
-  notifies :run, "execute[sysctl_icmp_secure_redirect_accept]", :immediately
-  notifies :run, "execute[sysctl_log_suspicious_packets]", :immediately
-  notifies :run, "execute[sysctl_rfc_source_route_validation]", :immediately
-  notifies :run, "execute[sysctl_ipv4_flush]", :immediately
-  notifies :run, "execute[sysctl_ipv6_redirect_accept]", :immediately
-  notifies :run, "execute[sysctl_ipv6_router_advertisement]", :immediately
-  notifies :run, "execute[ipv6_disable]", :immediately
-  only_if { %w{debian ubuntu}.include? platform }
-end
+ipv6_disable = node["stig"]["network"]["ipv6_disable"]
 
 execute "sysctl_ip_forward" do
   user "root"
   command "/sbin/sysctl -w net.ipv4.ip_forward=#{ip_forwarding}"
-  action :nothing
+  not_if "sysctl net.ipv4.ip_forward | grep -q #{ip_forwarding}"
+  notifies :run, "execute[sysctl_commit]", :delayed
 end
 
 execute "sysctl_send_redirects" do
   user "root"
-  command "/sbin/sysctl -w net.ipv4.conf.all.send_redirects=#{send_redirects}; /sbin/sysctl -w net.ipv4.conf.default.send_redirects=#{send_redirects}"
-  action :nothing
+  command "/sbin/sysctl -w net.ipv4.conf.all.send_redirects=#{send_redirects}"
+  not_if "sysctl net.ipv4.ip_forward | grep -q #{send_redirects}"
+  notifies :run, "execute[sysctl_commit]", :delayed
+end
+
+execute "sysctl_send_default_redirects" do
+  user "root"
+  command "/sbin/sysctl -w net.ipv4.conf.default.send_redirects=#{send_redirects}"
+  not_if "sysctl net.ipv4.conf.default.send_redirects | grep -q #{send_redirects}"
+  notifies :run, "execute[sysctl_commit]", :delayed
 end
 
 execute "sysctl_icmp_redirect_accept" do
   user "root"
-  command "/sbin/sysctl -w net.ipv4.conf.all.accept_redirects=#{icmp_redirect_accept}; /sbin/sysctl -w net.ipv4.conf.default.accept_redirects=#{icmp_redirect_accept}"
-  action :nothing
+  command "/sbin/sysctl -w net.ipv4.conf.all.accept_redirects=#{icmp_redirect_accept}"
+  not_if "sysctl net.ipv4.conf.all.accept_redirects | grep -q #{icmp_redirect_accept}"
+  notifies :run, "execute[sysctl_commit]", :delayed
+end
+
+execute "sysctl_default_icmp_redirect_accept" do
+  user "root"
+  command "/sbin/sysctl -w net.ipv4.conf.default.accept_redirects=#{icmp_redirect_accept}"
+  not_if "sysctl net.ipv4.conf.default.accept_redirects | grep -q #{icmp_redirect_accept}"
+  notifies :run, "execute[sysctl_commit]", :delayed
 end
 
 execute "sysctl_icmp_secure_redirect_accept" do
   user "root"
-  command "/sbin/sysctl -w net.ipv4.conf.all.secure_redirects=#{icmp_all_secure_redirect_accept}; /sbin/sysctl -w net.ipv4.conf.default.secure_redirects=#{icmp_all_secure_redirect_accept}"
-  action :nothing
+  command "/sbin/sysctl -w net.ipv4.conf.all.secure_redirects=#{icmp_all_secure_redirect_accept}"
+  not_if "sysctl net.ipv4.conf.all.secure_redirects | grep -q #{icmp_all_secure_redirect_accept}"
+  notifies :run, "execute[sysctl_commit]", :delayed
+end
+
+execute "sysctl_default_icmp_secure_redirect_accept" do
+  user "root"
+  command "/sbin/sysctl -w net.ipv4.conf.default.secure_redirects=#{icmp_all_secure_redirect_accept}"
+  not_if "sysctl net.ipv4.conf.default.secure_redirects | grep -q #{icmp_all_secure_redirect_accept}"
+  notifies :run, "execute[sysctl_commit]", :delayed
 end
 
 execute "sysctl_log_suspicious_packets" do
   user "root"
-  command "/sbin/sysctl -w net.ipv4.conf.all.log_martians=#{log_suspicious_packets}; /sbin/sysctl -w net.ipv4.conf.all.log_martians=#{log_suspicious_packets}"
-  action :nothing
+  command "/sbin/sysctl -w net.ipv4.conf.all.log_martians=#{log_suspicious_packets}"
+  not_if "sysctl net.ipv4.conf.all.log_martians | grep -q #{log_suspicious_packets}"
+  notifies :run, "execute[sysctl_commit]", :delayed
+end
+
+execute "sysctl_default_log_suspicious_packets" do
+  user "root"
+  command "/sbin/sysctl -w /sbin/sysctl -w net.ipv4.conf.default.log_martians=#{log_suspicious_packets}"
+  not_if "sysctl net.ipv4.conf.default.log_martians | grep -q #{log_suspicious_packets}"
+  notifies :run, "execute[sysctl_commit]", :delayed
 end
 
 execute "sysctl_rfc_source_route_validation" do
   user "root"
-  command "/sbin/sysctl -w net.ipv4.conf.all.rp_filter=#{rfc_source_route_validation}; /sbin/sysctl -w net.ipv4.conf.default.rp_filter=#{rfc_source_route_validation}"
-  action :nothing
+  command "/sbin/sysctl -w net.ipv4.conf.all.rp_filter=#{rfc_source_route_validation}"
+  not_if "sysctl net.ipv4.conf.all.rp_filter | grep -q #{rfc_source_route_validation}"
+  notifies :run, "execute[sysctl_commit]", :delayed
+end
+
+execute "sysctl_default_rfc_source_route_validation" do
+  user "root"
+  command "/sbin/sysctl -w net.ipv4.conf.default.rp_filter=#{rfc_source_route_validation}"
+  not_if "sysctl net.ipv4.conf.default.rp_filter | grep -q #{rfc_source_route_validation}"
+  notifies :run, "execute[sysctl_commit]", :delayed
 end
 
 execute "sysctl_ipv6_redirect_accept" do
   user "root"
-  command "/sbin/sysctl -w net.ipv6.conf.all.accept_redirects=#{ipv6_redirect_accept};/sbin/sysctl -w net.ipv6.conf.default.accept_redirects=#{ipv6_redirect_accept}; /sbin/sysctl -w net.ipv6.route.flush=1"
-  action :nothing
+  command "/sbin/sysctl -w net.ipv6.conf.all.accept_redirects=#{ipv6_redirect_accept};/sbin/sysctl -w net.ipv6.route.flush=1"
+  not_if "sysctl net.ipv6.conf.all.accept_redirects | grep -q #{ipv6_redirect_accept}"
+  notifies :run, "execute[sysctl_commit]", :delayed
+end
+
+execute "sysctl_default_ipv6_redirect_accept" do
+  user "root"
+  command "/sbin/sysctl -w net.ipv6.conf.default.accept_redirects=#{ipv6_redirect_accept}; /sbin/sysctl -w net.ipv6.route.flush=1"
+  not_if "sysctl net.ipv6.conf.default.accept_redirects | grep -q #{ipv6_redirect_accept}"
+  notifies :run, "execute[sysctl_commit]", :delayed
 end
 
 execute "sysctl_ipv6_router_advertisement" do
   user "root"
-  command " /sbin/sysctl -w net.ipv6.conf.all.accept_ra=#{ipv6_ra_accept}; /sbin/sysctl -w net.ipv6.conf.default.accept_ra=#{ipv6_ra_accept};  /sbin/sysctl -w net.ipv6.route.flush=1"
-  action :nothing
+  command "/sbin/sysctl -w net.ipv6.conf.all.accept_ra=#{ipv6_ra_accept};/sbin/sysctl -w net.ipv6.route.flush=1"
+  not_if "sysctl net.ipv6.conf.all.accept_ra | grep -q #{ipv6_ra_accept}"
+  notifies :run, "execute[sysctl_commit]", :delayed
 end
 
-execute "ipv6_disable" do
+execute "sysctl_default_ipv6_router_advertisement" do
+  user "root"
+  command "/sbin/sysctl -w net.ipv6.conf.default.accept_ra=#{ipv6_ra_accept};  /sbin/sysctl -w net.ipv6.route.flush=1"
+  not_if "sysctl net.ipv6.conf.default.accept_ra | grep -q #{ipv6_ra_accept}"
+  notifies :run, "execute[sysctl_commit]", :delayed
+end
+
+execute "sysctl_commit" do
   user "root"
   command " /sbin/sysctl -e -p"
-  action :nothing
-end
-
-execute "sysctl_log_martians" do
-  user "root"
-  command "/sbin/sysctl -w  net.ipv4.conf.all.log_martians=1; /sbin/sysctl -w net.ipv4.conf.default.log_martians=1"
-  action :nothing
-end
-
-execute "sysctl_ipv4_flush" do
-  user "root"
-  command "/sbin/sysctl -w net.ipv4.route.flush=1"
   action :nothing
 end
