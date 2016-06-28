@@ -44,6 +44,8 @@ package "whoopsie" do
   only_if { %w{debian ubuntu}.include? platform }
 end
 
+include_recipe "sysctl::apply"
+
 ip_forwarding = node["stig"]["network"]["ip_forwarding"]
 
 send_redirects = node["stig"]["network"]["packet_redirects"]

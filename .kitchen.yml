@@ -61,7 +61,6 @@ suites:
   - name: default
     run_list:
       - recipe[auditd]
-      - recipe[sysctl::apply]
       - recipe[stig]
       - recipe[stig::auditd]
       - recipe[stig::auditd_rules]

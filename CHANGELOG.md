@@ -1,6 +1,9 @@
 ## Changelog
 ---------
 
+- 0.5.1
+-- [isuftin@usgs.gov] - Included third-party sysctl cookbook as a hard-coupled dependency by calling it in proc_hard recipe
+
 - 0.5.0
 -- [isuftin@usgs.gov] - Switched sysctl.conf template writing out and brought in the third-party sysctl cookbook to handle writing .d config file
 -- [isuftin@usgs.gov] - Updated serverspec testing
