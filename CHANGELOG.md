@@ -1,6 +1,9 @@
 ## Changelog
 ---------
 
+- 0.5.4
+-- [isuftin@usgs.gov] - Fix an issue with auth-config being improperly written to for pass reuse limit
+
 - 0.5.3
 -- [isuftin@usgs.gov] - Switch sysctl write flags
 
