@@ -1,6 +1,9 @@
 ## Changelog
 ---------
 
+- 0.5.5
+-- [arothian@github] - Update aide to setup crontab for ubuntu
+
 - 0.5.4
 -- [isuftin@usgs.gov] - Fix an issue with auth-config being improperly written to for pass reuse limit
 
