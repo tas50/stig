@@ -52,5 +52,4 @@ cron "aide_cron" do
   month "*"
   action :create
   not_if 'crontab -u root -l | grep aide'
-  only_if { %w{rhel fedora centos}.include? platform }
 end
