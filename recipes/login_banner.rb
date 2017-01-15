@@ -12,32 +12,32 @@
 # - Set Warning Banner for Standard Login Services
 # - Remove OS Information from Login Warning Banners
 
-template "motd" do
-  path "/etc/motd"
-  owner "root"
-  group "root"
-  mode 0644
+template 'motd' do
+  path '/etc/motd'
+  owner 'root'
+  group 'root'
+  mode 0o644
   variables(
-    :banner_text => node['stig']['login_banner']['motd']
+    banner_text: node['stig']['login_banner']['motd']
   )
 end
 
-template "issue" do
-  path "/etc/issue"
-  owner "root"
-  group "root"
-  mode 0644
+template 'issue' do
+  path '/etc/issue'
+  owner 'root'
+  group 'root'
+  mode 0o644
   variables(
-    :banner_text => node['stig']['login_banner']['issue']
+    banner_text: node['stig']['login_banner']['issue']
   )
 end
 
-template "issue.net" do
-  path "/etc/issue.net"
-  owner "root"
-  group "root"
-  mode 0644
+template 'issue.net' do
+  path '/etc/issue.net'
+  owner 'root'
+  group 'root'
+  mode 0o644
   variables(
-    :banner_text => node['stig']['login_banner']['issue_net']
+    banner_text: node['stig']['login_banner']['issue_net']
   )
 end

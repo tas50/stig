@@ -28,138 +28,134 @@ needreboot = false
 
 platform = node['platform']
 
-template "/etc/grub.d/40_custom" do
-  source "etc_grubd_40_custom.erb"
-  variables ({ :pass => node['stig']['grub']['hashedpassword'] })
+template '/etc/grub.d/40_custom' do
+  source 'etc_grubd_40_custom.erb'
+  variables ({ pass: node['stig']['grub']['hashedpassword'] })
   sensitive true
-  notifies :run, "execute[update-grub]", :immediately
-  only_if { %w{debian ubuntu}.include? platform }
+  notifies :run, 'execute[update-grub]', :immediately
+  only_if { %w(debian ubuntu).include? platform }
 end
 
-execute "update-grub" do
+execute 'update-grub' do
   action :nothing
-  only_if { %w{debian ubuntu}.include? platform }
+  only_if { %w(debian ubuntu).include? platform }
 end
 
 # This is not scored (or even suggested by CIS) in Ubuntu
 
 # Get major version for RHEL distro
-major_version = node["platform_version"][0,1].to_i
+major_version = node['platform_version'][0, 1].to_i
 
-file "/boot/grub/grub.conf" do
-  owner "root"
-  group "root"
+file '/boot/grub/grub.conf' do
+  owner 'root'
+  group 'root'
   mode '0600'
-  only_if { %w{rhel fedora centos}.include? platform }
+  only_if { %w(rhel fedora centos).include? platform }
   only_if { major_version < 7 }
 end
 
 # 1.4.1
-execute "Remove selinux=0 from /etc/grub.conf" do
+execute 'Remove selinux=0 from /etc/grub.conf' do
   command "sed -i 's/selinux=0//' /etc/grub.conf"
   only_if "grep -q 'selinux=0' /etc/grub.conf"
-  only_if { %w{rhel fedora centos}.include? platform }
+  only_if { %w(rhel fedora centos).include? platform }
   only_if { major_version < 7 }
 end
-execute "Remove enforcing=0 from /etc/grub.conf" do
+execute 'Remove enforcing=0 from /etc/grub.conf' do
   command "sed -i 's/enforcing=0//' /etc/grub.conf"
   only_if "grep -q 'enforcing=0' /etc/grub.conf"
-  only_if { %w{rhel fedora centos}.include? platform }
+  only_if { %w(rhel fedora centos).include? platform }
   only_if { major_version < 7 }
 end
 
 # 1.5.3
 password = node['stig']['grub']['hashedpassword']
-execute "Add password to grub" do
+execute 'Add password to grub' do
   command "sed -i '11i password --md5 #{password}' /etc/grub.conf"
   not_if "grep -q '#{password}' /etc/grub.conf"
-  only_if { %w{rhel fedora centos}.include? platform }
+  only_if { %w(rhel fedora centos).include? platform }
   only_if { major_version < 7 }
-  only_if { node['stig']['grub']['hashedpassword'] != '' } 
+  only_if { node['stig']['grub']['hashedpassword'] != '' }
 end
 
-execute "Add password to grub" do
+execute 'Add password to grub' do
   command "sed -i '/password/d' /etc/grub.conf"
   only_if "grep -q 'password' /etc/grub.conf"
-  only_if { %w{rhel fedora centos}.include? platform }
+  only_if { %w(rhel fedora centos).include? platform }
   only_if { major_version < 7 }
-  only_if { node['stig']['grub']['hashedpassword'] == '' } 
+  only_if { node['stig']['grub']['hashedpassword'] == '' }
 end
 
 # 1.4.1
-execute "Remove selinux=0 from /etc/grub.conf" do
+execute 'Remove selinux=0 from /etc/grub.conf' do
   command "sed -i 's/selinux=0//' /boot/grub2/grub.cfg"
   only_if "grep -q 'selinux=0' /boot/grub2/grub.cfg"
-  only_if { %w{rhel fedora centos}.include? platform }
+  only_if { %w(rhel fedora centos).include? platform }
   only_if { major_version == 7 }
 end
-execute "Remove enforcing=0 from /etc/grub.conf" do
+execute 'Remove enforcing=0 from /etc/grub.conf' do
   command "sed -i 's/enforcing=0//' /boot/grub2/grub.cfg"
   only_if "grep -q 'enforcing=0' /boot/grub2/grub.cfg"
-  only_if { %w{rhel fedora centos}.include? platform }
+  only_if { %w(rhel fedora centos).include? platform }
   only_if { major_version == 7 }
 end
 
-cookbook_file "/etc/inittab" do
-  source "etc_inittab"
-  only_if { %w{rhel fedora centos}.include? platform }
+cookbook_file '/etc/inittab' do
+  source 'etc_inittab'
+  only_if { %w(rhel fedora centos).include? platform }
 end
 
 enabled_selinux = node['stig']['selinux']['enabled']
 status_selinux = node['stig']['selinux']['status']
 type_selinux = node['stig']['selinux']['type']
 
-template "/etc/selinux/config" do
-  source "etc_selinux_config.erb"
-  owner "root"
-  group "root"
-  variables({
-              :enabled_selinux => enabled_selinux,
-              :status_selinux => status_selinux,
-              :type_selinux => type_selinux
-  })
-  mode 0644
+template '/etc/selinux/config' do
+  source 'etc_selinux_config.erb'
+  owner 'root'
+  group 'root'
+  variables(enabled_selinux: enabled_selinux,
+            status_selinux: status_selinux,
+            type_selinux: type_selinux)
+  mode 0o644
   sensitive true
-  notifies :run, "execute[toggle_selinux]", :delayed
-  only_if { %w{rhel fedora centos}.include? platform }
+  notifies :run, 'execute[toggle_selinux]', :delayed
+  only_if { %w(rhel fedora centos).include? platform }
 end
 
-link "/etc/sysconfig/selinux" do
-  to "/etc/selinux/config"
-  only_if { %w{rhel fedora centos}.include? platform }
+link '/etc/sysconfig/selinux' do
+  to '/etc/selinux/config'
+  only_if { %w(rhel fedora centos).include? platform }
 end
 
-template "/selinux/enforce" do
-  source "selinux_enforce.erb"
-  owner "root"
-  group "root"
-  variables({
-              :enforcing => (enabled_selinux ? 1 : 0)
-  })
-  only_if { ::File.directory?("/selinux/enforce") }
-  only_if { %w{rhel fedora centos}.include? platform }
-  mode 0644
+template '/selinux/enforce' do
+  source 'selinux_enforce.erb'
+  owner 'root'
+  group 'root'
+  variables(enforcing: (enabled_selinux ? 1 : 0))
+  only_if { ::File.directory?('/selinux/enforce') }
+  only_if { %w(rhel fedora centos).include? platform }
+  mode 0o644
 end
 
-execute "toggle_selinux" do
+execute 'toggle_selinux' do
   command "setenforce #{(enabled_selinux ? 1 : 0)}"
   not_if "echo $(getenforce) | awk '{print tolower($0)}' | grep #{status_selinux}"
   ignore_failure true # This seems to not work properly on CentOS
-  only_if { %w{rhel fedora centos}.include? platform }
+  only_if { %w(rhel fedora centos).include? platform }
 end
 
-template "/etc/sysconfig/init" do
-  source "etc_sysconfig_init.erb"
-  owner "root"
-  group "root"
-  mode 0644
-  only_if { %w{rhel fedora centos}.include? platform }
+template '/etc/sysconfig/init' do
+  source 'etc_sysconfig_init.erb'
+  owner 'root'
+  group 'root'
+  mode 0o644
+  only_if { %w(rhel fedora centos).include? platform }
 end
 
-package "setroubleshoot" do
+package 'setroubleshoot' do
   action :remove
 end
 
-package "mcstrans" do
+package 'mcstrans' do
   action :remove
 end

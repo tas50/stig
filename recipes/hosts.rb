@@ -14,23 +14,22 @@
 # - Create /etc/hosts.deny
 # - Verify Permissions on /etc/hosts.deny
 
-template "/etc/hosts.allow" do
-  owner "root"
-  group "root"
-  mode 0644
-  source "etc_hosts.allow.erb"
+template '/etc/hosts.allow' do
+  owner 'root'
+  group 'root'
+  mode 0o644
+  source 'etc_hosts.allow.erb'
   variables(
-    :hosts_allow => node["stig"]["network"]["hosts_allow"]
+    hosts_allow: node['stig']['network']['hosts_allow']
   )
 end
 
-template "/etc/hosts.deny" do
-  owner "root"
-  group "root"
-  mode 0644
-  source "etc_hosts.deny.erb"
+template '/etc/hosts.deny' do
+  owner 'root'
+  group 'root'
+  mode 0o644
+  source 'etc_hosts.deny.erb'
   variables(
-    :hosts_deny => node["stig"]["network"]["hosts_deny"]
+    hosts_deny: node['stig']['network']['hosts_deny']
   )
 end
-

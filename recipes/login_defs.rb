@@ -13,14 +13,14 @@
 # - Set Password Change Minimum Number of Days
 # - Set Password Expiring Warning Days
 
-template "/etc/login.defs" do
-  source "etc_login.defs.erb"
-  owner "root"
-  group "root"
-  mode 0644
+template '/etc/login.defs' do
+  source 'etc_login.defs.erb'
+  owner 'root'
+  group 'root'
+  mode 0o644
   variables(
-    :pass_max_days => node["stig"]["login_defs"]["pass_max_days"],
-    :pass_min_days => node["stig"]["login_defs"]["pass_min_days"],
-    :pass_warn_age => node["stig"]["login_defs"]["pass_warn_age"]
+    pass_max_days: node['stig']['login_defs']['pass_max_days'],
+    pass_min_days: node['stig']['login_defs']['pass_min_days'],
+    pass_warn_age: node['stig']['login_defs']['pass_warn_age']
   )
 end

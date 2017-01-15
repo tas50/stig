@@ -7,15 +7,15 @@
 #
 # See: https://supermarket.chef.io/cookbooks/auditd
 
-auditd_config_dir = "/etc/audit/"
+auditd_config_dir = '/etc/audit/'
 
 directory auditd_config_dir
 
 # Create auditd configuration file
-template File.join(auditd_config_dir, "auditd.conf") do
-  source "etc_audit_auditd.conf.erb"
-  owner "root"
-  group "root"
-  mode 0640
-  notifies :reload, "service[auditd]", :immediately
+template File.join(auditd_config_dir, 'auditd.conf') do
+  source 'etc_audit_auditd.conf.erb'
+  owner 'root'
+  group 'root'
+  mode 0o640
+  notifies :reload, 'service[auditd]', :immediately
 end

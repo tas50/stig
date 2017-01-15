@@ -4,6 +4,10 @@ driver:
 
 provisioner:
   name: chef_zero
+  require_chef_omnibus: 12.15.19
+
+verifier:
+  name: inspec
 
 platforms:
   - name: centos-7.2-vbox
@@ -26,6 +30,16 @@ platforms:
       box: bento/centos-7.1
       box_url: bento/centos-7.1
       provider: vmware_fusion
+  - name: centos-6.8-vbox
+    driver:
+      box: bento/centos-6.8
+      box_url: bento/centos-6.8
+      provider: virtualbox
+  - name: centos-6.8-vmware
+    driver:
+      box: bento/centos-6.8
+      box_url: bento/centos-6.8
+      provider: vmware_fusion
   - name: centos-6.7-vbox
     driver:
       box: bento/centos-6.7
@@ -35,16 +49,6 @@ platforms:
     driver:
       box: bento/centos-6.7
       box_url: bento/centos-6.7
-      provider: vmware_fusion
-  - name: centos-6.6-vbox
-    driver:
-      box: chef/centos-6.6
-      box_url: chef/centos-6.6
-      provider: virtualbox
-  - name: centos-6.6-vmware
-    driver:
-      box: bento/centos-6.6
-      box_url: bento/centos-6.6
       provider: vmware_fusion
   - name:  ubuntu-trusty-vbox
     driver:
@@ -72,4 +76,3 @@ suites:
   - name: noauditd
     run_list:
       - recipe[stig::default]
-    

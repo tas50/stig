@@ -19,64 +19,64 @@
 # - Do Not Allow Users to Set Environment Options
 # - Limit Access via SSH
 
-if node["stig"]["sshd_config"]["ignore_rhosts"]
-  ignore_rhosts = "yes"
-else
-  ignore_rhosts = "no"
-end
+ignore_rhosts = if node['stig']['sshd_config']['ignore_rhosts']
+                  'yes'
+                else
+                  'no'
+                end
 
-if node["stig"]["sshd_config"]["host_based_auth"]
-  host_based_auth = "yes"
-else
-  host_based_auth = "no"
-end
+host_based_auth = if node['stig']['sshd_config']['host_based_auth']
+                    'yes'
+                  else
+                    'no'
+                  end
 
-if node["stig"]["sshd_config"]["permit_root_login"]
-  permit_root_login = "yes"
-else
-  permit_root_login = "no"
-end
+permit_root_login = if node['stig']['sshd_config']['permit_root_login']
+                      'yes'
+                    else
+                      'no'
+                    end
 
-if node["stig"]["sshd_config"]["permit_empty_passwords"]
-  permit_empty_passwords = "yes"
-else
-  permit_empty_passwords = "no"
-end
+permit_empty_passwords = if node['stig']['sshd_config']['permit_empty_passwords']
+                           'yes'
+                         else
+                           'no'
+                         end
 
-if node["stig"]["sshd_config"]["password_authentication"]
-  password_authentication = "yes"
-else
-  password_authentication = "no"
-end
+password_authentication = if node['stig']['sshd_config']['password_authentication']
+                            'yes'
+                          else
+                            'no'
+                          end
 
-if node["stig"]["sshd_config"]["allow_users_set_env_opts"]
-  allow_users_set_env_opts = "yes"
-else
-  allow_users_set_env_opts = "no"
-end
+allow_users_set_env_opts = if node['stig']['sshd_config']['allow_users_set_env_opts']
+                             'yes'
+                           else
+                             'no'
+                           end
 
-template "/etc/ssh/sshd_config" do
-  source "etc_ssh_sshd_config.erb"
-  mode 0600
-  owner "root"
-  group "root"
+template '/etc/ssh/sshd_config' do
+  source 'etc_ssh_sshd_config.erb'
+  mode 0o600
+  owner 'root'
+  group 'root'
   variables(
-    :log_level => node["stig"]["sshd_config"]["log_level"],
-    :max_auth_tries => node["stig"]["sshd_config"]["max_auth_tries"],
-    :deny_users => node["stig"]["sshd_config"]["deny_users"],
-    :deny_groups => node["stig"]["sshd_config"]["deny_groups"],
-    :allow_users => node["stig"]["sshd_config"]["allow_users"],
-    :allow_groups => node["stig"]["sshd_config"]["allow_groups"],
-    :banner_path => node["stig"]["sshd_config"]["banner_path"],
-    :ciphers => node["stig"]["sshd_config"]["ciphers"],
-    :challenge_response_authentication => node["stig"]["sshd_config"]["challenge_response_authentication"],
-    :use_pam_auth => node["stig"]["sshd_config"]["use_pam_auth"],
-    :ignore_rhosts => ignore_rhosts,
-    :host_based_auth => host_based_auth,
-    :permit_root_login => permit_root_login,
-    :permit_empty_passwords => permit_empty_passwords,
-    :allow_users_set_env_opts => allow_users_set_env_opts,
-    :password_authentication => password_authentication
+    log_level: node['stig']['sshd_config']['log_level'],
+    max_auth_tries: node['stig']['sshd_config']['max_auth_tries'],
+    deny_users: node['stig']['sshd_config']['deny_users'],
+    deny_groups: node['stig']['sshd_config']['deny_groups'],
+    allow_users: node['stig']['sshd_config']['allow_users'],
+    allow_groups: node['stig']['sshd_config']['allow_groups'],
+    banner_path: node['stig']['sshd_config']['banner_path'],
+    ciphers: node['stig']['sshd_config']['ciphers'],
+    challenge_response_authentication: node['stig']['sshd_config']['challenge_response_authentication'],
+    use_pam_auth: node['stig']['sshd_config']['use_pam_auth'],
+    ignore_rhosts: ignore_rhosts,
+    host_based_auth: host_based_auth,
+    permit_root_login: permit_root_login,
+    permit_empty_passwords: permit_empty_passwords,
+    allow_users_set_env_opts: allow_users_set_env_opts,
+    password_authentication: password_authentication
   )
   notifies :restart, 'service[sshd]', :delayed
 end

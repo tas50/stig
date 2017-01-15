@@ -28,61 +28,60 @@
 
 platform = node['platform']
 
-%w{/etc/anacrontab /etc/crontab}.each do |f|
+%w(/etc/anacrontab /etc/crontab).each do |f|
   file f do
-    owner "root"
-    group "root"
-    mode 0600
+    owner 'root'
+    group 'root'
+    mode 0o600
   end
 end
 
-%w{/etc/cron.hourly /etc/cron.daily /etc/cron.weekly /etc/cron.monthly /etc/cron.d}.each do |d|
+%w(/etc/cron.hourly /etc/cron.daily /etc/cron.weekly /etc/cron.monthly /etc/cron.d).each do |d|
   directory d do
-    owner "root"
-    group "root"
-    mode 0600
+    owner 'root'
+    group 'root'
+    mode 0o600
   end
 end
 
-file "/etc/shadow" do
-  owner "root"
-  group "root"
-  mode 0640
-  only_if { %w{debian ubuntu}.include? platform }
+file '/etc/shadow' do
+  owner 'root'
+  group 'root'
+  mode 0o640
+  only_if { %w(debian ubuntu).include? platform }
 end
 
-%w{/etc/shadow /etc/gshadow}.each do |f|
+%w(/etc/shadow /etc/gshadow).each do |f|
   file f do
-    owner "root"
-    group "root"
-    mode 0000
-    only_if { %w{debian ubuntu}.include? platform }
+    owner 'root'
+    group 'root'
+    mode 0o000
+    only_if { %w(debian ubuntu).include? platform }
   end
 end
 
-%w{/etc/passwd /etc/group}.each do |f|
+%w(/etc/passwd /etc/group).each do |f|
   file f do
-    owner "root"
-    group "root"
-    mode 0644
+    owner 'root'
+    group 'root'
+    mode 0o644
   end
 end
 
-file "/etc/at.allow" do
-  mode 0600
+file '/etc/at.allow' do
+  mode 0o600
   action :create
 end
 
-file "/etc/cron.allow" do
-  mode 0600
+file '/etc/cron.allow' do
+  mode 0o600
   action :create
 end
 
-
-file "/etc/at.deny" do
+file '/etc/at.deny' do
   action :delete
 end
 
-file "/etc/cron.deny" do
+file '/etc/cron.deny' do
   action :delete
 end

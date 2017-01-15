@@ -5,7 +5,7 @@
 # Description: File system configuration
 #
 # CIS Benchmark Items
-# RHEL6:  1.1.18, 1.1.19, 1.1.20, 1.1.21, 1.1.22, 1.1.23, 1.1.24, 4.8.1, 4.8.2, 4.8.3, 4.8.4 
+# RHEL6:  1.1.18, 1.1.19, 1.1.20, 1.1.21, 1.1.22, 1.1.23, 1.1.24, 4.8.1, 4.8.2, 4.8.3, 4.8.4
 # CENTOS6: 1.1.18, 1.1.19, 1.1.20, 1.1.21, 1.1.22, 1.1.23, 1.1.24, 5.6.1, 5.6.2, 5.6.3, 5.6.4
 # UBUNTU: 2.1.8, 2.1.9, 2.20, 2.21, 2.22, 2.23, 2.24, 7.5.1, 7.5.2, 7.5.3, 7.5.4
 
@@ -21,9 +21,9 @@
 # - Disable RDS
 # - Disable TIPC
 
-template "/etc/modprobe.d/CIS.conf" do
-  source "etc_modprobe.d_CIS.conf.erb"
-  owner "root"
-  group "root"
-  mode 0644
+template '/etc/modprobe.d/CIS.conf' do
+  source 'etc_modprobe.d_CIS.conf.erb'
+  owner 'root'
+  group 'root'
+  mode 0o644
 end

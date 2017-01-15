@@ -12,5 +12,5 @@ supports         'centos', '>= 6.6'
 supports         'centos', '>= 7.1'
 supports         'ubuntu'
 
-depends			 "logrotate"
-depends			 "sysctl"
+depends			 'logrotate'
+depends			 'sysctl'
