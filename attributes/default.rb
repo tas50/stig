@@ -9,7 +9,9 @@ default['stig']['grub']['hashedpassword'] = ''
 default['stig']['limits'] = [
   {
     '*' => {
-      'hard' => 'core 0',
+      'hard' => 'core 0'
+    }
+  }
 ]
 
 # See http://man7.org/linux/man-pages/man5/auditd.conf.5.html
@@ -76,7 +78,7 @@ default['stig']['auditd']['rules'] = [
   '-a always,exit -F path=/bin/ping -F perm=x -F auid>=500 -F auid!=4294967295 -k privileged',
   '-a always,exit -F arch=b32 -S mount -F auid>=500 -F auid!=4294967295 -k export',
   '-a always,exit -F arch=b64 -S mount -F auid>=500 -F auid!=4294967295 -k export',
-  '-w /etc/sudoers -p wa -k actions',
+  '-w /etc/sudoers -p wa -k actions'
 ]
 
 # Removing support for unneeded filesystem types
@@ -201,7 +203,7 @@ default['stig']['logging']['rsyslog_rules_rhel'] = [
   'cron.*   /var/log/cron',
   '*.emerg   *',
   'uucp,news.crit   /var/log/spooler',
-  'local7.*    /var/log/boot.log',
+  'local7.*    /var/log/boot.log'
 ]
 default['stig']['logging']['rsyslog_rules_debian'] = [
   '*.emerg :omusrmsg:*',
@@ -218,7 +220,7 @@ default['stig']['logging']['rsyslog_rules_debian'] = [
   'local0,local1.* -/var/log/localmessages',
   'local2,local3.* -/var/log/localmessages',
   'local4,local5.* -/var/log/localmessages',
-  'local6,local7.* -/var/log/localmessages',
+  'local6,local7.* -/var/log/localmessages'
 ]
 
 # Configure logrotate
