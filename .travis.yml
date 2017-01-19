@@ -9,6 +9,7 @@ env:
 
 rvm:
   - 2.1.7
+  - 2.2
 
 sudo: required
 dist: el/6
