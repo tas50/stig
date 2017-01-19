@@ -34,6 +34,3 @@ suites:
         "ruleset" : "stig"
       }
     }
-  - name: noauditd
-    run_list:
-      - recipe[stig::default]
