@@ -15,41 +15,40 @@
 
 platform = node['platform']
 
-package "aide"
+package 'aide'
 
 # CIS Benchmarks suggest: The prelinking feature can interfere with AIDE because it alters binaries to
 # speed up their start up times. Run /usr/sbin/prelink -ua to restore the binaries to their prelinked
 # state, thus avoiding false positives from AIDE.
 # However, prelink is not preinstalled on (at least) 14.04 so there is no need for this yet.
 
-
-execute "aideinit" do
-  user "root"
-  creates "/var/lib/aide/aide.db.new"
+execute 'aideinit' do
+  user 'root'
+  creates '/var/lib/aide/aide.db.new'
   action :run
-  only_if { %w{debian ubuntu}.include? platform }
+  only_if { %w(debian ubuntu).include? platform }
 end
 
-remote_file "/var/lib/aide/aide.db" do
-  user "root"
-  source "file:///var/lib/aide/aide.db.new"
-  only_if { %w{debian ubuntu}.include? platform }
+remote_file '/var/lib/aide/aide.db' do
+  user 'root'
+  source 'file:///var/lib/aide/aide.db.new'
+  only_if { %w(debian ubuntu).include? platform }
 end
 
-execute "init_aide" do
-  user "root"
+execute 'init_aide' do
+  user 'root'
   command "/usr/sbin/aide --init -B 'database_out=file:/var/lib/aide/aide.db.gz'"
-  creates "/var/lib/aide/aide.db.gz"
+  creates '/var/lib/aide/aide.db.gz'
   action :run
-  only_if { %w{rhel fedora centos}.include? platform }
+  only_if { %w(rhel fedora centos).include? platform }
 end
 
-cron "aide_cron" do
-  command "/usr/sbin/aide --check"
-  minute "0"
-  hour "5"
-  day "*"
-  month "*"
+cron 'aide_cron' do
+  command '/usr/sbin/aide --check'
+  minute '0'
+  hour '5'
+  day '*'
+  month '*'
   action :create
   not_if 'crontab -u root -l | grep aide'
 end

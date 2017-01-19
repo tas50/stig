@@ -1,4 +1,3 @@
-require 'spec_helper'
 
 # CENTOS6: 9.1.10
 # UBUNTU: 12.7

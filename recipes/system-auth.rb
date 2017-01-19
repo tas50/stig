@@ -15,8 +15,8 @@
 
 platform = node['platform']
 
-pass_reuse_limit = node["stig"]["system_auth"]["pass_reuse_limit"]
-system_auth_file = "/etc/pam.d/system-auth-ac"
+pass_reuse_limit = node['stig']['system_auth']['pass_reuse_limit']
+system_auth_file = '/etc/pam.d/system-auth-ac'
 
 bash 'update_pass_reuse_in_pam_sysauth' do
   code <<-EOF
@@ -38,27 +38,27 @@ bash 'update_pass_reuse_in_pam_sysauth' do
       echo 'password    sufficient    pam_unix.so try_first_pass use_authtok nullok sha512 shadow remember=#{pass_reuse_limit}' >> #{system_auth_file}
       fi
       EOF
-      only_if { %w{rhel fedora centos}.include? platform }
-      not_if "grep -q 'remember=#{pass_reuse_limit}' #{system_auth_file}"
-    end
+  only_if { %w(rhel fedora centos).include? platform }
+  not_if "grep -q 'remember=#{pass_reuse_limit}' #{system_auth_file}"
+end
 
-    file '/etc/pam.d/system-auth' do
-      action :delete
-      not_if 'test -L /etc/pam.d/system-auth'
-    end
+file '/etc/pam.d/system-auth' do
+  action :delete
+  not_if 'test -L /etc/pam.d/system-auth'
+end
 
-    link '/etc/pam.d/system-auth' do
-      to system_auth_file
-      mode '0644'
-    end
+link '/etc/pam.d/system-auth' do
+  to system_auth_file
+  mode '0644'
+end
 
-    template "/etc/pam.d/common-password" do
-      source "etc_pam.d_common-password.erb"
-      owner "root"
-      group "root"
-      mode 0644
-      variables(
-        :pass_reuse_limit => pass_reuse_limit
-      )
-      only_if { %w{debian ubuntu}.include? platform }
-    end
+template '/etc/pam.d/common-password' do
+  source 'etc_pam.d_common-password.erb'
+  owner 'root'
+  group 'root'
+  mode 0o644
+  variables(
+    pass_reuse_limit: pass_reuse_limit
+  )
+  only_if { %w(debian ubuntu).include? platform }
+end

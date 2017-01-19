@@ -13,20 +13,20 @@
 
 platform = node['platform']
 
-execute "chkconfig_avahi-daemon_off" do
-  user "root"
-  command "/sbin/chkconfig avahi-daemon off"
+execute 'chkconfig_avahi-daemon_off' do
+  user 'root'
+  command '/sbin/chkconfig avahi-daemon off'
   action :run
   only_if "/sbin/chkconfig | grep 'avahi-daemon' | grep 'on'"
-  only_if { %w{rhel fedora centos}.include? platform }
+  only_if { %w(rhel fedora centos).include? platform }
 end
 
-package "avahi" do
+package 'avahi' do
   action :remove
-  only_if { %w{rhel fedora centos}.include? platform }
+  only_if { %w(rhel fedora centos).include? platform }
 end
 
-package "avahi-daemon" do
+package 'avahi-daemon' do
   action :purge
-  only_if { %w{debian ubuntu}.include? platform }
+  only_if { %w(debian ubuntu).include? platform }
 end

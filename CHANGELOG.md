@@ -1,5 +1,11 @@
 ## Changelog
 ---------
+- 0.6.0
+-- [steve@bigsteve.us] - fix some rubocop violations
+-- [steve@bigsteve.us] - switch to using chef inspec
+-- [steve@bigsteve.us] - remove Centos 6.6 and 6.8  
+-- [steve@bigsteve.us] - bump version to 0.6.0
+-- [steve@bigsteve.us] - remove kitchen version pin. 
 
 - 0.5.5
 -- [arothian@github] - Update aide to setup crontab for ubuntu
@@ -27,7 +33,7 @@
 -- [isuftin@usgs.gov] - Fix most foodcritic errors and warnings
 -- [isuftin@usgs.gov] - CIS 1.6.2 (Configure ExecShield) was removed in 2.0.0 of all CIS STIG. No longer testing for it
 -- [isuftin@usgs.gov] - Added updates to SSHD config to allow boolean for password authentication
--- [isuftin@usgs.gov] - Updated system auth recipe to be less destructive to /etc/pam.d/system-auth since that may be updated by authconfig 
+-- [isuftin@usgs.gov] - Updated system auth recipe to be less destructive to /etc/pam.d/system-auth since that may be updated by authconfig
 -- [isuftin@usgs.gov] - Fixed a few tests
 
 

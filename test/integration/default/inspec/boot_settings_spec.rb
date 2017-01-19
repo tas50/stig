@@ -1,18 +1,17 @@
-require 'spec_helper'
 
 # CENTOS
-if ['rhel', 'fedora', 'centos', 'redhat'].include?(os[:family])
+if %w(rhel fedora centos redhat).include?(os[:family])
 
   # CENTOS6 1.4.2
   # CENTOS6 1.4.3
   describe file('/etc/selinux/config') do
     it { should exist }
     it { should be_file }
-    it { should be_mode 644 }
+    its('mode') { should cmp '0644' }
     it { should be_owned_by 'root' }
     it { should be_grouped_into 'root' }
-    its(:content) { should contain "SELINUX=enforcing" }
-    its(:content) { should contain "SELINUXTYPE=targeted" }
+    its('content') { should include('SELINUX=enforcing') }
+    its('content') { should include('SELINUXTYPE=targeted') }
   end
   describe command('/usr/sbin/getenforce') do
     its(:stdout) { should match /Enforcing/ }
@@ -23,17 +22,17 @@ if ['rhel', 'fedora', 'centos', 'redhat'].include?(os[:family])
   describe file('/etc/grub.conf') do
     it { should exist }
     it { should be_file }
-    it { should be_linked_to '../boot/grub/grub.conf' }
+    it { should be_linked_to '/boot/grub/grub.conf' }
     it { should be_owned_by 'root' }
     it { should be_grouped_into 'root' }
-    its(:content) { should_not contain "selinux=0" }
-    its(:content) { should_not contain "enforcing=0" }
-    its(:content) { should_not contain "password --md5" }
+    its('content') { should_not include('selinux=0') }
+    its('content') { should_not include('enforcing=0') }
+    its('content') { should_not include('password --md5') }
   end
   describe file('/boot/grub/grub.conf') do
     it { should exist }
     it { should be_file }
-    it { should be_mode 600 }
+    its('mode') { should cmp '0600' }
     it { should be_owned_by 'root' }
     it { should be_grouped_into 'root' }
   end
@@ -66,20 +65,20 @@ if ['rhel', 'fedora', 'centos', 'redhat'].include?(os[:family])
   describe file('/etc/sysconfig/init') do
     it { should exist }
     it { should be_file }
-    it { should be_mode 644 }
+    its('mode') { should cmp '0644' }
     it { should be_owned_by 'root' }
     it { should be_grouped_into 'root' }
-    its(:content) { should contain "PROMPT=no" }
+    its('content') { should include('PROMPT=no') }
   end
 
   # CENTOS6: 3.2
   describe file('/etc/inittab') do
     it { should exist }
     it { should be_file }
-    it { should be_mode 644 }
+    its('mode') { should cmp '0644' }
     it { should be_owned_by 'root' }
     it { should be_grouped_into 'root' }
-    its(:content) { should contain "id:3:initdefault:" }
+    its('content') { should include('id:3:initdefault:') }
   end
 
   # CENTOS6: 5.2.1
@@ -108,7 +107,7 @@ if ['rhel', 'fedora', 'centos', 'redhat'].include?(os[:family])
 end
 
 # UBUNTU
-if ['debian','ubuntu'].include?(host_inventory['platform'])
+if %w(debian ubuntu).include?(os['family'])
   # UBUNTU 3.1
   describe command('stat -c "%u %g" /boot/grub/grub.cfg | egrep "^0 0"') do
     its(:stdout) { should match /0 0/ }

@@ -1,10 +1,9 @@
-require 'spec_helper'
 
 describe file('/etc/modprobe.d/CIS.conf') do
   it { should exist }
   it { should be_file }
   it { should be_owned_by 'root' }
-  it { should be_mode 644 }
+  its('mode') { should cmp '0644' }
 end
 
 # UBUNTU 2.18
@@ -12,7 +11,7 @@ end
 describe command('/sbin/modprobe -n -v cramfs') do
   its(:stdout) { should match /install \/bin\/true/ }
 end
-describe command("/sbin/lsmod | grep cramfs") do
+describe command('/sbin/lsmod | grep cramfs') do
   its(:stdout) { should match /^$/ }
 end
 
@@ -21,7 +20,7 @@ end
 describe command('/sbin/modprobe -n -v freevxfs') do
   its(:stdout) { should match /install \/bin\/true/ }
 end
-describe command("/sbin/lsmod | grep freevxfs") do
+describe command('/sbin/lsmod | grep freevxfs') do
   its(:stdout) { should match /^$/ }
 end
 
@@ -30,7 +29,7 @@ end
 describe command('/sbin/modprobe -n -v jffs2') do
   its(:stdout) { should match /install \/bin\/true/ }
 end
-describe command("/sbin/lsmod | grep jffs2") do
+describe command('/sbin/lsmod | grep jffs2') do
   its(:stdout) { should match /^$/ }
 end
 
@@ -39,7 +38,7 @@ end
 describe command('/sbin/modprobe -n -v hfs') do
   its(:stdout) { should match /install \/bin\/true/ }
 end
-describe command("/sbin/lsmod | grep hfs") do
+describe command('/sbin/lsmod | grep hfs') do
   its(:stdout) { should match /^$/ }
 end
 
@@ -48,7 +47,7 @@ end
 describe command('/sbin/modprobe -n -v hfsplus') do
   its(:stdout) { should match /install \/bin\/true/ }
 end
-describe command("/sbin/lsmod | grep hfsplus") do
+describe command('/sbin/lsmod | grep hfsplus') do
   its(:stdout) { should match /^$/ }
 end
 
@@ -57,7 +56,7 @@ end
 describe command('/sbin/modprobe -n -v squashfs') do
   its(:stdout) { should match /install \/bin\/true/ }
 end
-describe command("/sbin/lsmod | grep squashfs") do
+describe command('/sbin/lsmod | grep squashfs') do
   its(:stdout) { should match /^$/ }
 end
 
@@ -66,7 +65,7 @@ end
 describe command('/sbin/modprobe -n -v udf') do
   its(:stdout) { should match /install \/bin\/true/ }
 end
-describe command("/sbin/lsmod | grep udf") do
+describe command('/sbin/lsmod | grep udf') do
   its(:stdout) { should match /^$/ }
 end
 

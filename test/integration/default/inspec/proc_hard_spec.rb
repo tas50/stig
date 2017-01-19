@@ -1,23 +1,23 @@
-require 'spec_helper'
+
 
 # CENTOS/RHEL 6/7 (2.0.0) 1.5.1
 describe file('/etc/security/limits.conf') do
   it { should exist }
   it { should be_file }
   it { should be_owned_by 'root' }
-  it { should be_mode 644 }
-  its(:content) { should contain "hard core 0" }
+  its('mode') { should cmp '0644' }
+  its('content') { should include('hard core 0') }
 end
 
 describe file('/etc/sysctl.conf') do
   it { should exist }
   it { should be_file }
   it { should be_owned_by 'root' }
-  it { should be_mode 644 }
+  its('mode') { should cmp '0644' }
 end
 
 # UBUNTU
-if ['debian','ubuntu'].include?(host_inventory['platform'])
+if %w(debian ubuntu).include?(os['family'])
   # UBUNTU 7.3.3
   describe command('ip addr | grep inet6') do
     its(:stdout) { should match /^$/ }

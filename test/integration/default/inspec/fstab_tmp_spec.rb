@@ -1,12 +1,10 @@
-require 'spec_helper'
 
-
-if ['debian','ubuntu'].include?(host_inventory['platform'])
+if %w(debian ubuntu).include?(os['family'])
   # Ubuntu 2.14
   describe command('grep /run/shm /etc/fstab | grep nodev') do
     its(:stdout) { should match /nodev/ }
   end
-  describe command("mount | grep /run/shm | grep nodev") do
+  describe command('mount | grep /run/shm | grep nodev') do
     its(:stdout) { should match /nodev/ }
   end
 
@@ -14,7 +12,7 @@ if ['debian','ubuntu'].include?(host_inventory['platform'])
   describe command('grep /run/shm /etc/fstab | grep nosuid') do
     its(:stdout) { should match /nosuid/ }
   end
-  describe command("mount | grep /run/shm | grep nosuid") do
+  describe command('mount | grep /run/shm | grep nosuid') do
     its(:stdout) { should match /nosuid/ }
   end
 
@@ -22,30 +20,30 @@ if ['debian','ubuntu'].include?(host_inventory['platform'])
   describe command('grep /run/shm /etc/fstab | grep noexec') do
     its(:stdout) { should match /noexec/ }
   end
-  describe command("mount | grep /run/shm | grep noexec") do
+  describe command('mount | grep /run/shm | grep noexec') do
     its(:stdout) { should match /noexec/ }
   end
 end
 
-if ['redhat', 'fedora', 'centos', 'rhel'].include?(host_inventory['platform'])
+if %w(redhat fedora centos rhel).include?(os['family'])
   describe command('grep /dev/shm /etc/fstab | grep nodev') do
     its(:stdout) { should match /nodev/ }
   end
-  describe command("mount | grep /dev/shm | grep nodev") do
+  describe command('mount | grep /dev/shm | grep nodev') do
     its(:stdout) { should match /nodev/ }
   end
 
   describe command('grep /dev/shm /etc/fstab | grep nosuid') do
     its(:stdout) { should match /nosuid/ }
   end
-  describe command("mount | grep /dev/shm | grep nosuid") do
+  describe command('mount | grep /dev/shm | grep nosuid') do
     its(:stdout) { should match /nosuid/ }
   end
 
   describe command('grep /dev/shm /etc/fstab | grep noexec') do
     its(:stdout) { should match /noexec/ }
   end
-  describe command("mount | grep /dev/shm | grep noexec") do
+  describe command('mount | grep /dev/shm | grep noexec') do
     its(:stdout) { should match /noexec/ }
   end
 
@@ -54,7 +52,7 @@ if ['redhat', 'fedora', 'centos', 'rhel'].include?(host_inventory['platform'])
   end
 
   describe command('mount | grep /var/tmp') do
-    its(:stdout) { should contain('/var/tmp') }
+    its(:stdout) { should include('/var/tmp') }
   end
 
   # TODO: Deal with failing test

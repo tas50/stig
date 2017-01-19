@@ -23,78 +23,78 @@
 # The script  /root/.audit/validate_users_homedirs.sh should be updated to ignore the "nobody" user
 
 # Generate audit directory in /root
-directory "/root/.audit" do
-  owner "root"
-  group "root"
-  mode 0600
+directory '/root/.audit' do
+  owner 'root'
+  group 'root'
+  mode 0o600
 end
 
-cookbook_file "find_suid_system_executables.sh" do
-  user "root"
-  group "root"
-  path "/root/.audit/find_suid_system_executables.sh"
-  mode 0700
+cookbook_file 'find_suid_system_executables.sh' do
+  user 'root'
+  group 'root'
+  path '/root/.audit/find_suid_system_executables.sh'
+  mode 0o700
 end
 
-cookbook_file "find_sgid_system_executables.sh" do
-  user "root"
-  group "root"
-  path "/root/.audit/find_sgid_system_executables.sh"
-  mode 0700
+cookbook_file 'find_sgid_system_executables.sh' do
+  user 'root'
+  group 'root'
+  path '/root/.audit/find_sgid_system_executables.sh'
+  mode 0o700
 end
 
-cookbook_file "path_integrity_check.sh" do
-  user "root"
-  group "root"
-  path "/root/.audit/path_integrity_check.sh"
-  mode 0700
+cookbook_file 'path_integrity_check.sh' do
+  user 'root'
+  group 'root'
+  path '/root/.audit/path_integrity_check.sh'
+  mode 0o700
 end
 
-cookbook_file "rhosts_check.sh" do
-  user "root"
-  group "root"
-  path "/root/.audit/rhosts_check.sh"
-  mode 0700
+cookbook_file 'rhosts_check.sh' do
+  user 'root'
+  group 'root'
+  path '/root/.audit/rhosts_check.sh'
+  mode 0o700
 end
 
-cookbook_file "check_groups_in_etc_passwd.sh" do
-  user "root"
-  group "root"
-  path "/root/.audit/check_groups_in_etc_passwd.sh"
-  mode 0700
+cookbook_file 'check_groups_in_etc_passwd.sh' do
+  user 'root'
+  group 'root'
+  path '/root/.audit/check_groups_in_etc_passwd.sh'
+  mode 0o700
 end
 
-cookbook_file "validate_users_homedirs.sh" do
-  user "root"
-  group "root"
-  path "/root/.audit/validate_users_homedirs.sh"
-  mode 0700
+cookbook_file 'validate_users_homedirs.sh' do
+  user 'root'
+  group 'root'
+  path '/root/.audit/validate_users_homedirs.sh'
+  mode 0o700
 end
 
-cookbook_file "check_duplicate_uid.sh" do
-  user "root"
-  group "root"
-  path "/root/.audit/check_duplicate_uid.sh"
-  mode 0700
+cookbook_file 'check_duplicate_uid.sh' do
+  user 'root'
+  group 'root'
+  path '/root/.audit/check_duplicate_uid.sh'
+  mode 0o700
 end
 
-cookbook_file "check_duplicate_gid.sh" do
-  user "root"
-  group "root"
-  path "/root/.audit/check_duplicate_gid.sh"
-  mode 0700
+cookbook_file 'check_duplicate_gid.sh' do
+  user 'root'
+  group 'root'
+  path '/root/.audit/check_duplicate_gid.sh'
+  mode 0o700
 end
 
-cookbook_file "check_duplicate_usernames.sh" do
-  user "root"
-  group "root"
-  path "/root/.audit/check_duplicate_usernames.sh"
-  mode 0700
+cookbook_file 'check_duplicate_usernames.sh' do
+  user 'root'
+  group 'root'
+  path '/root/.audit/check_duplicate_usernames.sh'
+  mode 0o700
 end
 
-cookbook_file "check_duplicate_groupnames.sh" do
-  user "root"
-  group "root"
-  path "/root/.audit/check_duplicate_groupnames.sh"
-  mode 0700
+cookbook_file 'check_duplicate_groupnames.sh' do
+  user 'root'
+  group 'root'
+  path '/root/.audit/check_duplicate_groupnames.sh'
+  mode 0o700
 end

@@ -9,18 +9,18 @@
 
 platform = node['platform']
 
-cookbook_file "/etc/pam.d/su" do
-  source "etc_pam_d_su_centos"
-  owner "root"
-  group "root"
-  mode 0644
-  only_if { %w{rhel fedora centos}.include? platform }
+cookbook_file '/etc/pam.d/su' do
+  source 'etc_pam_d_su_centos'
+  owner 'root'
+  group 'root'
+  mode 0o644
+  only_if { %w(rhel fedora centos).include? platform }
 end
 
-cookbook_file "/etc/pam.d/su" do
-  source "etc_pam_d_su_ubuntu"
-  owner "root"
-  group "root"
-  mode 0644
-  only_if { %w{debian ubuntu}.include? platform }
+cookbook_file '/etc/pam.d/su' do
+  source 'etc_pam_d_su_ubuntu'
+  owner 'root'
+  group 'root'
+  mode 0o644
+  only_if { %w(debian ubuntu).include? platform }
 end
