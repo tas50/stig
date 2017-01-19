@@ -84,10 +84,10 @@ if %w(rhel fedora centos).include?(node['platform'])
 
   if node['stig']['network']['ipv6'] == 'no'
     ipv6 = 1
-    ipv6OnOff = 'off'
+    ipv6onoff = 'off'
   else
     ipv6 = 0
-    ipv6OnOff = 'on'
+    ipv6onoff = 'on'
   end
 
   template '/etc/modprobe.d/ipv6.conf' do
@@ -101,7 +101,7 @@ if %w(rhel fedora centos).include?(node['platform'])
 
   execute 'chkconfig_ip6tables_off' do
     user 'root'
-    command "/sbin/chkconfig ip6tables #{ipv6OnOff}"
+    command "/sbin/chkconfig ip6tables #{ipv6onoff}"
     action :nothing
   end
 end

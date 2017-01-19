@@ -62,8 +62,6 @@ icmp_all_secure_redirect_accept = node['stig']['network']['icmp_all_secure_redir
 
 ipv6_ra_accept = node['stig']['network']['ipv6_ra_accept']
 
-ipv6_disable = node['stig']['network']['ipv6_disable']
-
 execute 'sysctl_ip_forward' do
   user 'root'
   command "/sbin/sysctl -e -w net.ipv4.ip_forward=#{ip_forwarding}"
