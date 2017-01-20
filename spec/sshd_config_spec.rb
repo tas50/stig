@@ -14,9 +14,8 @@ describe 'stig::sshd_config' do
     expect(template).to notify('service[sshd]').delayed
   end
 
-it 'sets sshd service' do
-  sshd_service = chef_run.service('sshd')
-  expect(sshd_service).to do_nothing
-end
-
+  it 'sets sshd service' do
+    sshd_service = chef_run.service('sshd')
+    expect(sshd_service).to do_nothing
+  end
 end

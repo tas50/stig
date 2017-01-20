@@ -5,7 +5,7 @@ describe 'stig::system-auth' do
 
   before do
     stub_command("grep -q 'remember=10' /etc/pam.d/system-auth-ac").and_return(false)
-    stub_command("test -L /etc/pam.d/system-auth").and_return(false)
+    stub_command('test -L /etc/pam.d/system-auth').and_return(false)
   end
 
   it 'deletes original /etc/pam.d/system-auth' do
