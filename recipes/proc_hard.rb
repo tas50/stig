@@ -4,7 +4,7 @@
 #
 # Description: Sets a few policies
 #
-# TODO- This recipe should probably be refactored into separate recipes for the 1.x.x and 4.x.x items
+# TODO: This recipe should probably be refactored into separate recipes for the 1.x.x and 4.x.x items
 #
 # RHEL6 (2.0.0) : 1.5.1
 # RHEL7 (2.0.0) : 1.5.1
@@ -61,8 +61,6 @@ ipv6_redirect_accept = node['stig']['network']['ipv6_redirect_accept']
 icmp_all_secure_redirect_accept = node['stig']['network']['icmp_all_secure_redirect_accept']
 
 ipv6_ra_accept = node['stig']['network']['ipv6_ra_accept']
-
-ipv6_disable = node['stig']['network']['ipv6_disable']
 
 execute 'sysctl_ip_forward' do
   user 'root'

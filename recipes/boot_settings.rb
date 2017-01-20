@@ -24,13 +24,13 @@
 # - Disable ICMP Redirect Acceptance
 # - Disable Secure ICMP Redirect Acceptance
 
-needreboot = false
-
 platform = node['platform']
 
 template '/etc/grub.d/40_custom' do
   source 'etc_grubd_40_custom.erb'
-  variables ({ pass: node['stig']['grub']['hashedpassword'] })
+  variables(
+    pass: node['stig']['grub']['hashedpassword']
+  )
   sensitive true
   notifies :run, 'execute[update-grub]', :immediately
   only_if { %w(debian ubuntu).include? platform }

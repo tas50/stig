@@ -14,3 +14,7 @@ bin/*
 
 .kitchen/
 .kitchen.local.yml
+.kitchen.yml.bak
+.kitchen.yml.docker
+metadata.json
+inspec.lock
