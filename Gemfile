@@ -1,9 +1,8 @@
 source 'https://rubygems.org'
-
-gem 'kitchen-vagrant'
-gem 'stove'
-gem 'test-kitchen'
+gem 'berkshelf'
 gem 'inspec'
 gem 'kitchen-inspec'
-gem 'berkshelf'
+gem 'kitchen-vagrant'
 gem 'rake'
+gem 'stove'
+gem 'test-kitchen'
