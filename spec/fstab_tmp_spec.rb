@@ -4,7 +4,7 @@ describe 'stig::fstab_tmp' do
   let(:chef_run) { ChefSpec::SoloRunner.converge(described_recipe) }
 
   before do
-    stub_command("mount | grep /var/tmp").and_return(false)
+    stub_command('mount | grep /var/tmp').and_return(false)
   end
 
   # 1.1.2, 1.1.3, 1.1.4

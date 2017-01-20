@@ -4,20 +4,20 @@ describe 'stig::proc_hard' do
   let(:chef_run) { ChefSpec::SoloRunner.converge(described_recipe) }
 
   before do
-    stub_command("sysctl -e net.ipv4.ip_forward | grep -q 0").and_return(false)
-    stub_command("sysctl -e net.ipv4.conf.default.send_redirects | grep -q 0").and_return(false)
-    stub_command("sysctl -e net.ipv4.conf.all.accept_redirects | grep -q 0").and_return(false)
-    stub_command("sysctl -e net.ipv4.conf.default.accept_redirects | grep -q 0").and_return(false)
-    stub_command("sysctl -e net.ipv4.conf.all.secure_redirects | grep -q 0").and_return(false)
-    stub_command("sysctl -e net.ipv4.conf.default.secure_redirects | grep -q 0").and_return(false)
-    stub_command("sysctl -e net.ipv4.conf.all.log_martians | grep -q 1").and_return(false)
-    stub_command("sysctl -e net.ipv4.conf.default.log_martians | grep -q 1").and_return(false)
-    stub_command("sysctl -e net.ipv4.conf.all.rp_filter | grep -q 1").and_return(false)
-    stub_command("sysctl -e net.ipv4.conf.default.rp_filter | grep -q 1").and_return(false)
-    stub_command("sysctl -e net.ipv6.conf.all.accept_redirects | grep -q 0").and_return(false)
-    stub_command("sysctl -e net.ipv6.conf.default.accept_redirects | grep -q 0").and_return(false)
-    stub_command("sysctl -e net.ipv6.conf.all.accept_ra | grep -q 0").and_return(false)
-    stub_command("sysctl -e net.ipv6.conf.default.accept_ra | grep -q 0").and_return(false)
+    stub_command('sysctl -e net.ipv4.ip_forward | grep -q 0').and_return(false)
+    stub_command('sysctl -e net.ipv4.conf.default.send_redirects | grep -q 0').and_return(false)
+    stub_command('sysctl -e net.ipv4.conf.all.accept_redirects | grep -q 0').and_return(false)
+    stub_command('sysctl -e net.ipv4.conf.default.accept_redirects | grep -q 0').and_return(false)
+    stub_command('sysctl -e net.ipv4.conf.all.secure_redirects | grep -q 0').and_return(false)
+    stub_command('sysctl -e net.ipv4.conf.default.secure_redirects | grep -q 0').and_return(false)
+    stub_command('sysctl -e net.ipv4.conf.all.log_martians | grep -q 1').and_return(false)
+    stub_command('sysctl -e net.ipv4.conf.default.log_martians | grep -q 1').and_return(false)
+    stub_command('sysctl -e net.ipv4.conf.all.rp_filter | grep -q 1').and_return(false)
+    stub_command('sysctl -e net.ipv4.conf.default.rp_filter | grep -q 1').and_return(false)
+    stub_command('sysctl -e net.ipv6.conf.all.accept_redirects | grep -q 0').and_return(false)
+    stub_command('sysctl -e net.ipv6.conf.default.accept_redirects | grep -q 0').and_return(false)
+    stub_command('sysctl -e net.ipv6.conf.all.accept_ra | grep -q 0').and_return(false)
+    stub_command('sysctl -e net.ipv6.conf.default.accept_ra | grep -q 0').and_return(false)
   end
 
   it 'creates /etc/security/limits.conf template' do
