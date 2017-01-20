@@ -23,7 +23,7 @@ describe 'stig::file_permissions' do
     expect(chef_run).to create_directory('/etc/cron.hourly').with(
       owner: 'root',
       group: 'root',
-      mode: 0o700
+      mode: 0o600
     )
   end
 
@@ -31,7 +31,7 @@ describe 'stig::file_permissions' do
     expect(chef_run).to create_directory('/etc/cron.daily').with(
       owner: 'root',
       group: 'root',
-      mode: 0o700
+      mode: 0o600
     )
   end
 
@@ -39,7 +39,7 @@ describe 'stig::file_permissions' do
     expect(chef_run).to create_directory('/etc/cron.weekly').with(
       owner: 'root',
       group: 'root',
-      mode: 0o700
+      mode: 0o600
     )
   end
 
@@ -47,7 +47,7 @@ describe 'stig::file_permissions' do
     expect(chef_run).to create_directory('/etc/cron.monthly').with(
       owner: 'root',
       group: 'root',
-      mode: 0o700
+      mode: 0o600
     )
   end
 
@@ -55,7 +55,7 @@ describe 'stig::file_permissions' do
     expect(chef_run).to create_directory('/etc/cron.d').with(
       owner: 'root',
       group: 'root',
-      mode: 0o700
+      mode: 0o600
     )
   end
 
