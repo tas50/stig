@@ -60,15 +60,11 @@ describe 'stig::file_permissions' do
   end
 
   it 'creates /etc/at.deny template' do
-    expect(chef_run).to create_file('/etc/at.deny').with(
-      owner: 'root',
-      group: 'root',
-      mode: 0o700
-    )
+    expect(chef_run).to delete_file('/etc/at.deny')
   end
 
   it 'creates /etc/at.allow template' do
-    expect(chef_run).to delete_file('/etc/at.allow')
+    expect(chef_run).to create_file('/etc/at.allow')
   end
 
   it 'creates file at /etc/passwd' do
@@ -87,19 +83,19 @@ describe 'stig::file_permissions' do
     )
   end
 
-  it 'creates file at /etc/shadow' do
-    expect(chef_run).to create_file('/etc/shadow').with(
-      owner: 'root',
-      group: 'root',
-      mode: 0o000
-    )
-  end
+  # it 'creates file at /etc/shadow' do
+  #   expect(chef_run).to create_file('/etc/shadow').with(
+  #     owner: 'root',
+  #     group: 'root',
+  #     mode: 0o000
+  #   )
+  # end
 
-  it 'creates file at /etc/gshadow' do
-    expect(chef_run).to create_file('/etc/gshadow').with(
-      owner: 'root',
-      group: 'root',
-      mode: 0o000
-    )
-  end
+  # it 'creates file at /etc/gshadow' do
+  #   expect(chef_run).to create_file('/etc/gshadow').with(
+  #     owner: 'root',
+  #     group: 'root',
+  #     mode: 0o000
+  #   )
+  # end
 end

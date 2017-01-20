@@ -40,7 +40,7 @@ end
   directory d do
     owner 'root'
     group 'root'
-    mode 0o600
+    mode 0o700
   end
 end
 
@@ -70,11 +70,15 @@ end
 
 file '/etc/at.allow' do
   mode 0o600
+  owner 'root'
+  group 'root'
   action :create
 end
 
 file '/etc/cron.allow' do
   mode 0o600
+  owner 'root'
+  group 'root'
   action :create
 end
 
