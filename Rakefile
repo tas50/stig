@@ -21,6 +21,15 @@ task :clean do
   ).each { |f| FileUtils.rm_rf(Dir.glob(f)) }
 end
 
+desc 'Run ChefSpec/Rspec unit tests'
+task :unit do
+  require 'rspec/core/rake_task'
+  RSpec::Core::RakeTask.new(:unit) do |t|
+    t.rspec_opts = '--color --format progress'
+    t.pattern = 'spec/*_spec.rb'
+  end
+end
+
 namespace :style do
   require 'rubocop/rake_task'
   desc 'Run Ruby style checks using rubocop'

@@ -5,7 +5,7 @@ describe 'stig::mail_transfer_agent' do
 
   it 'creates /etc/postfix/main.cf' do
     expect(chef_run).to create_template('/etc/postfix/main.cf').with(
-      source: 'main.cf.erb',
+      source: 'etc_main.cf_rhel.erb',
       owner: 'root',
       group: 'root',
       mode: 0o644

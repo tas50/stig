@@ -4,7 +4,7 @@
 #
 # Description: Sets a few policies
 #
-# TODO- This recipe should probably be refactored into separate recipes for the 1.x.x and 4.x.x items
+# TODO: This recipe should probably be refactored into separate recipes for the 1.x.x and 4.x.x items
 #
 # RHEL6 (2.0.0) : 1.5.1
 # RHEL7 (2.0.0) : 1.5.1
