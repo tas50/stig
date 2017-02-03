@@ -19,41 +19,7 @@
 # - Do Not Allow Users to Set Environment Options
 # - Limit Access via SSH
 
-ignore_rhosts = if node['stig']['sshd_config']['ignore_rhosts']
-                  'yes'
-                else
-                  'no'
-                end
-
-host_based_auth = if node['stig']['sshd_config']['host_based_auth']
-                    'yes'
-                  else
-                    'no'
-                  end
-
-permit_root_login = if node['stig']['sshd_config']['permit_root_login']
-                      'yes'
-                    else
-                      'no'
-                    end
-
-permit_empty_passwords = if node['stig']['sshd_config']['permit_empty_passwords']
-                           'yes'
-                         else
-                           'no'
-                         end
-
-password_authentication = if node['stig']['sshd_config']['password_authentication']
-                            'yes'
-                          else
-                            'no'
-                          end
-
-allow_users_set_env_opts = if node['stig']['sshd_config']['allow_users_set_env_opts']
-                             'yes'
-                           else
-                             'no'
-                           end
+sshd_config = node['stig']['sshd_config']
 
 template '/etc/ssh/sshd_config' do
   source 'etc_ssh_sshd_config.erb'
@@ -61,22 +27,25 @@ template '/etc/ssh/sshd_config' do
   owner 'root'
   group 'root'
   variables(
-    log_level: node['stig']['sshd_config']['log_level'],
-    max_auth_tries: node['stig']['sshd_config']['max_auth_tries'],
-    deny_users: node['stig']['sshd_config']['deny_users'],
-    deny_groups: node['stig']['sshd_config']['deny_groups'],
-    allow_users: node['stig']['sshd_config']['allow_users'],
-    allow_groups: node['stig']['sshd_config']['allow_groups'],
-    banner_path: node['stig']['sshd_config']['banner_path'],
-    ciphers: node['stig']['sshd_config']['ciphers'],
-    challenge_response_authentication: node['stig']['sshd_config']['challenge_response_authentication'],
-    use_pam_auth: node['stig']['sshd_config']['use_pam_auth'],
-    ignore_rhosts: ignore_rhosts,
-    host_based_auth: host_based_auth,
-    permit_root_login: permit_root_login,
-    permit_empty_passwords: permit_empty_passwords,
-    allow_users_set_env_opts: allow_users_set_env_opts,
-    password_authentication: password_authentication
+    port: sshd_config['port'],
+    log_level: sshd_config['log_level'],
+    max_auth_tries: sshd_config['max_auth_tries'],
+    deny_users: sshd_config['deny_users'],
+    deny_groups: sshd_config['deny_groups'],
+    allow_users: sshd_config['allow_users'],
+    allow_groups: sshd_config['allow_groups'],
+    banner_path: sshd_config['banner_path'],
+    ciphers: sshd_config['ciphers'],
+    challenge_response_authentication: sshd_config['challenge_response_authentication'],
+    use_pam_auth: sshd_config['use_pam_auth'],
+    ignore_rhosts: sshd_config['ignore_rhosts'] ? 'yes' : 'no',
+    host_based_auth: sshd_config['host_based_auth'] ? 'yes' : 'no',
+    permit_root_login: sshd_config['permit_root_login'] ? 'yes' : 'no',
+    permit_empty_passwords: sshd_config['permit_empty_passwords'] ? 'yes' : 'no',
+    allow_users_set_env_opts: sshd_config['allow_users_set_env_opts'] ? 'yes' : 'no',
+    password_authentication: sshd_config['password_authentication'] ? 'yes' : 'no',
+    gss_api_key_exchange: sshd_config['gss_api_key_exchange'] ? 'yes' : 'no',
+    gss_cleanup_credentials: sshd_config['gss_cleanup_credentials'] ? 'yes' : 'no'
   )
   notifies :restart, 'service[sshd]', :delayed
 end

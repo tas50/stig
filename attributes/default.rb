@@ -268,6 +268,9 @@ default['stig']['selinux']['status'] = 'enforcing'
 # Possible values: targeted, mls
 default['stig']['selinux']['type'] = 'targeted'
 
+# Set SSHD port, default 22
+default['stig']['sshd_config']['port'] = '22'
+
 # Set LogLevel to INFO
 default['stig']['sshd_config']['log_level'] = 'INFO'
 
@@ -291,6 +294,12 @@ default['stig']['sshd_config']['password_authentication'] = true
 
 # Allow Users to Set Environment Options
 default['stig']['sshd_config']['allow_users_set_env_opts'] = false
+
+# Allow GSSAPI user authentication using the 'gssapi-with-mic' mechanism
+default['stig']['sshd_config']['gss_api_key_exchange'] = false
+
+# Specifies whether to automatically destroy the user's credentials cache on logout.
+default['stig']['sshd_config']['gss_cleanup_credentials'] = true
 
 default['stig']['sshd_config']['banner_path'] = '/etc/issue.net'
 

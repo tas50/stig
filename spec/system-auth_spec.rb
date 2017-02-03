@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'stig::system-auth' do
+describe 'stig::system_auth' do
   let(:chef_run) { ChefSpec::SoloRunner.converge(described_recipe) }
 
   before do

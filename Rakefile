@@ -1,6 +1,6 @@
 require 'bundler/setup'
 
-task :default => [:list]
+task default: [:list]
 
 desc 'Lists all the tasks.'
 task :list do

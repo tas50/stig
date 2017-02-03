@@ -8,14 +8,14 @@ More information about CIS benchmarks may be found at http://benchmarks.cisecuri
 Requirements
 ------------
 ### Platforms
-- CentOS 6.6
+- CentOS 6.x
 
 ### Cookbooks
 - logrotate
 - sysctl
 
 ### Suggests
-- auditd, ~> 0.1.8
+- auditd, ~> 1.0.1
 
 [Changelog](CHANGELOG.md)
 ---------
@@ -82,7 +82,8 @@ Boolean)
 - `node['stig']['selinux']['type']` = Possible values: targeted, mls (String)
 
 
-- `node['stig']['sshd_config']['log_level']` = SSHd log level (String)
+- `node['stig']['sshd_config']['port']` = SSHd daemon port. Default: 22 (String)
+- `node['stig']['sshd_config']['log_level']` = SSHd log level. Default: INFO (String)
 - `node['stig']['sshd_config']['max_auth_tries']` = SSHd Max auth tries (Integer)
 - `node['stig']['sshd_config']['ignore_rhosts']` = SSHd Ignore rhosts (Boolean)
 - `node['stig']['sshd_config']['host_based_auth']` = Set SSH HostbasedAuthentication to No (Boolean)
@@ -91,6 +92,8 @@ Boolean)
 - `node['stig']['sshd_config']['allow_users_set_env_opts']` = Allow Users to Set Environment Options (Boolean)
 - `node['stig']['sshd_config']['banner_path']` = Set SSH login banner path (String)
 - `node['stig']['sshd_config']['deny_users']` = List of users to deny SSH login to (Array of String)
+- `node['stig']['sshd_config']['gss_api_key_exchange']` = Allow GSSAPI user authentication using the 'gssapi-with-mic' mechanism (Boolean), Default: false
+- `node['stig']['sshd_config']['gss_cleanup_credentials']` = Specifies whether to automatically destroy the user's credentials cache on logout. (Boolean), Default: true
 
 - `node['stig']['system_auth']['pass_reuse_limit']` = Limit password reuse - Represents the amount of passwords the user is forced to not reuse (Integer)
 
@@ -107,7 +110,7 @@ Boolean)
 Usage
 -----
 Simply include the default recipe (stig::default) on an instance that needs to be hardened. May also want to include the auditd recipe (stig::auditd) to set a custom auditd configuration file
- 
+
 Authors
 -------
 - Author:: Ivan Suftin (<isuftin@usgs.gov>)
@@ -120,4 +123,4 @@ materials that originally came from the United States Geological Survey, an agen
 United States Department of Interior. For more information, see the official USGS
 copyright policy at: http://www.usgs.gov/visual-id/credit_usgs.html#copyright
 
-More information in [license file](https://github.com/USGS-WSI-COOKBOOKS/stig/blob/master/LICENSE)
+More information in [license file](https://github.com/USGS-CIDA/stig/blob/master/LICENSE)

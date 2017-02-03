@@ -1,11 +1,17 @@
 ## Changelog
 ---------
+
+- 0.6.1
+-- [isuftin@usgs.gov] - More rubocop fixes
+-- [isuftin@usgs.gov] - Rework of sshd_config recipe to allow more customization
+-- [isuftin@usgs.gov] - Updated templates to point to proper GitHub URL
+
 - 0.6.0
 -- [steve@bigsteve.us] - fix some rubocop violations
 -- [steve@bigsteve.us] - switch to using chef inspec
 -- [steve@bigsteve.us] - remove Centos 6.6 and 6.8  
 -- [steve@bigsteve.us] - bump version to 0.6.0
--- [steve@bigsteve.us] - remove kitchen version pin. 
+-- [steve@bigsteve.us] - remove kitchen version pin.
 
 - 0.5.5
 -- [arothian@github] - Update aide to setup crontab for ubuntu

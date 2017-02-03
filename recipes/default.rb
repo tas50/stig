@@ -79,7 +79,7 @@ include_recipe 'stig::sshd_config'
 # RHEL6:  6.3.6
 # CENTOS6: 6.3.4
 # UBUNTU: 9.2.3
-include_recipe 'stig::system-auth'
+include_recipe 'stig::system_auth'
 
 # RHEL6: 7.2.1, 7.2.2, 7.2.3
 # CENTOS6: 7.1.1, 7.1.2, 7.1.3
