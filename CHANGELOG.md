@@ -5,6 +5,8 @@
 -- [isuftin@usgs.gov] - More rubocop fixes
 -- [isuftin@usgs.gov] - Rework of sshd_config recipe to allow more customization
 -- [isuftin@usgs.gov] - Updated templates to point to proper GitHub URL
+-- [isuftin@usgs.gov] - Updated dependency version for sysctl cookbook in Berksfile
+-- [isuftin@usgs.gov] - Fixed kitchen converge warnings
 
 - 0.6.0
 -- [steve@bigsteve.us] - fix some rubocop violations

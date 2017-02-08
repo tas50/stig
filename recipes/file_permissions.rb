@@ -44,13 +44,6 @@ end
   end
 end
 
-file '/etc/shadow' do
-  owner 'root'
-  group 'root'
-  mode 0o640
-  only_if { %w(debian ubuntu).include? platform }
-end
-
 %w(/etc/shadow /etc/gshadow).each do |f|
   file f do
     owner 'root'

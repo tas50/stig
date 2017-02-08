@@ -12,6 +12,14 @@ describe 'stig::aide' do
     expect(chef_run).to install_package('aide')
   end
 
+  #This is only for Debian
+  it 'runs aideinit' do
+    expect(chef_run).to_not run_execute('aideinit').with(
+      user: 'root',
+      creates: '/var/lib/aide/aide.db.new'
+    )
+  end
+
   it 'actually initializes aide' do
     expect(chef_run).to run_execute('init_aide').with(
       user: 'root',
@@ -30,4 +38,12 @@ describe 'stig::aide' do
       month: '*'
     )
   end
+
+  it 'Does not create remote file on CentOS' do
+    expect(chef_run).to_not create_remote_file('/var/lib/aide/aide.db').with(
+      user: 'root',
+      creates: '/var/lib/aide/aide.db'
+    )
+  end
+
 end

@@ -7,20 +7,20 @@
 #
 # Description: Restrict access to the su command
 
-platform = node['platform']
-
-cookbook_file '/etc/pam.d/su' do
+cookbook_file "/etc/pam.d/su for RHEL" do
+  path '/etc/pam.d/su'
   source 'etc_pam_d_su_centos'
   owner 'root'
   group 'root'
   mode 0o644
-  only_if { %w(rhel fedora centos).include? platform }
+  only_if { %w(rhel fedora centos).include? node['platform'] }
 end
 
-cookbook_file '/etc/pam.d/su' do
+cookbook_file "/etc/pam.d/su for Debian" do
+  path '/etc/pam.d/su'
   source 'etc_pam_d_su_ubuntu'
   owner 'root'
   group 'root'
   mode 0o644
-  only_if { %w(debian ubuntu).include? platform }
+  only_if { %w(debian ubuntu).include? node['platform'] }
 end

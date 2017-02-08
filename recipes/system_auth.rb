@@ -49,7 +49,6 @@ end
 
 link '/etc/pam.d/system-auth' do
   to system_auth_file
-  mode '0644'
 end
 
 template '/etc/pam.d/common-password' do

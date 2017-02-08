@@ -55,13 +55,13 @@ file '/boot/grub/grub.conf' do
 end
 
 # 1.4.1
-execute 'Remove selinux=0 from /etc/grub.conf' do
+execute 'Remove selinux=0 from /etc/grub.conf (CentOS 6.x)' do
   command "sed -i 's/selinux=0//' /etc/grub.conf"
   only_if "grep -q 'selinux=0' /etc/grub.conf"
   only_if { %w(rhel fedora centos).include? platform }
   only_if { major_version < 7 }
 end
-execute 'Remove enforcing=0 from /etc/grub.conf' do
+execute 'Remove enforcing=0 from /etc/grub.conf (CentOS 6.x)' do
   command "sed -i 's/enforcing=0//' /etc/grub.conf"
   only_if "grep -q 'enforcing=0' /etc/grub.conf"
   only_if { %w(rhel fedora centos).include? platform }
@@ -70,7 +70,7 @@ end
 
 # 1.5.3
 password = node['stig']['grub']['hashedpassword']
-execute 'Add password to grub' do
+execute 'Add MD5 password to grub' do
   command "sed -i '11i password --md5 #{password}' /etc/grub.conf"
   not_if "grep -q '#{password}' /etc/grub.conf"
   only_if { %w(rhel fedora centos).include? platform }
@@ -87,13 +87,13 @@ execute 'Add password to grub' do
 end
 
 # 1.4.1
-execute 'Remove selinux=0 from /etc/grub.conf' do
+execute 'Remove selinux=0 from /etc/grub.conf (CentOS 7.x)' do
   command "sed -i 's/selinux=0//' /boot/grub2/grub.cfg"
   only_if "grep -q 'selinux=0' /boot/grub2/grub.cfg"
   only_if { %w(rhel fedora centos).include? platform }
   only_if { major_version == 7 }
 end
-execute 'Remove enforcing=0 from /etc/grub.conf' do
+execute 'Remove enforcing=0 from /etc/grub.conf (CentOS 7.x)' do
   command "sed -i 's/enforcing=0//' /boot/grub2/grub.cfg"
   only_if "grep -q 'enforcing=0' /boot/grub2/grub.cfg"
   only_if { %w(rhel fedora centos).include? platform }
@@ -132,7 +132,7 @@ template '/selinux/enforce' do
   owner 'root'
   group 'root'
   variables(enforcing: (enabled_selinux ? 1 : 0))
-  only_if { ::File.directory?('/selinux/enforce') }
+  only_if { ::File.directory?('/selinux') }
   only_if { %w(rhel fedora centos).include? platform }
   mode 0o644
 end
