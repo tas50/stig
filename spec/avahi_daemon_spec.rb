@@ -14,6 +14,14 @@ describe 'stig::avahi_daemon' do
     stub_command(grep_zeroconf).and_return(false)
   end
 
+  it 'installs the avahi package' do
+    expect(chef_run).to remove_package('avahi')
+  end
+
+  it 'not install the avahi-daemon package' do
+    expect(chef_run).to_not install_package('avahi-daemon')
+  end
+
   it 'executes chkconfig to turn off avahi-daemon' do
     expect(chef_run).to run_execute('chkconfig_avahi-daemon_off').with(
       user: 'root',
