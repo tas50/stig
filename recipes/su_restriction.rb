@@ -7,7 +7,7 @@
 #
 # Description: Restrict access to the su command
 
-cookbook_file "/etc/pam.d/su for RHEL" do
+cookbook_file '/etc/pam.d/su for RHEL' do
   path '/etc/pam.d/su'
   source 'etc_pam_d_su_centos'
   owner 'root'
@@ -16,7 +16,7 @@ cookbook_file "/etc/pam.d/su for RHEL" do
   only_if { %w(rhel fedora centos).include? node['platform'] }
 end
 
-cookbook_file "/etc/pam.d/su for Debian" do
+cookbook_file '/etc/pam.d/su for Debian' do
   path '/etc/pam.d/su'
   source 'etc_pam_d_su_ubuntu'
   owner 'root'
