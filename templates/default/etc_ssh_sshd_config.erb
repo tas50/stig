@@ -4,157 +4,190 @@
 #
 # See https://github.com/USGS-CIDA/stig/blob/master/templates/default/etc_ssh_sshd_config.erb
 
-#	$OpenBSD: sshd_config,v 1.80 2008/07/02 02:24:18 djm Exp $
+<% @accept_env.each do |ae| -%>
+AcceptEnv <%= ae %>
+<% end -%>
 
-# This is the sshd server system-wide configuration file.  See
-# sshd_config(5) for more information.
+AddressFamily <%= @address_family %>
 
-# This sshd was compiled with PATH=/usr/local/bin:/bin:/usr/bin
+AllowAgentForwarding <%= @allow_agent_forwarding %>
 
-# The strategy used for options in the default sshd_config shipped with
-# OpenSSH is to specify options with their default value where
-# possible, but leave them commented.  Uncommented options change a
-# default value.
-
-Port <%= @port %>
-#AddressFamily any
-#ListenAddress 0.0.0.0
-#ListenAddress ::
-
-# Disable legacy (protocol version 1) support in the server for new
-# installations. In future the default will change to require explicit
-# activation of protocol 1
-Protocol 2
-
-# HostKey for protocol version 1
-#HostKey /etc/ssh/ssh_host_key
-# HostKeys for protocol version 2
-#HostKey /etc/ssh/ssh_host_rsa_key
-#HostKey /etc/ssh/ssh_host_dsa_key
-
-# Lifetime and size of ephemeral version 1 server key
-#KeyRegenerationInterval 1h
-#ServerKeyBits 1024
-
-# Logging
-# obsoletes QuietMode and FascistLogging
-#SyslogFacility AUTH
-SyslogFacility AUTHPRIV
-LogLevel <%= @log_level %>
-
-# Authentication:
-
-<% if !@deny_users.empty? %>
-DenyUsers <%= @deny_users.join(",") %>
-<% end %>
-
-<% if !@deny_groups.empty? %>
-DenyGroups <%= @deny_groups.join(",") %>
-<% end %>
-
-<% if !@allow_users.empty? %>
-AllowUsers <%= @allow_users.join(",") %>
-<% end %>
-
-<% if !@allow_groups.empty? %>
+<% if !@allow_groups.empty? -%>
 AllowGroups <%= @allow_groups.join(",") %>
-<% end %>
+<% end -%>
 
-#LoginGraceTime 2m
-PermitRootLogin <%= @permit_root_login %>
-#StrictModes yes
-MaxAuthTries <%= @max_auth_tries %>
-#MaxSessions 10
+AllowTcpForwarding <%= @allow_tcp_forwarding %>
 
-#RSAAuthentication yes
-#PubkeyAuthentication yes
-#AuthorizedKeysFile	.ssh/authorized_keys
-#AuthorizedKeysCommand none
-#AuthorizedKeysCommandRunAs nobody
+<% if !@allow_users.empty? -%>
+AllowUsers <%= @allow_users.join(",") %>
+<% end -%>
 
-# For this to work you will also need host keys in /etc/ssh/ssh_known_hosts
-#RhostsRSAAuthentication no
-# similar for protocol version 2
-HostbasedAuthentication <%= @host_based_auth %>
-# Change to yes if you don't trust ~/.ssh/known_hosts for
-# RhostsRSAAuthentication and HostbasedAuthentication
-#IgnoreUserKnownHosts no
-# Don't read the user's ~/.rhosts and ~/.shosts files
-IgnoreRhosts <%= @ignore_rhosts %>
+<% if !@authentication_methods.empty? -%>
+AuthenticationMethods <%= @authentication_methods.join(",") %>
+<% end -%>
 
-# To disable tunneled clear text passwords, change to no here!
-PermitEmptyPasswords <%= @permit_empty_passwords %>
-PasswordAuthentication <%= @password_authentication %>
+<% if !@authorized_keys_command.empty? -%>
+AuthorizedKeysCommand <%= @authorized_keys_command %>
+<% end -%>
 
+<% if !@authorized_keys_command_user.empty? -%>
+AuthorizedKeysCommandUser <%= @authorized_keys_command_user %>
+<% end -%>
 
-# Change to no to disable s/key passwords
-ChallengeResponseAuthentication <%= @challenge_response_authentication %>
+AuthorizedKeysCommandRunAs <%= @authorized_keys_command_run_as %>
 
-# Kerberos options
-#KerberosAuthentication no
-#KerberosOrLocalPasswd yes
-#KerberosTicketCleanup yes
-#KerberosGetAFSToken no
-#KerberosUseKuserok yes
+AuthorizedKeysFile	<%= @authorized_keys_file %>
 
-# GSSAPI options
-GSSAPIAuthentication yes
-GSSAPICleanupCredentials <%= @gss_cleanup_credentials %>
-#GSSAPIStrictAcceptorCheck yes
-GSSAPIKeyExchange <%= @gss_api_key_exchange %>
+AuthorizedPrincipalsFile <%= @authorized_principals_file %>
 
-# Set this to 'yes' to enable PAM authentication, account processing,
-# and session processing. If this is enabled, PAM authentication will
-# be allowed through the ChallengeResponseAuthentication and
-# PasswordAuthentication.  Depending on your PAM configuration,
-# PAM authentication via ChallengeResponseAuthentication may bypass
-# the setting of "PermitRootLogin without-password".
-# If you just want the PAM account and session checks to run without
-# PAM authentication, then enable this but set PasswordAuthentication
-# and ChallengeResponseAuthentication to 'no'.
-UsePAM <%= @use_pam_auth %>
-
-# Accept locale-related environment variables
-AcceptEnv LANG LC_CTYPE LC_NUMERIC LC_TIME LC_COLLATE LC_MONETARY LC_MESSAGES
-AcceptEnv LC_PAPER LC_NAME LC_ADDRESS LC_TELEPHONE LC_MEASUREMENT
-AcceptEnv LC_IDENTIFICATION LC_ALL LANGUAGE
-AcceptEnv XMODIFIERS
-
-#AllowAgentForwarding yes
-#AllowTcpForwarding yes
-#GatewayPorts no
-#X11Forwarding no
-X11Forwarding yes
-#X11DisplayOffset 10
-#X11UseLocalhost yes
-#PrintMotd yes
-#PrintLastLog yes
-#TCPKeepAlive yes
-#UseLogin no
-#UsePrivilegeSeparation yes
-PermitUserEnvironment <%= @allow_users_set_env_opts %>
-#Compression delayed
-#ClientAliveInterval 0
-#ClientAliveCountMax 3
-#ShowPatchLevel no
-#UseDNS yes
-#PidFile /var/run/sshd.pid
-#MaxStartups 10:30:100
-#PermitTunnel no
-#ChrootDirectory none
-
-# no default banner path
 Banner <%= @banner_path %>
 
-# override default of no subsystems
-Subsystem	sftp	/usr/libexec/openssh/sftp-server
+ChallengeResponseAuthentication <%= @challenge_response_authentication %>
 
-# Example of overriding settings on a per-user basis
-#Match User anoncvs
-#	X11Forwarding no
-#	AllowTcpForwarding no
-#	ForceCommand cvs server
-UseDNS no
-GSSAPIAuthentication no
+ChrootDirectory <%= @chroot_directory %>
 
 Ciphers <%= @ciphers %>
+
+ClientAliveCountMax <%= @client_alive_count_max %>
+
+ClientAliveInterval <%= @client_alive_interval %>
+
+Compression <%= @compression %>
+
+<% if !@deny_groups.empty? -%>
+DenyGroups <%= @deny_groups.join(",") %>
+<% end -%>
+
+<% if !@deny_users.empty? -%>
+DenyUsers <%= @deny_users.join(",") %>
+<% end -%>
+
+<% if !@force_command.empty? -%>
+ForceCommand <%= @force_command %>
+<% end -%>
+
+GatewayPorts <%= @gateway_ports %>
+
+<% if !@gss_api_authentication.empty? -%>
+GSSAPIAuthentication <%= @gss_api_authentication %>
+<% end -%>
+
+<% if !@gss_cleanup_credentials.empty? -%>
+GSSAPICleanupCredentials <%= @gss_cleanup_credentials %>
+<% end -%>
+
+<% if !@gss_api_key_exchange.empty? -%>
+GSSAPIKeyExchange <%= @gss_api_key_exchange %>
+<% end -%>
+
+GSSAPIStoreCredentialsOnRekey <%= @gss_api_store_credentials_on_rekey %>
+
+GSSAPIStrictAcceptorCheck <%= @gss_api_strict_acceptor_check %>
+
+<% if !@host_based_auth.empty? -%>
+HostbasedAuthentication <%= @host_based_auth %>
+<% end -%>
+
+HostbasedUsesNameFromPacketOnly <%= @host_based_uses_name_from_packet_only %>
+
+<% if !@host_certificate.empty? -%>
+HostCertificate <%= @host_certificate %>
+<% end -%>
+
+<% @host_key.each do |hk| -%>
+HostKey <%= hk %>
+<% end -%>
+
+IgnoreRhosts <%= @ignore_rhosts %>
+
+IgnoreUserKnownHosts <%= @ignore_user_known_hosts %>
+
+KerberosAuthentication <%= @kerberos_authentication %>
+
+KerberosOrLocalPasswd <%= @kerberos_or_local_passwd %>
+
+KerberosTicketCleanup <%= @kerberos_ticket_cleanup %>
+
+KerberosUseKuserok <%= @kerberos_use_kuserok %>
+
+KeyRegenerationInterval <%= @key_regeneration_interval %>
+
+<% @port.each do |pr| -%>
+Port <%= pr %>
+<% end -%>
+
+<% @listen_address.each do |la| -%>
+ListenAddress <%= la %>
+<% end -%>
+
+LoginGraceTime <%= @login_grace_time %>
+
+LogLevel <%= @log_level %>
+
+MACs <%= @macs %>
+
+MaxAuthTries <%= @max_auth_tries %>
+
+MaxSessions <%= @max_sessions %>
+
+MaxStartups <%= @max_startups %>
+
+PasswordAuthentication <%= @password_authentication %>
+
+PermitEmptyPasswords <%= @permit_empty_passwords %>
+
+PermitRootLogin <%= @permit_root_login %>
+
+PermitTunnel <%= @permit_tunnel %>
+
+PermitUserEnvironment <%= @allow_users_set_env_opts %>
+
+PidFile <%= @pid_file %>
+
+PrintMotd <%= @print_motd %>
+
+Protocol <%= @protocol %>
+
+PrintLastLog <%= @print_last_log %>
+
+PubkeyAuthentication <%= @pub_key_authentication %>
+
+RhostsRSAAuthentication <%= @rhosts_rsa_authentication %>
+
+RSAAuthentication <%= @rsa_authentication %>
+
+ServerKeyBits <%= @server_key_bits %>
+
+<% if !@show_patch_level.empty? -%>
+ShowPatchLevel <%= @show_patch_level %>
+<% end -%>
+
+StrictModes <%= @strict_modes %>
+
+Subsystem	<%= @subsystem %>
+
+SyslogFacility <%= @syslog_facility %>
+
+TCPKeepAlive  <%= @tcp_keepalive %>
+
+UseDNS <%= @use_dns %>
+
+UseLogin <%= @use_login %>
+
+UsePAM <%= @use_pam_auth %>
+
+UsePrivilegeSeparation <%= @use_privilege_separation %>
+
+<% if !@version_addendum.empty? -%>
+VersionAddendum <%= @version_addendum %>
+<% end -%>
+
+X11DisplayOffset <%= @x_11_display_offset %>
+
+X11Forwarding <%= @x_11_forwarding %>
+
+X11UseLocalhost <%= @x_11_use_local_host %>
+
+<% if !@x_auth_location.empty? -%>
+XAuthLocation <%= @x_auth_location %>
+<% end -%>
