@@ -1,5 +1,5 @@
 # Cookbook Name:: stig
-# Recipe:: system-auth
+# Recipe:: system_auth
 # Author: Ivan Suftin <isuftin@usgs.gov>
 #
 # Description: Configure Sysauth

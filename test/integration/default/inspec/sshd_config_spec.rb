@@ -48,4 +48,6 @@ describe file('/etc/ssh/sshd_config') do
 
   its('content') { should include('ChallengeResponseAuthentication no') }
   its('content') { should include('UsePAM yes') }
+  its('content') { should include('GSSAPIKeyExchange no') }
+  its('content') { should include('GSSAPICleanupCredentials yes') }
 end

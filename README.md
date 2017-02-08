@@ -8,14 +8,14 @@ More information about CIS benchmarks may be found at http://benchmarks.cisecuri
 Requirements
 ------------
 ### Platforms
-- CentOS 6.6
+- CentOS 6.x
 
 ### Cookbooks
 - logrotate
 - sysctl
 
 ### Suggests
-- auditd, ~> 0.1.8
+- auditd, ~> 1.0.1
 
 [Changelog](CHANGELOG.md)
 ---------
@@ -82,15 +82,81 @@ Boolean)
 - `node['stig']['selinux']['type']` = Possible values: targeted, mls (String)
 
 
-- `node['stig']['sshd_config']['log_level']` = SSHd log level (String)
+- `node['stig']['sshd_config']['allow_agent_forwarding']` =  (String) Specifies whether ssh-agent forwarding is permitted. Default: 'yes'
+- `node['stig']['sshd_config']['allow_tcp_forwarding']` =  Specifies whether TCP forwarding is permitted. Default: yes (String)
+- `node['stig']['sshd_config']['allow_users_set_env_opts']` = (String) Allow Users to Set Environment Options. Default: 'no'
+- `node['stig']['sshd_config']['authentication_methods']` =  Specifies the authentication methods that must be successfully completed for a
+user to be granted access.This option must be followed by one or more comma-separated
+lists ofauthentication method names.Successful authentication requires completion
+of every method in at leastone of these lists.
+This option is only available for SSH protocol 2. Default: [] (Array, String)
+- `node['stig']['sshd_config']['authorized_keys_command']` = Specifies a program to be used to look up the user's public keys. Default: '' (String)
+- `node['stig']['sshd_config']['authorized_keys_command_user']` = Specifies the user under whose account the AuthorizedKeysCommand is run.It is recommended to use a dedicated user that has no other role on the hostthan running authorized keys commands. Default: '' (String)
+- `node['stig']['sshd_config']['authorized_keys_file']` = Specifies the file that contains the public keys that can be used for user authentication. Default: '.ssh/authorized_keys' (String)
+- `node['stig']['sshd_config']['authorized_keys_command_run_as']` = Specifies the user under whose account the AuthorizedKeysCommand is run. Default: '' (String)
+- `node['stig']['sshd_config']['authorized_principals_file']` = Specifies a file that lists principal names that are accepted for certificate authentication. Default: 'none' (String)
+- `node['stig']['sshd_config']['chroot_directory']` = Specifies the pathname of a directory to chroot to after authentication. Default: 'none' (String)
+- `node['stig']['sshd_config']['client_alive_count_max']` = Sets the number of client alive messages which may besent without sshd receiving any messages back from the client. Default: '3' (String)
+- `node['stig']['sshd_config']['client_alive_interval']` = Sets a timeout interval in seconds after which if no data has been received from the client. Default: '0' (String)
+- `node['stig']['sshd_config']['compression']` = Specifies whether compression is allowed, or delayed untilt he user has authenticated successfully. The argument must be 'yes' 'delayed' or 'no'. Default: 'delayed' (String)
+- `node['stig']['sshd_config']['force_command']` = Forces the execution of the command specified by ForceCommand ignoring any command supplied by the client and ~/.ssh/rc if present. Default: '' (String)
+- `node['stig']['sshd_config']['gateway_ports']` = Specifies whether remote hosts are allowed to connect to ports forwarded for the client. (String), Default: 'no'
+- `node['stig']['sshd_config']['gss_api_authentication']` = (String) Specifies whether user authentication based on GSSAPI is allowed. Note that this option applies to protocol version 2 only. Default: 'no'
+- `node['stig']['sshd_config']['gss_api_key_exchange']` = (String) Allow GSSAPI user authentication using the 'gssapi-with-mic' mechanism. Default: 'no'
+- `node['stig']['sshd_config']['gss_cleanup_credentials']` = (String) Specifies whether to automatically destroy the user's credentials cache on logout. Default: 'yes'
+- `node['stig']['sshd_config']['gss_api_store_credentials_on_rekey']` = (String) Controls whether the user's GSSAPI credentials should be updated following a successful connection rekeying. Default: 'no'
+- `node['stig']['sshd_config']['gss_api_strict_acceptor_check']` = (String) Determines whether to be strict about the identity of the GSSAPI acceptor a client authenticates against. Default: 'yes'
+- `node['stig']['sshd_config']['host_based_auth']` = (String) Specifies whether rhosts or /etc/hosts.equiv authentication together with successful public key client host authentication is allowed (host-based authentication). Default: 'no'
+- `node['stig']['sshd_config']['host_based_uses_name_from_packet_only']` = (String) Specifies whether or not the server will attempt to perform a reversename lookup when matching the name in the ~/.shosts ~/.rhosts and/etc/hosts.equiv files during HostbasedAuthentication, Default: 'no'
+- `node['stig']['sshd_config']['host_certificate']` = Specifies a file containing a public host certificate (String), Default: ''
+- `node['stig']['sshd_config']['ignore_rhosts']` = (String) Specifies that .rhosts and .shosts files will not be used in RhostsRSAAuthenticationorHostbasedAuthentication, Default: 'yes'
+- `node['stig']['sshd_config']['ignore_user_known_hosts']` = (String) Specifies whether sshd should ignore the user's ~/.ssh/known_hosts during RhostsRSAAuthenticationorHostbasedAuthentication. Default: 'no'
+- `node['stig']['sshd_config']['kerberos_authentication']` = (String) Specifies whether the password provided by the user for PasswordAuthentication will be validated through the Kerberos KDC, Default: 'no'
+- `node['stig']['sshd_config']['kerberos_or_local_passwd']` = (String) If set then if password authentication through Kerberos fails then the password will be validated via any additional local mechanism such as /etc/passwd, Default: 'yes'
+- `node['stig']['sshd_config']['kerberos_ticket_cleanup']` = (String) Specifies whether to automatically	destroy	the user's ticket cache file on logout. Default: 'yes'
+- `node['stig']['sshd_config']['kerberos_use_kuserok']` = (String) Specifies whether to look at .k5login file for user's aliases. Default: 'yes'
+- `node['stig']['sshd_config']['key_regeneration_interval']` = In protocol version 1, the	ephemeral server key is	automatically regenerated after this many seconds (if it	has been used). (String), Default: '3600'
+- `node['stig']['sshd_config']['login_grace_time']` = The server disconnects after this time if the user has not	successfully logged in. (String), Default: '120'
+- `node['stig']['sshd_config']['log_level']` = Gives the verbosity level that is used when logging messages from sshd. Default: INFO (String)
+- `node['stig']['sshd_config']['macs']` = Specifies the available MAC (message authentication code) algorithms. Default: 'hmac-md5,hmac-sha1,hmac-ripemd160,hmac-sha1-96,hmac-md5-96' (String)
+- `node['stig']['sshd_config']['max_startups']` = Specifies the maximum number of concurrent	unauthenticated	connections to the sshd daemon. Default: '10:30:60' (String)
 - `node['stig']['sshd_config']['max_auth_tries']` = SSHd Max auth tries (Integer)
-- `node['stig']['sshd_config']['ignore_rhosts']` = SSHd Ignore rhosts (Boolean)
-- `node['stig']['sshd_config']['host_based_auth']` = Set SSH HostbasedAuthentication to No (Boolean)
-- `node['stig']['sshd_config']['permit_root_login']` = Allow SSH root login (Boolean)
-- `node['stig']['sshd_config']['permit_empty_passwords']` = Allow SSH to permit empty passwords (Boolean)
-- `node['stig']['sshd_config']['allow_users_set_env_opts']` = Allow Users to Set Environment Options (Boolean)
+- `node['stig']['sshd_config']['max_sessions']` = Specifies the maximum number of open sessions permitted per network connection (String), Default: '10'
+- `node['stig']['sshd_config']['password_authentication']` = (String) Specifies whether password authentication is allowed. Default: 'yes'
+- `node['stig']['sshd_config']['port']` = SSHd daemon port. Default: ['22'] (Array, String)
+- `node['stig']['sshd_config']['permit_root_login']` = (String) Allow SSH root login. Default: 'no'
+- `node['stig']['sshd_config']['permit_empty_passwords']` = (String) Allow SSH to permit empty passwords. Default: 'no'
+- `node['stig']['sshd_config']['pid_file']` = Specifies the file	that contains the process ID of	the sshd daemon (String), Default: '/var/run/sshd.pid'
+- `node['stig']['sshd_config']['print_last_log']` = (String) Specifies whether sshd should print the date and time when	the user last logged in. Default: 'yes'
+- `node['stig']['sshd_config']['print_motd']` = (String) Specifies whether sshd should print /etc/motd when	a user logs in interactively. Default: 'yes'
+- `node['stig']['sshd_config']['protocol']` = Specifies the protocol versions sshd supports. (String), Default: '2'
+- `node['stig']['sshd_config']['pub_key_authentication']` = (String) Specifies whether public key authentication is allowed. Note that this option	applies	to protocol version 2 only. Default: 'yes'
+- `node['stig']['sshd_config']['rhosts_rsa_authentication']` =(String) Specifies whether rhosts or /etc/hosts.equiv authentication. This option applies to	protocol version 1 only. Default: 'no'
+- `node['stig']['sshd_config']['rsa_authentication']` = (String) Specifies whether pure RSA authentication is allowed. This option applies to	protocol version 1 only. Default: 'no'
+- `node['stig']['sshd_config']['server_key_bits']` = Defines the number	of bits	in the ephemeral protocol version 1 server key. This option applies to	protocol version 1 only. (String), Default: '768'
+- `node['stig']['sshd_config']['show_patch_level']` = (String) Specifies whether sshd will display the patch level of the binary in the identification string This option applies to	protocol version 1 only. Default: 'no'
+- `node['stig']['sshd_config']['strict_modes']` = (String) Specifies whether sshd should check file modes and	ownership of the user's files and home directory before	accepting login. Default: 'yes'
+- `node['stig']['sshd_config']['subsystem']` = Configures	an external subsystem (e.g., file transfer daemon). (String), Default: 'sftp	/usr/libexec/openssh/sftp-server'
+- `node['stig']['sshd_config']['syslog_facility']` = Gives the facility	code that is used when logging messages	from sshd. (String), Default: 'AUTHPRIV'
+- `node['stig']['sshd_config']['tcp_keepalive']` = (String) Specifies whether the system should send TCP keepalive messages to	the other side. Default: 'yes'
+- `node['stig']['sshd_config']['use_dns']` = (String) Specifies whether sshd should lookup the remote host name and check that	the resolved host name for the remote IP address maps back to the very same IP address. Default: 'no'
+- `node['stig']['sshd_config']['use_login']` = (String) Specifies whether login is used	for interactive	login sessions. Default: 'no'
+- `node['stig']['sshd_config']['use_privilege_separation']` = (String) Specifies whether sshd separates privileges by creating an unprivileged child	process	to deal	with incoming network traffic. Default: 'yes'
+- `node['stig']['sshd_config']['version_addendum']` = Specifies a string	to append to the regular version string	to identify OS- or site-specific modifications (String), Default: ''
+- `node['stig']['sshd_config']['x_11_display_offset']` = Specifies the first display number	available for sshd's X11 forwarding. (Integer), Default: 10
+- `node['stig']['sshd_config']['x_11_forwarding']` = (String) Specifies whether X11 forwarding is permitted. Default: 'yes'
+- `node['stig']['sshd_config']['x_11_use_local_host']` = (String) Specifies whether sshd should bind	the X11	forwarding server to the loopback address or to	the wildcard address. Default: 'yes'
+- `node['stig']['sshd_config']['x_auth_location']` = Specifies the full	pathname of the	xauth program (String), Default: ''
 - `node['stig']['sshd_config']['banner_path']` = Set SSH login banner path (String)
 - `node['stig']['sshd_config']['deny_users']` = List of users to deny SSH login to (Array of String)
+- `node['stig']['sshd_config']['accept_env']` = Specifies what environment variables sent by the client will be copied into the session's environ. See: https://www.freebsd.org/cgi/man.cgi?query=environ&sektion=7&apropos=0&manpath=FreeBSD+11.0-RELEASE+and+Ports (Array, String), Default: Multiple
+- `node['stig']['sshd_config']['address_family']` = Specifies which address family should be used by sshd(8). Valid arguments are 'any', 'inet' (use IPv4 only), or 'inet6' (use IPv6 only). (String), Default: any
+- `node['stig']['sshd_config']['listen_address']` = Specifies the local addresses sshd(8) should listen on. (Array, String), Default: ['0.0.0.0']
+- `node['stig']['sshd_config']['host_key']` = pecifies a file containing a private host	key used by SSH. (Array, String), Default: [
+'/etc/ssh/ssh_host_key',
+'/etc/ssh/ssh_host_rsa_key',
+'/etc/ssh/ssh_host_dsa_key'
+]
 
 - `node['stig']['system_auth']['pass_reuse_limit']` = Limit password reuse - Represents the amount of passwords the user is forced to not reuse (Integer)
 
@@ -107,7 +173,7 @@ Boolean)
 Usage
 -----
 Simply include the default recipe (stig::default) on an instance that needs to be hardened. May also want to include the auditd recipe (stig::auditd) to set a custom auditd configuration file
- 
+
 Authors
 -------
 - Author:: Ivan Suftin (<isuftin@usgs.gov>)
@@ -120,4 +186,4 @@ materials that originally came from the United States Geological Survey, an agen
 United States Department of Interior. For more information, see the official USGS
 copyright policy at: http://www.usgs.gov/visual-id/credit_usgs.html#copyright
 
-More information in [license file](https://github.com/USGS-WSI-COOKBOOKS/stig/blob/master/LICENSE)
+More information in [license file](https://github.com/USGS-CIDA/stig/blob/master/LICENSE)
