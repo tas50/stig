@@ -29,4 +29,9 @@ describe 'stig::ipv6' do
       mode: 0o644
     )
   end
+
+  it 'Does not execute chkconfig_ip6tables_off' do
+    expect(chef_run).to_not run_execute("/sbin/chkconfig ip6tables off")
+  end
+
 end

@@ -26,6 +26,7 @@ if %w(rhel fedora centos).include?(node['platform'])
       notifies :run, 'execute[stop_ip6tables]', :immediately
       notifies :run, 'execute[enable_selinux]', :immediately
     end
+
     execute 'disable_selinux' do
       command 'setenforce 0'
       user 'root'

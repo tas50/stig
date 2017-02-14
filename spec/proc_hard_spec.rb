@@ -29,6 +29,58 @@ describe 'stig::proc_hard' do
     )
   end
 
+  it 'does not remove apport package on RHEL' do
+    expect(chef_run).to_not remove_package('apport')
+  end
+
+  it 'does not remove whoopsie package on RHEL' do
+    expect(chef_run).to_not remove_package('whoopsie')
+  end
+
+  it 'executes sysctl -e -w net.ipv4.ip_forward' do
+    expect(chef_run).to run_execute('/sbin/sysctl -e -w net.ipv4.ip_forward=0')
+  end
+
+  it 'executes sysctl -e -w net.ipv4.conf.default.send_redirects' do
+    expect(chef_run).to run_execute('/sbin/sysctl -e -w net.ipv4.conf.default.send_redirects=0')
+  end
+
+  it 'executes sysctl -e -w net.ipv4.conf.default.accept_redirects' do
+    expect(chef_run).to run_execute('/sbin/sysctl -e -w net.ipv4.conf.default.accept_redirects=0')
+  end
+
+  it 'executes sysctl -e -w net.ipv4.conf.default.secure_redirects' do
+    expect(chef_run).to run_execute('/sbin/sysctl -e -w net.ipv4.conf.default.secure_redirects=0')
+  end
+
+  it 'executes sysctl -e -w net.ipv4.conf.default.log_martians' do
+    expect(chef_run).to run_execute('/sbin/sysctl -e -w net.ipv4.conf.default.log_martians=1')
+  end
+
+  it 'executes sysctl -e -w net.ipv4.conf.default.rp_filter' do
+    expect(chef_run).to run_execute('/sbin/sysctl -e -w net.ipv4.conf.default.rp_filter=1')
+  end
+
+  it 'executes sysctl -e -w net.ipv6.conf.default.accept_redirects' do
+    expect(chef_run).to run_execute('/sbin/sysctl -e -w net.ipv6.conf.default.accept_redirects=0')
+  end
+
+  it 'executes sysctl -e -w net.ipv6.conf.all.accept_ra' do
+    expect(chef_run).to run_execute('/sbin/sysctl -e -w net.ipv6.conf.all.accept_ra=0')
+  end
+
+  it 'executes sysctl -e -w net.ipv6.conf.default.accept_ra' do
+    expect(chef_run).to run_execute('/sbin/sysctl -e -w net.ipv6.conf.default.accept_ra=0')
+  end
+
+  it 'Does not execute /sbin/sysctl -e -p' do
+    expect(chef_run).to_not run_execute('/sbin/sysctl -e -p')
+  end
+
+  it 'executes sysctl -e -w net.ipv6.conf.all.accept_ra' do
+    expect(chef_run).to run_execute('/sbin/sysctl -e -w net.ipv6.conf.all.accept_ra=0')
+  end
+
   it 'excludes sysctl_send_redirects execution due to :nothing guard' do
     expect(chef_run).to run_execute('sysctl_send_redirects')
   end

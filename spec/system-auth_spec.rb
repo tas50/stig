@@ -21,4 +21,13 @@ describe 'stig::system_auth' do
     # Poor test, but ensure that the script runs
     expect(chef_run).to run_bash('update_pass_reuse_in_pam_sysauth')
   end
+
+  it 'Does not create /etc/pam.d/common-password template' do
+    expect(chef_run).to_not create_template('/etc/pam.d/common-password').with(
+      source: 'etc_pam.d_common-password.erb',
+      owner: 'root',
+      group: 'root',
+      mode: 0o644
+    )
+  end
 end
