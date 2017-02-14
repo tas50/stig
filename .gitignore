@@ -18,3 +18,4 @@ bin/*
 .kitchen.yml.docker
 metadata.json
 inspec.lock
+.DS_Store
