@@ -1,7 +1,7 @@
 name: default
 title: Default STIG
-maintainer: Ivan Suftin
+maintainer: Ivan Suftin (isuftin@usgs.gov)
 license: Public domain
 copyright: None
 summary: Verify that the default settings are configured
-version: 0.6.1
+version: 0.0.1
