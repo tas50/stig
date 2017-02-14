@@ -169,6 +169,6 @@ end
 
 execute 'sysctl_commit' do
   user 'root'
-  command ' /sbin/sysctl -e -p'
+  command '/sbin/sysctl -e -p'
   action :nothing
 end

@@ -20,6 +20,18 @@ describe 'stig::boot_settings' do
     stub_command("echo $(getenforce) | awk '{print tolower($0)}' | grep enforcing").and_return(false)
   end
 
+  it 'creates /selinux/enforce template' do
+    allow(File).to receive(:directory?).and_call_original
+    allow(File).to receive(:directory?).with(anything).and_return(true)
+    expect(chef_run).to create_template('/selinux/enforce')
+    .with(
+      source: 'selinux_enforce.erb',
+      owner: 'root',
+      group: 'root',
+      mode: 0o644
+    )
+  end
+
   it 'creates /etc/sysconfig/init template' do
     expect(chef_run).to create_template('/etc/sysconfig/init').with(
       source: 'etc_sysconfig_init.erb',
@@ -51,6 +63,10 @@ describe 'stig::boot_settings' do
 
   it 'Does not execute update-grub on CentOS' do
     expect(chef_run).to_not run_execute('update-grub')
+  end
+
+  it 'Executes setenforce for selinux on RHEL' do
+    expect(chef_run).to run_execute('setenforce 1')
   end
 
   it 'Executes Add password to grub' do
@@ -91,19 +107,6 @@ describe 'stig::boot_settings' do
   it 'creates a link with attributes' do
     expect(chef_run).to create_link('/etc/sysconfig/selinux').with(to: '/etc/selinux/config')
   end
-
-  # it 'creates /selinux/enforce template' do
-  #   allow(File).to receive(:exist?).with(anything).and_call_original
-  #   allow(File).to receive(:exists?).and_call_original
-  #   allow(File).to receive(:exist?).with(anything).and_return(true)
-  #   expect(chef_run).to create_template('/selinux/enforce')
-  #   .with(
-  #     source: 'selinux_enforce.erb',
-  #     owner: 'root',
-  #     group: 'root',
-  #     mode: 0o644
-  #   )
-  # end
 
   it 'removes a package named setroubleshoot' do
     expect(chef_run).to remove_package('setroubleshoot')

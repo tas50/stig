@@ -83,19 +83,31 @@ describe 'stig::file_permissions' do
     )
   end
 
-  # it 'creates file at /etc/shadow' do
-  #   expect(chef_run).to create_file('/etc/shadow').with(
-  #     owner: 'root',
-  #     group: 'root',
-  #     mode: 0o000
-  #   )
-  # end
+  it 'creates file at /etc/cron.allow' do
+    expect(chef_run).to create_file('/etc/cron.allow').with(
+      owner: 'root',
+      group: 'root',
+      mode: 0o600
+    )
+  end
 
-  # it 'creates file at /etc/gshadow' do
-  #   expect(chef_run).to create_file('/etc/gshadow').with(
-  #     owner: 'root',
-  #     group: 'root',
-  #     mode: 0o000
-  #   )
-  # end
+  it 'deletes file at /etc/cron.deny' do
+    expect(chef_run).to delete_file('/etc/cron.deny')
+  end
+
+  it 'Does not create file at /etc/shadow' do
+    expect(chef_run).to_not create_file('/etc/shadow').with(
+      owner: 'root',
+      group: 'root',
+      mode: 0o000
+    )
+  end
+
+  it 'Does not create file at /etc/gshadow' do
+    expect(chef_run).to_not create_file('/etc/gshadow').with(
+      owner: 'root',
+      group: 'root',
+      mode: 0o000
+    )
+  end
 end
