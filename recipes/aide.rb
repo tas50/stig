@@ -15,6 +15,7 @@
 
 platform = node['platform']
 
+# Ensure AIDE is installed
 package 'aide'
 
 # CIS Benchmarks suggest: The prelinking feature can interfere with AIDE because it alters binaries to
