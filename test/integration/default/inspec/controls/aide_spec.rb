@@ -1,6 +1,8 @@
 
-# CENTOS6: 1.3.1
-# UBUNTU: 8.3.1
+# RHEL6: 1.4.1, 1.4.2
+# CENTOS6: 1.3.1, 1.3.2
+# UBUNTU: 8.3.1, 8.3.2
+
 describe package('aide') do
   it { should be_installed }
 end

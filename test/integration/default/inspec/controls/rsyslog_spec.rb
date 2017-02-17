@@ -11,3 +11,9 @@ describe file('/etc/rsyslog.conf') do
   it { should be_grouped_into 'root' }
   its('mode') { should cmp '0644' }
 end
+
+describe service('rsyslog') do
+  it { should be_enabled }
+  it { should be_installed }
+  it { should be_running }
+end

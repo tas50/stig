@@ -19,7 +19,7 @@
 # - Check for Duplicate User Names
 # - Check for Duplicate Group Names
 
-# NOTE: UBUNTU CIS item 13.12 does show the user "nobody". This user should not have a home directoryand this is a false positive produced by this script. The "nobody" account is expected on Unix systems. https://wiki.ubuntu.com/nobody
+# NOTE: UBUNTU CIS item 13.12 does show the user "nobody". This user should not have a home directory and this is a false positive produced by this script. The "nobody" account is expected on Unix systems. https://wiki.ubuntu.com/nobody
 # The script  /root/.audit/validate_users_homedirs.sh should be updated to ignore the "nobody" user
 
 # Generate audit directory in /root

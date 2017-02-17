@@ -2,11 +2,11 @@
 # Recipe:: avahi_daemon
 # Author: Ivan Suftin <isuftin@usgs.gov>
 #
-# Description: Manage Avahi daemin
+# Description: Manage Avahi daemon
 #
 # CIS Benchmark Items
 # RHEL6:  3.3
-# CENTOS6: 3.3
+# CENTOS6: 3.3/2.2.3
 # UBUNTU: 6.2 (avahi-daemon not installed by default)
 #
 # - Disable AVAHI server.
