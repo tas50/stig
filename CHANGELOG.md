@@ -1,6 +1,10 @@
 ## Changelog
 ---------
 
+- 0.6.2
+
+-- [isuftin@usgs.gov] - More testing
+
 - 0.6.1
 -- [isuftin@usgs.gov] - More rubocop fixes
 -- [isuftin@usgs.gov] - Rework of sshd_config recipe to allow more customization
