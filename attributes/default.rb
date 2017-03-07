@@ -78,7 +78,21 @@ default['stig']['auditd']['rules'] = [
   '-a always,exit -F path=/bin/ping -F perm=x -F auid>=500 -F auid!=4294967295 -k privileged',
   '-a always,exit -F arch=b32 -S mount -F auid>=500 -F auid!=4294967295 -k export',
   '-a always,exit -F arch=b64 -S mount -F auid>=500 -F auid!=4294967295 -k export',
-  '-w /etc/sudoers -p wa -k actions'
+  '-w /etc/sudoers -p wa -k actions',
+  '-w /var/log/faillog -p wa -k logins',
+  '-w /var/log/lastlog -p wa -k logins',
+  '-w /var/log/btmp -p wa -k session',
+  '-w /var/run/utmp -p wa -k session',
+  '-w /var/log/wtmp -p wa -k session',
+  '-a always,exit -F arch=b64 -S mount -F auid>=500 -F auid!=4294967295 -k mounts',
+  '-a always,exit -F arch=b32 -S mount -F auid>=500 -F auid!=4294967295 -k mounts',
+  '-a always,exit -F arch=b64 -S unlink -S unlinkat -S rename -S renameat -F auid>=500 -F auid!=4294967295 -k delete',
+  '-a always,exit -F arch=b32 -S unlink -S unlinkat -S rename -S renameat -F auid>=500 -F auid!=4294967295 -k delete',
+  '-w /var/log/sudo.log -p wa -k actions',
+  '-w /sbin/insmod -p x -k modules',
+  '-w /sbin/rmmod -p x -k modules',
+  '-w /sbin/modprobe -p x -k modules',
+  '-a always,exit arch=b64 -S init_module -S delete_module -k modules'
 ]
 
 # Removing support for unneeded filesystem types

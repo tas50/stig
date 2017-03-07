@@ -4,6 +4,9 @@
 - 0.6.2
 
 -- [isuftin@usgs.gov] - More testing
+-- [isuftin@usgs.gov] - Updated auditd ruleset to include more rules
+-- [isuftin@usgs.gov] - Created ChefSpec testing for auditd_rules recipe
+-- [isuftin@usgs.gov] - Updated ServerSpec testing for all default auditd rules
 
 - 0.6.1
 -- [isuftin@usgs.gov] - More rubocop fixes
