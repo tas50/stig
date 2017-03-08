@@ -4,11 +4,31 @@
 #
 # Description: Configure Sysauth and password-auth
 
+require 'pathname'
+
 platform = node['platform']
 
 pass_reuse_limit = node['stig']['system_auth']['pass_reuse_limit']
-system_auth_file = '/etc/pam.d/system-auth-ac'
-password_auth_file = '/etc/pam.d/password-auth-ac'
+pamd_dir = '/etc/pam.d'
+
+# We assume that the system-auth and password-auth files are symlinks. I want to
+# check the full path that they're symlinked to and use that path in this recipe
+# Previously, I was hard-coding the real file at /etc/pam.d/system-auth-ac and
+# /etc/pam.d/password-auth-ac but because other installations like Centrify took
+# those files and created a file structure that looks like:
+#
+# lrwxrwxrwx.  1 root root   29 Mar  8 18:59 system-auth -> /etc/pam.d/system-auth-ac.cdc
+# -rw-r--r--.  1 root root 1262 Mar  8 18:59 system-auth-ac.cdc
+# -rw-------.  1 root root  905 Mar  8 18:59 system-auth-ac.pre_cdc
+#
+# This recipe would end up blowing away system-auth and creating havoc on the system
+# If these happen to not be symlinks, there is a guard that stops this recipe from
+# needlessly creating a symlink
+system_auth_symlink = "#{pamd_dir}/system-auth"
+system_auth_file = File.symlink?(system_auth_symlink) ? Pathname.new(system_auth_symlink).realpath.to_s : system_auth_symlink
+
+password_auth_symlink = "#{pamd_dir}/password-auth"
+password_auth_file = File.symlink?(system_auth_symlink) ? Pathname.new(password_auth_symlink).realpath.to_s : password_auth_symlink
 
 bash 'update_pass_reuse_in_pam_sysauth' do
   code <<-EOF
@@ -57,23 +77,25 @@ bash 'update_pass_reuse_in_pam_password_auth' do
   only_if { %w(rhel fedora centos).include? platform }
   not_if "grep -q 'remember=#{pass_reuse_limit}' #{password_auth_file}"
 end
+#
+# file system_auth_symlink do
+#   action :delete
+#   not_if "test -L #{system_auth_symlink}"
+# end
+#
+# file password_auth_symlink do
+#   action :delete
+#   not_if "test -L #{password_auth_symlink}"
+# end
 
-file '/etc/pam.d/system-auth' do
-  action :delete
-  not_if 'test -L /etc/pam.d/system-auth'
-end
-
-file '/etc/pam.d/password-auth' do
-  action :delete
-  not_if 'test -L /etc/pam.d/password-auth'
-end
-
-link '/etc/pam.d/system-auth' do
+link system_auth_symlink do
   to system_auth_file
+  only_if { File.symlink?(system_auth_symlink) && system_auth_symlink != system_auth_file }
 end
 
-link '/etc/pam.d/password-auth' do
+link password_auth_symlink do
   to password_auth_file
+  only_if { File.symlink?(password_auth_symlink) && password_auth_symlink != password_auth_file }
 end
 
 template '/etc/pam.d/common-password' do
