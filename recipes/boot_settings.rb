@@ -138,7 +138,7 @@ template '/selinux/enforce' do
 end
 
 # Do not run this if selinux is already in the state we expect or if disabled.
-# If disabled, running setenforce fails
+# If disabled, running setenforce fails so do not run setenforce if selinux is disabled
 execute 'toggle_selinux' do
   command "setenforce #{(enabled_selinux ? 1 : 0)}"
   not_if "echo $(getenforce) | awk '{print tolower($0)}' | grep -q -E '(#{status_selinux}|disabled)'"
