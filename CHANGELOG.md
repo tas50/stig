@@ -1,6 +1,10 @@
 ## Changelog
 ---------
 
+- 0.6.3
+
+-- [isuftin@usgs.gov] - Fix boot_settings recipe to catch if selinux is disabled and move on
+
 - 0.6.2
 
 -- [isuftin@usgs.gov] - More testing
