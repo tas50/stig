@@ -137,10 +137,12 @@ template '/selinux/enforce' do
   mode 0o644
 end
 
+# Do not run this if selinux is already in the state we expect or if disabled.
+# If disabled, running setenforce fails
 execute 'toggle_selinux' do
   command "setenforce #{(enabled_selinux ? 1 : 0)}"
-  not_if "echo $(getenforce) | awk '{print tolower($0)}' | grep #{status_selinux}"
-  ignore_failure true # This seems to not work properly on CentOS
+  not_if "echo $(getenforce) | awk '{print tolower($0)}' | grep -q -E '(#{status_selinux}|disabled)'"
+  ignore_failure true
   only_if { %w(rhel fedora centos).include? platform }
 end
 

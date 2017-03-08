@@ -12,12 +12,11 @@ describe 'stig::boot_settings' do
   before do
     stub_command("grep -q 'selinux=0' /etc/grub.conf").and_return(true)
     stub_command("grep -q 'enforcing=0' /etc/grub.conf").and_return(true)
-    # stub_command("grep -q 'password' /etc/grub.conf").and_return(false)
     stub_command("grep -q 'password' /etc/grub.conf").and_return(true)
     stub_command("grep -q 'hello' /etc/grub.conf").and_return(false)
     stub_command("grep -q 'selinux=0' /boot/grub2/grub.cfg").and_return(false)
     stub_command("grep -q 'enforcing=0' /boot/grub2/grub.cfg").and_return(false)
-    stub_command("echo $(getenforce) | awk '{print tolower($0)}' | grep enforcing").and_return(false)
+    stub_command("echo $(getenforce) | awk '{print tolower($0)}' | grep -q -E '(enforcing|disabled)'").and_return(false)
   end
 
   it 'creates /selinux/enforce template' do
