@@ -1,13 +1,9 @@
 ## Changelog
 ---------
 
-- 0.6.4
-
--- [isuftin@usgs.gov] - Update the system_auth recipe to respect pre-existing
-  symlinks 
-
 - 0.6.3
 
+-- [isuftin@usgs.gov] - Update the system_auth recipe to respect pre-existing symlinks
 -- [isuftin@usgs.gov] - Fix boot_settings recipe to catch if selinux is disabled and move on
 
 - 0.6.2
