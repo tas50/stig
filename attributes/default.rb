@@ -788,9 +788,9 @@ default['stig']['login_banner']['issue_net'] = default['stig']['login_banner']['
 #
 # Note: you need to stop/start Postfix when this parameter changes.
 #
-#inet_interfaces = all
-#inet_interfaces = $myhostname
-#inet_interfaces = $myhostname, localhost
+# inet_interfaces = all
+# inet_interfaces = $myhostname
+# inet_interfaces = $myhostname, localhost
 default['stig']['postfix']['inet_interfaces'] = ['localhost']
 default['stig']['mail_transfer_agent']['inet_interfaces'] = 'localhost' # Deprecating. Use `default['stig']['postfix']['inet_interfaces']` instead
 # The soft_bounce parameter provides a limited safety net for
@@ -799,47 +799,47 @@ default['stig']['mail_transfer_agent']['inet_interfaces'] = 'localhost' # Deprec
 # bounces, and prevents the SMTP server from rejecting mail permanently
 # (by changing 5xx replies into 4xx replies). However, soft_bounce
 # is no cure for address rewriting mistakes or mail routing mistakes.
-default["stig"]["postfix"]["soft_bounce"] = 'no'
+default['stig']['postfix']['soft_bounce'] = 'no'
 # The queue_directory specifies the location of the Postfix queue.
 # This is also the root directory of Postfix daemons that run chrooted.
 # See the files in examples/chroot-setup for setting up Postfix chroot
 # environments on different UNIX systems.
-default["stig"]["postfix"]["queue_directory"] = '/var/spool/postfix'
+default['stig']['postfix']['queue_directory'] = '/var/spool/postfix'
 # The command_directory parameter specifies the location of all postXXX commands.
-default["stig"]["postfix"]["command_directory"] = '/usr/sbin'
+default['stig']['postfix']['command_directory'] = '/usr/sbin'
 # The daemon_directory parameter specifies the location of all Postfix
 # daemon programs (i.e. programs listed in the master.cf file). This
 # directory must be owned by root.
-default["stig"]["postfix"]["daemon_directory"] = '/usr/libexec/postfix'
+default['stig']['postfix']['daemon_directory'] = '/usr/libexec/postfix'
 # The data_directory parameter specifies the location of Postfix-writable
 # data files (caches, random numbers). This directory must be owned
 # by the mail_owner account.
-default["stig"]["postfix"]["data_directory"] = '/var/lib/postfix'
+default['stig']['postfix']['data_directory'] = '/var/lib/postfix'
 # The mail_owner parameter specifies the owner of the Postfix queue
 # and of most Postfix daemon processes.  Specify the name of a user
 # account THAT DOES NOT SHARE ITS USER OR GROUP ID WITH OTHER ACCOUNTS
 # AND THAT OWNS NO OTHER FILES OR PROCESSES ON THE SYSTEM.  In
 # particular, don't specify nobody or daemon. PLEASE USE A DEDICATED
 # USER.
-default["stig"]["postfix"]["mail_owner"] = 'postfix'
+default['stig']['postfix']['mail_owner'] = 'postfix'
 # The default_privs parameter specifies the default rights used by
 # the local delivery agent for delivery to external file or command.
 # These rights are used in the absence of a recipient user context.
 # DO NOT SPECIFY A PRIVILEGED USER OR THE POSTFIX OWNER.
-default["stig"]["postfix"]["default_privs"] = 'nobody'
+default['stig']['postfix']['default_privs'] = 'nobody'
 # The myhostname parameter specifies the internet hostname of this
 # mail system. The default is to use the fully-qualified domain name
 # from gethostname(). $myhostname is used as a default value for many
 # other configuration parameters.
 #
-#myhostname = host.domain.tld
-#myhostname = virtual.domain.tld
-default["stig"]["postfix"]["myhostname"] = []
+# myhostname = host.domain.tld
+# myhostname = virtual.domain.tld
+default['stig']['postfix']['myhostname'] = []
 # The mydomain parameter specifies the local internet domain name.
 # The default is to use $myhostname minus the first component.
 # $mydomain is used as a default value for many other configuration
 # parameters.
-default["stig"]["postfix"]["mydomain"] = ''
+default['stig']['postfix']['mydomain'] = ''
 # The myorigin parameter specifies the domain that locally-posted
 # mail appears to come from. The default is to append $myhostname,
 # which is fine for small sites.  If you run a domain with multiple
@@ -851,11 +851,11 @@ default["stig"]["postfix"]["mydomain"] = ''
 # myorigin also specifies the default domain name that is appended
 # to recipient addresses that have no @domain part.
 #
-#myorigin = $myhostname
-#myorigin = $mydomain
-default["stig"]["postfix"]["myorigin"] = []
+# myorigin = $myhostname
+# myorigin = $mydomain
+default['stig']['postfix']['myorigin'] = []
 # Enable IPv4, and IPv6 if supported
-default["stig"]["postfix"]["inet_protocols"] = 'ipv4'
+default['stig']['postfix']['inet_protocols'] = 'ipv4'
 # The proxy_interfaces parameter specifies the network interface
 # addresses that this mail system receives mail on by way of a
 # proxy or network address translation unit. This setting extends
@@ -865,9 +865,9 @@ default["stig"]["postfix"]["inet_protocols"] = 'ipv4'
 # backup MX host for other domains, otherwise mail delivery loops
 # will happen when the primary MX host is down.
 #
-#proxy_interfaces =
-#proxy_interfaces = 1.2.3.4
-default["stig"]["postfix"]["proxy_interfaces"] = []
+# proxy_interfaces =
+# proxy_interfaces = 1.2.3.4
+default['stig']['postfix']['proxy_interfaces'] = []
 # The mydestination parameter specifies the list of domains that this
 # machine considers itself the final destination for.
 #
@@ -896,7 +896,7 @@ default["stig"]["postfix"]["proxy_interfaces"] = []
 # pattern is replaced by its contents; a type:table is matched when
 # a name matches a lookup key (the right-hand side is ignored).
 # Continue long lines by starting the next line with whitespace.
-default["stig"]["postfix"]["mydestination"] = '$myhostname, localhost.$mydomain, localhost'
+default['stig']['postfix']['mydestination'] = '$myhostname, localhost.$mydomain, localhost'
 # The local_recipient_maps parameter specifies optional lookup tables
 # with all names or addresses of users that are local with respect
 # to $mydestination, $inet_interfaces or $proxy_interfaces.
@@ -918,9 +918,9 @@ default["stig"]["postfix"]["mydestination"] = '$myhostname, localhost.$mydomain,
 #
 # - You redefine the local delivery agent in master.cf.
 #
-# - You redefine the "local_transport" setting in main.cf.
+# - You redefine the 'local_transport' setting in main.cf.
 #
-# - You use the "luser_relay", "mailbox_transport", or "fallback_transport"
+# - You use the 'luser_relay', 'mailbox_transport', or 'fallback_transport'
 #   feature of the Postfix local delivery agent (see local(8)).
 #
 # Details are described in the LOCAL_RECIPIENT_README file.
@@ -934,10 +934,10 @@ default["stig"]["postfix"]["mydestination"] = '$myhostname, localhost.$mydomain,
 # In the left-hand side, specify a bare username, an @domain.tld
 # wild-card, or specify a user@domain.tld address.
 #
-#local_recipient_maps = unix:passwd.byname $alias_maps
-#local_recipient_maps = proxy:unix:passwd.byname $alias_maps
-#local_recipient_maps =
-default["stig"]["postfix"]["local_recipient_maps"] = ''
+# local_recipient_maps = unix:passwd.byname $alias_maps
+# local_recipient_maps = proxy:unix:passwd.byname $alias_maps
+# local_recipient_maps =
+default['stig']['postfix']['local_recipient_maps'] = ''
 # The unknown_local_recipient_reject_code specifies the SMTP server
 # response code when a recipient domain matches $mydestination or
 # ${proxy,inet}_interfaces, while $local_recipient_maps is non-empty
@@ -946,35 +946,35 @@ default["stig"]["postfix"]["local_recipient_maps"] = ''
 # The default setting is 550 (reject mail) but it is safer to start
 # with 450 (try again later) until you are certain that your
 # local_recipient_maps settings are OK.
-default["stig"]["postfix"]["unknown_local_recipient_reject_code"] = '550'
-# The mynetworks parameter specifies the list of "trusted" SMTP
-# clients that have more privileges than "strangers".
+default['stig']['postfix']['unknown_local_recipient_reject_code'] = '550'
+# The mynetworks parameter specifies the list of 'trusted' SMTP
+# clients that have more privileges than 'strangers'.
 #
-# In particular, "trusted" SMTP clients are allowed to relay mail
+# In particular, 'trusted' SMTP clients are allowed to relay mail
 # through Postfix.  See the smtpd_recipient_restrictions parameter
 # in postconf(5).
 #
-# You can specify the list of "trusted" network addresses by hand
+# You can specify the list of 'trusted' network addresses by hand
 # or you can let Postfix do it for you (which is the default).
 #
-# By default (mynetworks_style = subnet), Postfix "trusts" SMTP
+# By default (mynetworks_style = subnet), Postfix 'trusts' SMTP
 # clients in the same IP subnetworks as the local machine.
 # On Linux, this does works correctly only with interfaces specified
-# with the "ifconfig" command.
+# with the 'ifconfig' command.
 #
-# Specify "mynetworks_style = class" when Postfix should "trust" SMTP
+# Specify 'mynetworks_style = class' when Postfix should 'trust' SMTP
 # clients in the same IP class A/B/C networks as the local machine.
-# Don't do this with a dialup site - it would cause Postfix to "trust"
+# Don't do this with a dialup site - it would cause Postfix to 'trust'
 # your entire provider's network.  Instead, specify an explicit
 # mynetworks list by hand, as described below.
 #
-# Specify "mynetworks_style = host" when Postfix should "trust"
+# Specify 'mynetworks_style = host' when Postfix should 'trust'
 # only the local machine.
 #
-#mynetworks_style = class
-#mynetworks_style = subnet
-#mynetworks_style = host
-default["stig"]["postfix"]["mynetworks_style"] = ''
+# mynetworks_style = class
+# mynetworks_style = subnet
+# mynetworks_style = host
+default['stig']['postfix']['mynetworks_style'] = ''
 # Alternatively, you can specify the mynetworks list by hand, in
 # which case Postfix ignores the mynetworks_style setting.
 #
@@ -986,17 +986,17 @@ default["stig"]["postfix"]["mynetworks_style"] = ''
 # of listing the patterns here. Specify type:table for table-based lookups
 # (the value on the table right-hand side is not used).
 #
-#mynetworks = 168.100.189.0/28, 127.0.0.0/8
-#mynetworks = $config_directory/mynetworks
-#mynetworks = hash:/etc/postfix/network_table
-default["stig"]["postfix"]["mynetworks"] = ''
+# mynetworks = 168.100.189.0/28, 127.0.0.0/8
+# mynetworks = $config_directory/mynetworks
+# mynetworks = hash:/etc/postfix/network_table
+default['stig']['postfix']['mynetworks'] = ''
 # The relay_domains parameter restricts what destinations this system will
 # relay mail to.  See the smtpd_recipient_restrictions description in
 # postconf(5) for detailed information.
 #
 # By default, Postfix relays mail
-# - from "trusted" clients (IP address matches $mynetworks) to any destination,
-# - from "untrusted" clients to destinations that match $relay_domains or
+# - from 'trusted' clients (IP address matches $mynetworks) to any destination,
+# - from 'untrusted' clients to destinations that match $relay_domains or
 #   subdomains thereof, except addresses with sender-specified routing.
 # The default relay_domains value is $mydestination.
 #
@@ -1018,8 +1018,8 @@ default["stig"]["postfix"]["mynetworks"] = ''
 # list this system as their primary or backup MX host. See the
 # permit_mx_backup restriction description in postconf(5).
 #
-#relay_domains = $mydestination
-default["stig"]["postfix"]["relay_domains"] = ''
+# relay_domains = $mydestination
+default['stig']['postfix']['relay_domains'] = ''
 # The relayhost parameter specifies the default host to send mail to
 # when no entry is matched in the optional transport(5) table. When
 # no relayhost is given, mail is routed directly to the destination.
@@ -1033,12 +1033,12 @@ default["stig"]["postfix"]["relay_domains"] = ''
 #
 # If you're connected via UUCP, see also the default_transport parameter.
 #
-#relayhost = $mydomain
-#relayhost = [gateway.my.domain]
-#relayhost = [mailserver.isp.tld]
-#relayhost = uucphost
-#relayhost = [an.ip.add.ress]
-default["stig"]["postfix"]["relayhost"] = ''
+# relayhost = $mydomain
+# relayhost = [gateway.my.domain]
+# relayhost = [mailserver.isp.tld]
+# relayhost = uucphost
+# relayhost = [an.ip.add.ress]
+default['stig']['postfix']['relayhost'] = ''
 # The relay_recipient_maps parameter specifies optional lookup tables
 # with all addresses in the domains that match $relay_domains.
 #
@@ -1049,8 +1049,8 @@ default["stig"]["postfix"]["relayhost"] = ''
 # In the left-hand side, specify an @domain.tld wild-card, or specify
 # a user@domain.tld address.
 #
-#relay_recipient_maps = hash:/etc/postfix/relay_recipients
-default["stig"]["postfix"]["relay_recipient_maps"] = ''
+# relay_recipient_maps = hash:/etc/postfix/relay_recipients
+default['stig']['postfix']['relay_recipient_maps'] = ''
 # The in_flow_delay configuration parameter implements mail input
 # flow control. This feature is turned on by default, although it
 # still needs further development (it's disabled on SCO UNIX due
@@ -1064,8 +1064,8 @@ default["stig"]["postfix"]["relay_recipient_maps"] = ''
 #
 # Specify 0 to disable the feature. Valid delays are 0..10.
 #
-#in_flow_delay = 1s
-default["stig"]["postfix"]["in_flow_delay"] = ''
+# in_flow_delay = 1s
+default['stig']['postfix']['in_flow_delay'] = ''
 # The alias_maps parameter specifies the list of alias databases used
 # by the local delivery agent. The default list is system dependent.
 #
@@ -1073,37 +1073,37 @@ default["stig"]["postfix"]["in_flow_delay"] = ''
 # database, then the NIS alias database. See aliases(5) for syntax
 # details.
 #
-# If you change the alias database, run "postalias /etc/aliases" (or
+# If you change the alias database, run 'postalias /etc/aliases' (or
 # wherever your system stores the mail alias file), or simply run
-# "newaliases" to build the necessary DBM or DB file.
+# 'newaliases' to build the necessary DBM or DB file.
 #
 # It will take a minute or so before changes become visible.  Use
-# "postfix reload" to eliminate the delay.
-default["stig"]["postfix"]["alias_maps"] = 'hash:/etc/aliases'
+# 'postfix reload' to eliminate the delay.
+default['stig']['postfix']['alias_maps'] = 'hash:/etc/aliases'
 # The alias_database parameter specifies the alias database(s) that
-# are built with "newaliases" or "sendmail -bi".  This is a separate
+# are built with 'newaliases' or 'sendmail -bi'.  This is a separate
 # configuration parameter, because alias_maps (see above) may specify
 # tables that are not necessarily all under control by Postfix.
 #
-#alias_database = dbm:/etc/aliases
-#alias_database = hash:/etc/aliases, hash:/opt/majordomo/aliases
-default["stig"]["postfix"]["alias_database"] = 'hash:/etc/aliases'
+# alias_database = dbm:/etc/aliases
+# alias_database = hash:/etc/aliases, hash:/opt/majordomo/aliases
+default['stig']['postfix']['alias_database'] = 'hash:/etc/aliases'
 # The recipient_delimiter parameter specifies the separator between
 # user names and address extensions (user+foo). See canonical(5),
 # local(8), relocated(5) and virtual(5) for the effects this has on
 # aliases, canonical, virtual, relocated and .forward file lookups.
 # Basically, the software tries user+foo and .forward+foo before
 # trying user and .forward.
-default["stig"]["postfix"]["recipient_delimiter"] = ''
+default['stig']['postfix']['recipient_delimiter'] = ''
 # The home_mailbox parameter specifies the optional pathname of a
 # mailbox file relative to a user's home directory. The default
 # mailbox file is /var/spool/mail/user or /var/mail/user.  Specify
-# "Maildir/" for qmail-style delivery (the / is required).
-default["stig"]["postfix"]["home_mailbox"] = ''
+# 'Maildir/' for qmail-style delivery (the / is required).
+default['stig']['postfix']['home_mailbox'] = ''
 # The mail_spool_directory parameter specifies the directory where
 # UNIX-style mailboxes are kept. The default setting depends on the
 # system type.
-default["stig"]["postfix"]["mail_spool_directory"] = ''
+default['stig']['postfix']['mail_spool_directory'] = ''
 # The mailbox_command parameter specifies the optional external
 # command to use instead of mailbox delivery. The command is run as
 # the recipient with proper HOME, SHELL and LOGNAME environment settings.
@@ -1123,9 +1123,9 @@ default["stig"]["postfix"]["mail_spool_directory"] = ''
 # IF YOU USE THIS TO DELIVER MAIL SYSTEM-WIDE, YOU MUST SET UP AN
 # ALIAS THAT FORWARDS MAIL FOR ROOT TO A REAL USER.
 #
-#mailbox_command = /some/where/procmail
-#mailbox_command = /some/where/procmail -a "$EXTENSION"
-default["stig"]["postfix"]["mailbox_command"] = ''
+# mailbox_command = /some/where/procmail
+# mailbox_command = /some/where/procmail -a '$EXTENSION'
+default['stig']['postfix']['mailbox_command'] = ''
 # The mailbox_transport specifies the optional transport in master.cf
 # to use after processing aliases and .forward files. This parameter
 # has precedence over the mailbox_command, fallback_transport and
@@ -1137,12 +1137,12 @@ default["stig"]["postfix"]["mailbox_command"] = ''
 # configuration file.
 #
 # NOTE: if you use this feature for accounts not in the UNIX password
-# file, then you must update the "local_recipient_maps" setting in
+# file, then you must update the 'local_recipient_maps' setting in
 # the main.cf file, otherwise the SMTP server will reject mail for
-# non-UNIX accounts with "User unknown in local recipient table".
+# non-UNIX accounts with 'User unknown in local recipient table'.
 #
-#mailbox_transport = lmtp:unix:/var/lib/imap/socket/lmtp
-default["stig"]["postfix"]["mailbox_transport"] = ''
+# mailbox_transport = lmtp:unix:/var/lib/imap/socket/lmtp
+default['stig']['postfix']['mailbox_transport'] = ''
 # The fallback_transport specifies the optional transport in master.cf
 # to use for recipients that are not found in the UNIX passwd database.
 # This parameter has precedence over the luser_relay parameter.
@@ -1153,13 +1153,13 @@ default["stig"]["postfix"]["mailbox_transport"] = ''
 # configuration file.
 #
 # NOTE: if you use this feature for accounts not in the UNIX password
-# file, then you must update the "local_recipient_maps" setting in
+# file, then you must update the 'local_recipient_maps' setting in
 # the main.cf file, otherwise the SMTP server will reject mail for
-# non-UNIX accounts with "User unknown in local recipient table".
+# non-UNIX accounts with 'User unknown in local recipient table'.
 #
-#fallback_transport = lmtp:unix:/var/lib/imap/socket/lmtp
-#fallback_transport =
-default["stig"]["postfix"]["fallback_transport"] = ''
+# fallback_transport = lmtp:unix:/var/lib/imap/socket/lmtp
+# fallback_transport =
+default['stig']['postfix']['fallback_transport'] = ''
 # The luser_relay parameter specifies an optional destination address
 # for unknown recipients.  By default, mail for unknown@$mydestination,
 # unknown@[$inet_interfaces] or unknown@[$proxy_interfaces] is returned
@@ -1175,14 +1175,14 @@ default["stig"]["postfix"]["fallback_transport"] = ''
 # luser_relay works only for the default Postfix local delivery agent.
 #
 # NOTE: if you use this feature for accounts not in the UNIX password
-# file, then you must specify "local_recipient_maps =" (i.e. empty) in
+# file, then you must specify 'local_recipient_maps =' (i.e. empty) in
 # the main.cf file, otherwise the SMTP server will reject mail for
-# non-UNIX accounts with "User unknown in local recipient table".
+# non-UNIX accounts with 'User unknown in local recipient table'.
 #
-#luser_relay = $user@other.host
-#luser_relay = $local@other.host
-#luser_relay = admin+$local
-default["stig"]["postfix"]["luser_relay"] = ''
+# luser_relay = $user@other.host
+# luser_relay = $local@other.host
+# luser_relay = admin+$local
+default['stig']['postfix']['luser_relay'] = ''
 # The header_checks parameter specifies an optional table with patterns
 # that each logical message header is matched against, including
 # headers that span multiple physical lines.
@@ -1191,21 +1191,21 @@ default["stig"]["postfix"]["luser_relay"] = ''
 # headers of attached messages. With older Postfix versions, MIME and
 # attached message headers were treated as body text.
 #
-# For details, see "man header_checks".
+# For details, see 'man header_checks'.
 #
-#header_checks = regexp:/etc/postfix/header_checks
-default["stig"]["postfix"]["header_checks"] = ''
+# header_checks = regexp:/etc/postfix/header_checks
+default['stig']['postfix']['header_checks'] = ''
 # Postfix maintains per-destination logfiles with information about
 # deferred mail, so that mail can be flushed quickly with the SMTP
-# "ETRN domain.tld" command, or by executing "sendmail -qRdomain.tld".
+# 'ETRN domain.tld' command, or by executing 'sendmail -qRdomain.tld'.
 # See the ETRN_README document for a detailed description.
 #
 # The fast_flush_domains parameter controls what destinations are
 # eligible for this service. By default, they are all domains that
 # this server is willing to relay mail to.
 #
-#fast_flush_domains = $relay_domains
-default["stig"]["postfix"]["fast_flush_domains"] = ''
+# fast_flush_domains = $relay_domains
+default['stig']['postfix']['fast_flush_domains'] = ''
 # The smtpd_banner parameter specifies the text that follows the 220
 # code in the SMTP server's greeting banner. Some people like to see
 # the mail version advertised. By default, Postfix shows no version.
@@ -1213,9 +1213,9 @@ default["stig"]["postfix"]["fast_flush_domains"] = ''
 # You MUST specify $myhostname at the start of the text. That is an
 # RFC requirement. Postfix itself does not care.
 #
-#smtpd_banner = $myhostname ESMTP $mail_name
-#smtpd_banner = $myhostname ESMTP $mail_name ($mail_version)
-default["stig"]["postfix"]["smtpd_banner"] = ''
+# smtpd_banner = $myhostname ESMTP $mail_name
+# smtpd_banner = $myhostname ESMTP $mail_name ($mail_version)
+default['stig']['postfix']['smtpd_banner'] = ''
 # How many parallel deliveries to the same user or domain? With local
 # delivery, it does not make sense to do massively parallel delivery
 # to the same user, because mailbox updates must happen sequentially,
@@ -1227,49 +1227,49 @@ default["stig"]["postfix"]["smtpd_banner"] = ''
 # Each message delivery transport has its XXX_destination_concurrency_limit
 # parameter.  The default is $default_destination_concurrency_limit for
 # most delivery transports. For the local delivery agent the default is 2.
-default["stig"]["postfix"]["concurrency_limit"] = {}
+default['stig']['postfix']['concurrency_limit'] = {}
 # The debug_peer_level parameter specifies the increment in verbose
 # logging level when an SMTP client or server host name or address
 # matches a pattern in the debug_peer_list parameter.
-default["stig"]["postfix"]["debug_peer_level"] = '2'
+default['stig']['postfix']['debug_peer_level'] = '2'
 # The debug_peer_list parameter specifies an optional list of domain
 # or network patterns, /file/name patterns or type:name tables. When
 # an SMTP client or server host name or address matches a pattern,
 # increase the verbose logging level by the amount specified in the
 # debug_peer_level parameter.
 #
-#debug_peer_list = 127.0.0.1
-#debug_peer_list = some.domain
-default["stig"]["postfix"]["debug_peer_list"] = ''
+# debug_peer_list = 127.0.0.1
+# debug_peer_list = some.domain
+default['stig']['postfix']['debug_peer_list'] = ''
 # The debugger_command specifies the external command that is executed
 # when a Postfix daemon program is run with the -D option.
 #
-# Use "command .. & sleep 5" so that the debugger can attach before
+# Use 'command .. & sleep 5' so that the debugger can attach before
 # the process marches on. If you use an X-based debugger, be sure to
 # set up your XAUTHORITY environment variable before starting Postfix.
 #
-default["stig"]["postfix"]["debugger_command"] = [
+default['stig']['postfix']['debugger_command'] = [
   'PATH=/bin:/usr/bin:/usr/local/bin:/usr/X11R6/bin',
   'ddd $daemon_directory/$process_name $process_id & sleep 5'
 ]
 # The full pathname of the Postfix sendmail command.
 # This is the Sendmail-compatible mail posting interface.
-default["stig"]["postfix"]["sendmail_path"] = '/usr/sbin/sendmail.postfix'
+default['stig']['postfix']['sendmail_path'] = '/usr/sbin/sendmail.postfix'
 # The full pathname of the Postfix newaliases command.
 # This is the Sendmail-compatible command to build alias databases.
-default["stig"]["postfix"]["newaliases_path"] = '/usr/bin/newaliases.postfix'
+default['stig']['postfix']['newaliases_path'] = '/usr/bin/newaliases.postfix'
 # The full pathname of the Postfix mailq command.  This
 # is the Sendmail-compatible mail queue listing command.
-default["stig"]["postfix"]["mailq_path"] = '/usr/bin/mailq.postfix'
+default['stig']['postfix']['mailq_path'] = '/usr/bin/mailq.postfix'
 # The group for mail submission and queue management
 # commands.  This must be a group name with a numerical group ID that
 # is not shared with other accounts, not even with the Postfix account.
-default["stig"]["postfix"]["setgid_group"] = 'postdrop'
+default['stig']['postfix']['setgid_group'] = 'postdrop'
 # The location of the Postfix HTML documentation.
-default["stig"]["postfix"]["html_directory"] = 'no'
+default['stig']['postfix']['html_directory'] = 'no'
 # The location of the Postfix on-line manual pages.
-default["stig"]["postfix"]["manpage_directory"] = '/usr/share/man'
+default['stig']['postfix']['manpage_directory'] = '/usr/share/man'
 # The location of the Postfix sample configuration files.
-default["stig"]["postfix"]["sample_directory"] = '/usr/share/doc/postfix-2.6.6/samples'
+default['stig']['postfix']['sample_directory'] = '/usr/share/doc/postfix-2.6.6/samples'
 # The location of the Postfix README files.
-default["stig"]["postfix"]["readme_directory"] = '/usr/share/doc/postfix-2.6.6/README_FILES'
+default['stig']['postfix']['readme_directory'] = '/usr/share/doc/postfix-2.6.6/README_FILES'
