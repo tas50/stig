@@ -26,6 +26,8 @@
 # is no cure for address rewriting mistakes or mail routing mistakes.
 #
 #soft_bounce = no
+soft_bounce = <%= node["stig"]["postfix"]["soft_bounce"] %>
+
 
 # LOCAL PATHNAME INFORMATION
 #
@@ -34,24 +36,24 @@
 # See the files in examples/chroot-setup for setting up Postfix chroot
 # environments on different UNIX systems.
 #
-queue_directory = /var/spool/postfix
+queue_directory = <%= node["stig"]["postfix"]["queue_directory"] %>
 
 # The command_directory parameter specifies the location of all
 # postXXX commands.
 #
-command_directory = /usr/sbin
+command_directory = <%= node["stig"]["postfix"]["command_directory"] %>
 
 # The daemon_directory parameter specifies the location of all Postfix
 # daemon programs (i.e. programs listed in the master.cf file). This
 # directory must be owned by root.
 #
-daemon_directory = /usr/libexec/postfix
+daemon_directory = <%= node["stig"]["postfix"]["daemon_directory"] %>
 
 # The data_directory parameter specifies the location of Postfix-writable
 # data files (caches, random numbers). This directory must be owned
 # by the mail_owner account (see below).
 #
-data_directory = /var/lib/postfix
+data_directory = <%= node["stig"]["postfix"]["data_directory"] %>
 
 # QUEUE AND PROCESS OWNERSHIP
 #
@@ -62,14 +64,14 @@ data_directory = /var/lib/postfix
 # particular, don't specify nobody or daemon. PLEASE USE A DEDICATED
 # USER.
 #
-mail_owner = postfix
+mail_owner = <%= node["stig"]["postfix"]["mail_owner"] %>
 
 # The default_privs parameter specifies the default rights used by
 # the local delivery agent for delivery to external file or command.
 # These rights are used in the absence of a recipient user context.
 # DO NOT SPECIFY A PRIVILEGED USER OR THE POSTFIX OWNER.
 #
-#default_privs = nobody
+default_privs = <%= node["stig"]["postfix"]["default_privs"] %>
 
 # INTERNET HOST AND DOMAIN NAMES
 #
@@ -80,6 +82,9 @@ mail_owner = postfix
 #
 #myhostname = host.domain.tld
 #myhostname = virtual.domain.tld
+<% node['stig']['postfix']['myhostname'].each do |hostname| -%>
+myhostname = <%= hostname %>
+<% end %>
 
 # The mydomain parameter specifies the local internet domain name.
 # The default is to use $myhostname minus the first component.
@@ -87,6 +92,9 @@ mail_owner = postfix
 # parameters.
 #
 #mydomain = domain.tld
+<% if node['stig']['postfix']['mydomain'] != '' %>
+mydomain = <%= node['stig']['postfix']['mydomain'] %>
+<% end %>
 
 # SENDING MAIL
 #
@@ -103,7 +111,9 @@ mail_owner = postfix
 #
 #myorigin = $myhostname
 #myorigin = $mydomain
-
+<% node['stig']['postfix']['myorigin'].each do |origin| -%>
+myorigin = <%= origin %>
+<% end %>
 # RECEIVING MAIL
 
 # The inet_interfaces parameter specifies the network interface
@@ -119,10 +129,13 @@ mail_owner = postfix
 #inet_interfaces = all
 #inet_interfaces = $myhostname
 #inet_interfaces = $myhostname, localhost
-inet_interfaces = <%= node["stig"]["mail_transfer_agent"]["inet_interfaces"] %>
+<% node['stig']['postfix']['inet_interfaces'].each do |interface| -%>
+inet_interfaces = <%= interface %>
+<% end %>
+
 
 # Enable IPv4, and IPv6 if supported
-inet_protocols = ipv4
+inet_protocols = <%= node['stig']['postfix']['inet_protocols'] %>
 
 # The proxy_interfaces parameter specifies the network interface
 # addresses that this mail system receives mail on by way of a
@@ -135,6 +148,9 @@ inet_protocols = ipv4
 #
 #proxy_interfaces =
 #proxy_interfaces = 1.2.3.4
+<% node['stig']['postfix']['proxy_interfaces'].each do |interface| -%>
+proxy_interfaces = <%= interface %>
+<% end %>
 
 # The mydestination parameter specifies the list of domains that this
 # machine considers itself the final destination for.
@@ -167,10 +183,9 @@ inet_protocols = ipv4
 #
 # See also below, section "REJECTING MAIL FOR UNKNOWN LOCAL USERS".
 #
-mydestination = $myhostname, localhost.$mydomain, localhost
 #mydestination = $myhostname, localhost.$mydomain, localhost, $mydomain
-#mydestination = $myhostname, localhost.$mydomain, localhost, $mydomain,
-#	mail.$mydomain, www.$mydomain, ftp.$mydomain
+#mydestination = $myhostname, localhost.$mydomain, localhost, $mydomain, mail.$mydomain, www.$mydomain, ftp.$mydomain
+mydestination = <%= node["stig"]["postfix"]["mydestination"] %>
 
 # REJECTING MAIL FOR UNKNOWN LOCAL USERS
 #
@@ -214,6 +229,10 @@ mydestination = $myhostname, localhost.$mydomain, localhost
 #local_recipient_maps = unix:passwd.byname $alias_maps
 #local_recipient_maps = proxy:unix:passwd.byname $alias_maps
 #local_recipient_maps =
+#local_recipient_maps =
+<% if node['stig']['postfix']['local_recipient_maps'] != '' %>
+local_recipient_maps = <%= node['stig']['postfix']['local_recipient_maps'] %>
+<% end %>
 
 # The unknown_local_recipient_reject_code specifies the SMTP server
 # response code when a recipient domain matches $mydestination or
@@ -224,7 +243,7 @@ mydestination = $myhostname, localhost.$mydomain, localhost
 # with 450 (try again later) until you are certain that your
 # local_recipient_maps settings are OK.
 #
-unknown_local_recipient_reject_code = 550
+unknown_local_recipient_reject_code = <%= node['stig']['postfix']['unknown_local_recipient_reject_code'] %>
 
 # TRUST AND RELAY CONTROL
 
@@ -255,6 +274,9 @@ unknown_local_recipient_reject_code = 550
 #mynetworks_style = class
 #mynetworks_style = subnet
 #mynetworks_style = host
+<% if node['stig']['postfix']['mynetworks_style'] != '' %>
+mynetworks_style = <%= node['stig']['postfix']['mynetworks_style'] %>
+<% end %>
 
 # Alternatively, you can specify the mynetworks list by hand, in
 # which case Postfix ignores the mynetworks_style setting.
@@ -270,6 +292,9 @@ unknown_local_recipient_reject_code = 550
 #mynetworks = 168.100.189.0/28, 127.0.0.0/8
 #mynetworks = $config_directory/mynetworks
 #mynetworks = hash:/etc/postfix/network_table
+<% if node['stig']['postfix']['mynetworks'] != '' %>
+mynetworks = <%= node['stig']['postfix']['mynetworks'] %>
+<% end %>
 
 # The relay_domains parameter restricts what destinations this system will
 # relay mail to.  See the smtpd_recipient_restrictions description in
@@ -300,6 +325,9 @@ unknown_local_recipient_reject_code = 550
 # permit_mx_backup restriction description in postconf(5).
 #
 #relay_domains = $mydestination
+<% if node['stig']['postfix']['relay_domains'] != '' %>
+relay_domains = <%= node['stig']['postfix']['relay_domains'] %>
+<% end %>
 
 # INTERNET OR INTRANET
 
@@ -321,6 +349,9 @@ unknown_local_recipient_reject_code = 550
 #relayhost = [mailserver.isp.tld]
 #relayhost = uucphost
 #relayhost = [an.ip.add.ress]
+<% if node['stig']['postfix']['relayhost'] != '' %>
+relayhost = <%= node['stig']['postfix']['relayhost'] %>
+<% end %>
 
 # REJECTING UNKNOWN RELAY USERS
 #
@@ -335,6 +366,9 @@ unknown_local_recipient_reject_code = 550
 # a user@domain.tld address.
 #
 #relay_recipient_maps = hash:/etc/postfix/relay_recipients
+<% if node['stig']['postfix']['relay_recipient_maps'] != '' %>
+relay_recipient_maps = <%= node['stig']['postfix']['relay_recipient_maps'] %>
+<% end %>
 
 # INPUT RATE CONTROL
 #
@@ -352,6 +386,9 @@ unknown_local_recipient_reject_code = 550
 # Specify 0 to disable the feature. Valid delays are 0..10.
 #
 #in_flow_delay = 1s
+<% if node['stig']['postfix']['in_flow_delay'] != '' %>
+in_flow_delay = <%= node['stig']['postfix']['in_flow_delay'] %>
+<% end %>
 
 # ADDRESS REWRITING
 #
@@ -389,9 +426,9 @@ unknown_local_recipient_reject_code = 550
 # "postfix reload" to eliminate the delay.
 #
 #alias_maps = dbm:/etc/aliases
-alias_maps = hash:/etc/aliases
 #alias_maps = hash:/etc/aliases, nis:mail.aliases
 #alias_maps = netinfo:/aliases
+alias_maps = <%= node['stig']['postfix']['alias_maps'] %>
 
 # The alias_database parameter specifies the alias database(s) that
 # are built with "newaliases" or "sendmail -bi".  This is a separate
@@ -399,9 +436,8 @@ alias_maps = hash:/etc/aliases
 # tables that are not necessarily all under control by Postfix.
 #
 #alias_database = dbm:/etc/aliases
-#alias_database = dbm:/etc/mail/aliases
-alias_database = hash:/etc/aliases
 #alias_database = hash:/etc/aliases, hash:/opt/majordomo/aliases
+alias_database = <%= node['stig']['postfix']['alias_database'] %>
 
 # ADDRESS EXTENSIONS (e.g., user+foo)
 #
@@ -413,6 +449,9 @@ alias_database = hash:/etc/aliases
 # trying user and .forward.
 #
 #recipient_delimiter = +
+<% if node['stig']['postfix']['recipient_delimiter'] != '' %>
+recipient_delimiter = <%= node['stig']['postfix']['recipient_delimiter'] %>
+<% end %>
 
 # DELIVERY TO MAILBOX
 #
@@ -423,6 +462,9 @@ alias_database = hash:/etc/aliases
 #
 #home_mailbox = Mailbox
 #home_mailbox = Maildir/
+<% if node['stig']['postfix']['home_mailbox'] != '' %>
+home_mailbox = <%= node['stig']['postfix']['home_mailbox'] %>
+<% end %>
 
 # The mail_spool_directory parameter specifies the directory where
 # UNIX-style mailboxes are kept. The default setting depends on the
@@ -430,6 +472,9 @@ alias_database = hash:/etc/aliases
 #
 #mail_spool_directory = /var/mail
 #mail_spool_directory = /var/spool/mail
+<% if node['stig']['postfix']['mail_spool_directory'] != '' %>
+mail_spool_directory = <%= node['stig']['postfix']['mail_spool_directory'] %>
+<% end %>
 
 # The mailbox_command parameter specifies the optional external
 # command to use instead of mailbox delivery. The command is run as
@@ -452,6 +497,9 @@ alias_database = hash:/etc/aliases
 #
 #mailbox_command = /some/where/procmail
 #mailbox_command = /some/where/procmail -a "$EXTENSION"
+<% if node['stig']['postfix']['mailbox_command'] != '' %>
+mailbox_command = <%= node['stig']['postfix']['mailbox_command'] %>
+<% end %>
 
 # The mailbox_transport specifies the optional transport in master.cf
 # to use after processing aliases and .forward files. This parameter
@@ -492,6 +540,9 @@ alias_database = hash:/etc/aliases
 #
 # To use the old cyrus deliver program you have to set:
 #mailbox_transport = cyrus
+<% if node['stig']['postfix']['mailbox_transport'] != '' %>
+mailbox_transport = <%= node['stig']['postfix']['mailbox_transport'] %>
+<% end %>
 
 # The fallback_transport specifies the optional transport in master.cf
 # to use for recipients that are not found in the UNIX passwd database.
@@ -509,6 +560,9 @@ alias_database = hash:/etc/aliases
 #
 #fallback_transport = lmtp:unix:/var/lib/imap/socket/lmtp
 #fallback_transport =
+<% if node['stig']['postfix']['fallback_transport'] != '' %>
+fallback_transport = <%= node['stig']['postfix']['fallback_transport'] %>
+<% end %>
 
 # The luser_relay parameter specifies an optional destination address
 # for unknown recipients.  By default, mail for unknown@$mydestination,
@@ -532,6 +586,9 @@ alias_database = hash:/etc/aliases
 #luser_relay = $user@other.host
 #luser_relay = $local@other.host
 #luser_relay = admin+$local
+<% if node['stig']['postfix']['luser_relay'] != '' %>
+luser_relay = <%= node['stig']['postfix']['luser_relay'] %>
+<% end %>
 
 # JUNK MAIL CONTROLS
 #
@@ -549,6 +606,9 @@ alias_database = hash:/etc/aliases
 # For details, see "man header_checks".
 #
 #header_checks = regexp:/etc/postfix/header_checks
+<% if node['stig']['postfix']['header_checks'] != '' %>
+header_checks = <%= node['stig']['postfix']['header_checks'] %>
+<% end %>
 
 # FAST ETRN SERVICE
 #
@@ -562,6 +622,9 @@ alias_database = hash:/etc/aliases
 # this server is willing to relay mail to.
 #
 #fast_flush_domains = $relay_domains
+<% if node['stig']['postfix']['fast_flush_domains'] != '' %>
+fast_flush_domains = <%= node['stig']['postfix']['fast_flush_domains'] %>
+<% end %>
 
 # SHOW SOFTWARE VERSION OR NOT
 #
@@ -574,6 +637,9 @@ alias_database = hash:/etc/aliases
 #
 #smtpd_banner = $myhostname ESMTP $mail_name
 #smtpd_banner = $myhostname ESMTP $mail_name ($mail_version)
+<% if node['stig']['postfix']['smtpd_banner'] != '' %>
+smtpd_banner = <%= node['stig']['postfix']['smtpd_banner'] %>
+<% end %>
 
 # PARALLEL DELIVERY TO THE SAME DESTINATION
 #
@@ -588,9 +654,9 @@ alias_database = hash:/etc/aliases
 # Each message delivery transport has its XXX_destination_concurrency_limit
 # parameter.  The default is $default_destination_concurrency_limit for
 # most delivery transports. For the local delivery agent the default is 2.
-
-#local_destination_concurrency_limit = 2
-#default_destination_concurrency_limit = 20
+<% node['stig']['postfix']['concurrency_limit'].each do |key,value| -%>
+<%= key %>_destination_concurrency_limit = <%= value %>
+<% end %>
 
 # DEBUGGING CONTROL
 #
@@ -598,7 +664,7 @@ alias_database = hash:/etc/aliases
 # logging level when an SMTP client or server host name or address
 # matches a pattern in the debug_peer_list parameter.
 #
-debug_peer_level = 2
+debug_peer_level = <%= node['stig']['postfix']['debug_peer_level'] %>
 
 # The debug_peer_list parameter specifies an optional list of domain
 # or network patterns, /file/name patterns or type:name tables. When
@@ -608,6 +674,9 @@ debug_peer_level = 2
 #
 #debug_peer_list = 127.0.0.1
 #debug_peer_list = some.domain
+<% if node['stig']['postfix']['debug_peer_list'] != '' %>
+debug_peer_list = <%= node['stig']['postfix']['debug_peer_list'] %>
+<% end %>
 
 # The debugger_command specifies the external command that is executed
 # when a Postfix daemon program is run with the -D option.
@@ -616,10 +685,6 @@ debug_peer_level = 2
 # the process marches on. If you use an X-based debugger, be sure to
 # set up your XAUTHORITY environment variable before starting Postfix.
 #
-debugger_command =
-	 PATH=/bin:/usr/bin:/usr/local/bin:/usr/X11R6/bin
-	 ddd $daemon_directory/$process_name $process_id & sleep 5
-
 # If you can't use X, use this to capture the call stack when a
 # daemon crashes. The result is in a file in the configuration
 # directory, and is named after the process name and the process ID.
@@ -638,6 +703,12 @@ debugger_command =
 #	PATH=/bin:/usr/bin:/sbin:/usr/sbin; export PATH; screen
 #	-dmS $process_name gdb $daemon_directory/$process_name
 #	$process_id & sleep 1
+debugger_command =
+<% node['stig']['postfix']['debugger_command'].each do |line| -%>
+	<%= line %>
+<% end %>
+
+
 
 # INSTALL-TIME CONFIGURATION INFORMATION
 #
@@ -646,37 +717,37 @@ debugger_command =
 # sendmail_path: The full pathname of the Postfix sendmail command.
 # This is the Sendmail-compatible mail posting interface.
 #
-sendmail_path = /usr/sbin/sendmail.postfix
+sendmail_path = <%= node['stig']['postfix']['sendmail_path'] %>
 
 # newaliases_path: The full pathname of the Postfix newaliases command.
 # This is the Sendmail-compatible command to build alias databases.
 #
-newaliases_path = /usr/bin/newaliases.postfix
+newaliases_path = <%= node['stig']['postfix']['newaliases_path'] %>
 
 # mailq_path: The full pathname of the Postfix mailq command.  This
 # is the Sendmail-compatible mail queue listing command.
 #
-mailq_path = /usr/bin/mailq.postfix
+mailq_path = <%= node['stig']['postfix']['mailq_path'] %>
 
 # setgid_group: The group for mail submission and queue management
 # commands.  This must be a group name with a numerical group ID that
 # is not shared with other accounts, not even with the Postfix account.
 #
-setgid_group = postdrop
+setgid_group = <%= node['stig']['postfix']['setgid_group'] %>
 
 # html_directory: The location of the Postfix HTML documentation.
 #
-html_directory = no
+html_directory = <%= node['stig']['postfix']['html_directory'] %>
 
 # manpage_directory: The location of the Postfix on-line manual pages.
 #
-manpage_directory = /usr/share/man
+manpage_directory = <%= node['stig']['postfix']['manpage_directory'] %>
 
 # sample_directory: The location of the Postfix sample configuration files.
 # This parameter is obsolete as of Postfix 2.1.
 #
-sample_directory = /usr/share/doc/postfix-2.6.6/samples
+sample_directory = <%= node['stig']['postfix']['sample_directory'] %>
 
 # readme_directory: The location of the Postfix README files.
 #
-readme_directory = /usr/share/doc/postfix-2.6.6/README_FILES
+readme_directory =  <%= node['stig']['postfix']['readme_directory'] %>

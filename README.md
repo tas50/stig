@@ -168,7 +168,54 @@ This option is only available for SSH protocol 2. Default: [] (Array, String)
 - `node['stig']['login_banner']['issue']` = Login banner (String)
 - `node['stig']['login_banner']['issue_net']` = Login banner (String)
 
-- `node["stig"]["mail_transfer_agent"]["inet_interfaces"]` = The address the the mail transfer agent should listen on (String)
+Configure postfix - See default attributes file for longer explanation
+- `node["stig"]["mail_transfer_agent"]["inet_interfaces"]` = The address the the mail transfer agent should listen on (Array of String). NOTE: Deprecated. Use `default['stig']['postfix']['inet_interfaces']` instead
+- `node["stig"]["postfix"]["inet_interfaces"]` = The inet_interfaces parameter specifies the network interface addresses that this mail system receives mail on. (Array of String). Default: ['localhost']
+- `node["stig"]["postfix"]["soft_bounce"]` = Mail will remain queued that would otherwise bounce (String). Default: 'no'
+- `node["stig"]["postfix"]["queue_directory"]` = Specifies the location of the Postfix queue (String). Default: '/var/spool/postfix'
+- `node["stig"]["postfix"]["command_directory"]` =  The command_directory parameter specifies the location of all postXXX commands. (String). Default: '/usr/sbin'
+- `node["stig"]["postfix"]["daemon_directory"]` =  The daemon_directory parameter specifies the location of all Postfix daemon programs. (String). Default: '/usr/libexec/postfix'
+- `node["stig"]["postfix"]["data_directory"]` = The data_directory parameter specifies the location of Postfix-writable data files. (String). Default: '/var/lib/postfix'
+- `node["stig"]["postfix"]["mail_owner"]` = The mail_owner parameter specifies the owner of the Postfix queue and of most Postfix daemon processes. (String). Default: 'postfix'
+- `node["stig"]["postfix"]["default_privs"]` = The default_privs parameter specifies the default rights used by the local delivery agent for delivery to external file or command. (String). Default: 'nobody'
+- `node["stig"]["postfix"]["myhostname"]` = The myhostname parameter specifies the internet hostname of this mail system. (Array of String). Default: []
+- `node["stig"]["postfix"]["mydomain"]` = The mydomain parameter specifies the local internet domain name. (String). Default: ''
+- `node["stig"]["postfix"]["myorigin"]` = The myorigin parameter specifies the domain that locally-posted mail appears to come from. (Array of String). Default: []
+- `node["stig"]["postfix"]["inet_interfaces"]` = Enable IPv4, and IPv6 if supported. (String). Default: 'ipv4'
+- `node["stig"]["postfix"]["proxy_interfaces"]` = The proxy_interfaces parameter specifies the network interface addresses that this mail system receives mail on by way of a proxy or network address translation unit. (Array of String). Default: []
+- `node["stig"]["postfix"]["mydestination"]` = The mydestination parameter specifies the list of domains that this machine considers itself the final destination for. (String). Default: '$myhostname, localhost.$mydomain, localhost'
+- `node["stig"]["postfix"]["local_recipient_maps"]` = The local_recipient_maps parameter specifies optional lookup tables with all names or addresses of users that are local with respect to $mydestination, $inet_interfaces or $proxy_interfaces (String). Default: ''
+- `node["stig"]["postfix"]["unknown_local_recipient_reject_code"]` = The unknown_local_recipient_reject_code specifies the SMTP server response code when a recipient domain matches $mydestination or {proxy,inet}_interfaces, while $local_recipient_maps is non-empty and the recipient address or address local-part is not found. (String). Default: '550'
+- `node["stig"]["postfix"]["mynetworks_style"]` = The mynetworks parameter specifies the list of "trusted" SMTP clients that have more privileges than "strangers". (String). Default: ''
+- `node["stig"]["postfix"]["mynetworks"]` = Alternatively, you can specify the mynetworks list by hand, in which case Postfix ignores the mynetworks_style setting. (String). Default: ''
+- `node["stig"]["postfix"]["relay_domains"]` = The relay_domains parameter restricts what destinations this system will relay mail to. (String). Default: ''
+- `node["stig"]["postfix"]["relayhost"]` = The relayhost parameter specifies the default host to send mail to when no entry is matched in the optional transport(5) table. (String). Default: ''
+- `node["stig"]["postfix"]["relay_recipient_maps"]` = The relay_recipient_maps parameter specifies optional lookup tables with all addresses in the domains that match $relay_domains. (String). Default: ''
+- `node["stig"]["postfix"]["in_flow_delay"]` = The in_flow_delay configuration parameter implements mail input flow control (String). Default: ''
+- `node["stig"]["postfix"]["alias_maps"]` = The alias_maps parameter specifies the list of alias databases used by the local delivery agent. The default list is system dependent. (String). Default: 'hash:/etc/aliases'
+- `node["stig"]["postfix"]["alias_database"]` = The alias_database parameter specifies the alias database(s) that are built with "newaliases" or "sendmail -bi". (String). Default: 'hash:/etc/aliases'
+- `node["stig"]["postfix"]["recipient_delimiter"]` = The recipient_delimiter parameter specifies the separator between user names and address extensions (user+foo). (String). Default: '+'
+- `node["stig"]["postfix"]["home_mailbox"]` = The home_mailbox parameter specifies the optional pathname of a mailbox file relative to a user's home directory. (String). Default: ''
+- `node["stig"]["postfix"]["mail_spool_directory"]` = The mail_spool_directory parameter specifies the directory where UNIX-style mailboxes are kept. (String). Default: ''
+- `node["stig"]["postfix"]["mailbox_command"]` = The mailbox_command parameter specifies the optional external command to use instead of mailbox delivery. (String). Default: ''
+- `node["stig"]["postfix"]["mailbox_transport"]` = The mailbox_transport specifies the optional transport in master.cf to use after processing aliases and .forward files. (String). Default: ''
+- `node["stig"]["postfix"]["fallback_transport"]` = The fallback_transport specifies the optional transport in master.cf to use for recipients that are not found in the UNIX passwd database. (String). Default: ''
+- `node["stig"]["postfix"]["luser_relay"]` = The luser_relay parameter specifies an optional destination address for unknown recipients. (String). Default: ''
+- `node["stig"]["postfix"]["header_checks"]` = The header_checks parameter specifies an optional table with patterns that each logical message header is matched against, including headers that span multiple physical lines. (String). Default: ''
+- `node["stig"]["postfix"]["fast_flush_domains"]` =  Postfix maintains per-destination logfiles with information about deferred mail, so that mail can be flushed quickly with the SMTP "ETRN domain.tld" command, or by executing "sendmail -qRdomain.tld". See the ETRN_README document for a detailed description. (String). Default: ''
+- `node["stig"]["postfix"]["smtpd_banner"]` =  The smtpd_banner parameter specifies the text that follows the 220 code in the SMTP server's greeting banner. Some people like to see the mail version advertised. (String). Default: ''
+- `node["stig"]["postfix"]["concurrency_limit"]` =  How many parallel deliveries to the same user or domain? With local delivery, it does not make sense to do massively parallel delivery to the same user, because mailbox updates must happen sequentially, and expensive pipelines in .forward files can cause disasters when too many are run at the same time. (Object (String, String)). Default: {} Example: { 'local' : '20', 'default' : '10' }
+- `node["stig"]["postfix"]["debug_peer_list"]` =  The debug_peer_level parameter specifies the increment in verbose logging level when an SMTP client or server host name or address matches a pattern in the debug_peer_list parameter. (String). Default: '2'
+- `node["stig"]["postfix"]["debug_peer_level"]` =  The debug_peer_list parameter specifies an optional list of domain or network patterns, /file/name patterns or type:name tables. (String). Default: ''
+- `node["stig"]["postfix"]["debugger_command"]` =  The debugger_command specifies the external command that is executed when a Postfix daemon program is run with the -D option. (Array of String). Default: ['PATH=/bin:/usr/bin:/usr/local/bin:/usr/X11R6/bin','ddd $daemon_directory/$process_name $process_id & sleep 5']
+- `node["stig"]["postfix"]["sendmail_path"]` =  The full pathname of the Postfix sendmail command. This is the Sendmail-compatible mail posting interface. (String). Default: '/usr/sbin/sendmail.postfix'
+- `node["stig"]["postfix"]["newaliases_path"]` = The full pathname of the Postfix newaliases command. This is the Sendmail-compatible command to build alias databases. (String). Default: '/usr/bin/newaliases.postfix'
+- `node["stig"]["postfix"]["mailq_path"]` = The full pathname of the Postfix mailq command.  This is the Sendmail-compatible mail queue listing command. (String). Default: '/usr/bin/mailq.postfix'
+- `node["stig"]["postfix"]["setgid_group"]` = The group for mail submission and queue management commands.  This must be a group name with a numerical group ID that is not shared with other accounts, not even with the Postfix account. (String). Default: 'postdrop'
+- `node["stig"]["postfix"]["html_directory"]` =  The location of the Postfix HTML documentation. (String). Default: 'no'
+- `node["stig"]["postfix"]["manpage_directory"]` = The location of the Postfix on-line manual pages. (String). Default: '/usr/share/man'
+- `node["stig"]["postfix"]["sample_directory"]` = The location of the Postfix sample configuration files. (String). Default: '/usr/share/doc/postfix-2.6.6/samples'
+- `node["stig"]["postfix"]["readme_directory"]` = The location of the Postfix README files. (String). Default: '/usr/share/doc/postfix-2.6.6/README_FILES'
 
 Usage
 -----
