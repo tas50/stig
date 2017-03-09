@@ -1,6 +1,10 @@
 ## Changelog
 ---------
 
+- 0.6.4
+
+-- [isuftin@usgs.gov] - Update mail transfer agent recipe to fully parameterize the CentOS template for main.cf
+
 - 0.6.3
 
 -- [isuftin@usgs.gov] - Update the system_auth recipe to respect pre-existing symlinks
