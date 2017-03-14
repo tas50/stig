@@ -111,64 +111,54 @@ default['stig']['network']['zeroconf'] = true
 # Disable IP Forwarding
 # false = IP forwarding disabled
 # true = IP forwarding enabled
-default['stig']['network']['ip_forwarding'] = 0
-default['sysctl']['params']['net.ipv4.ip_forward'] = node['stig']['network']['ip_forwarding']
+default['sysctl']['params']['net.ipv4.ip_forward'] = 0
 
 # Disable Send Packet Redirects
 # false = Disable redirects
 # true = Enable redirects
-default['stig']['network']['packet_redirects'] = 0
-default['sysctl']['params']['net.ipv4.conf.all.send_redirects'] = node['stig']['network']['packet_redirects']
-default['sysctl']['params']['net.ipv4.conf.default.send_redirects'] = node['stig']['network']['packet_redirects']
+default['sysctl']['params']['net.ipv4.conf.all.send_redirects'] = 0
+default['sysctl']['params']['net.ipv4.conf.default.send_redirects'] = 0
 
 # Disable ICMP Redirect Acceptance
 # false = Disable redirect acceptance
 # true = Enable redirect acceptance
-default['stig']['network']['icmp_redirect_accept'] = 0
-default['sysctl']['params']['net.ipv4.conf.all.accept_redirects'] = node['stig']['network']['icmp_redirect_accept']
-default['sysctl']['params']['net.ipv4.conf.default.accept_redirects'] = node['stig']['network']['icmp_redirect_accept']
+default['sysctl']['params']['net.ipv4.conf.all.accept_redirects'] = 0
+default['sysctl']['params']['net.ipv4.conf.default.accept_redirects'] = 0
 
 # Log Suspicious Packets
 # true / false
-default['stig']['network']['log_suspicious_packets'] = 1
-default['sysctl']['params']['net.ipv4.conf.all.log_martians'] = node['stig']['network']['log_suspicious_packets']
-default['sysctl']['params']['net.ipv4.conf.default.log_martians'] = node['stig']['network']['log_suspicious_packets']
+default['sysctl']['params']['net.ipv4.conf.all.log_martians'] = 1
+default['sysctl']['params']['net.ipv4.conf.default.log_martians'] = 1
 
 # Enable RFC-recommended Source Route Validation
 # true / false
-default['stig']['network']['rfc_source_route_validation'] = 1
-default['sysctl']['params']['net.ipv4.conf.all.rp_filter'] = node['stig']['network']['rfc_source_route_validation']
-default['sysctl']['params']['net.ipv4.conf.default.rp_filter'] = node['stig']['network']['rfc_source_route_validation']
+default['sysctl']['params']['net.ipv4.conf.all.rp_filter'] = 1
+default['sysctl']['params']['net.ipv4.conf.default.rp_filter'] = 1
 
 # Disable IPv6 Redirect Acceptance
 # false = Disable redirect acceptance
 # true = Enable redirect acceptance
-default['stig']['network']['ipv6_redirect_accept'] = 0
-default['sysctl']['params']['net.ipv6.conf.all.accept_redirects'] = node['stig']['network']['ipv6_redirect_accept']
-default['sysctl']['params']['net.ipv6.conf.default.accept_redirects'] = node['stig']['network']['ipv6_redirect_accept']
+default['sysctl']['params']['net.ipv6.conf.all.accept_redirects'] = 0
+default['sysctl']['params']['net.ipv6.conf.default.accept_redirects'] = 0
 
 # Disable Secure ICMP Redirect Acceptance
 # false = Disable redirect acceptance
 # true = Enable redirect acceptance
-default['stig']['network']['icmp_all_secure_redirect_accept'] = 0
-default['sysctl']['params']['net.ipv4.conf.all.secure_redirects'] = node['stig']['network']['icmp_all_secure_redirect_accept']
-default['sysctl']['params']['net.ipv4.conf.default.secure_redirects'] = node['stig']['network']['icmp_all_secure_redirect_accept']
+default['sysctl']['params']['net.ipv4.conf.all.secure_redirects'] = 0
+default['sysctl']['params']['net.ipv4.conf.default.secure_redirects'] = 0
 
 # Disable IPv6 Router Advertisements
 # false = Disable IPv6 router advertisements
 # true = Enable IPv6 router advertisements
-default['stig']['network']['ipv6_ra_accept'] = 0
-default['sysctl']['params']['net.ipv6.conf.all.accept_ra'] = node['stig']['network']['ipv6_ra_accept']
-default['sysctl']['params']['net.ipv6.conf.default.accept_ra'] = node['stig']['network']['ipv6_ra_accept']
-default['sysctl']['params']['net.ipv6.conf.default.accept_ra'] = node['stig']['network']['ipv6_ra_accept']
+default['sysctl']['params']['net.ipv6.conf.all.accept_ra'] = 0
+default['sysctl']['params']['net.ipv6.conf.default.accept_ra'] = 0
 
 # Disable IPv6
 # false = Do not disable ipv6
 # true = Disable ipv6
-default['stig']['network']['ipv6_disable'] = 1
-default['sysctl']['params']['net.ipv6.conf.all.disable_ipv6'] = node['stig']['network']['ipv6_disable']
-default['sysctl']['params']['net.ipv6.conf.default.disable_ipv6'] = node['stig']['network']['ipv6_disable']
-default['sysctl']['params']['net.ipv6.conf.lo.disable_ipv6'] = node['stig']['network']['ipv6_disable']
+default['sysctl']['params']['net.ipv6.conf.all.disable_ipv6'] = 1
+default['sysctl']['params']['net.ipv6.conf.default.disable_ipv6'] = 1
+default['sysctl']['params']['net.ipv6.conf.lo.disable_ipv6'] = 1
 
 # Create /etc/hosts.allow
 # An array of <net>/<mask> combinations or ['ALL']
