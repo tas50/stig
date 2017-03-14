@@ -1,6 +1,12 @@
 ## Changelog
 ---------
 
+- 0.6.5
+
+-- [isuftin@usgs.gov] - Leaving sysctl attribute mutation solely to the sysctl cookbook.
+-- [isuftin@usgs.gov] - Removing STIG cookbook attributes for sysctl. Using only
+sysctl cookbook attributes
+
 - 0.6.4
 
 -- [isuftin@usgs.gov] - Update mail transfer agent recipe to fully parameterize the CentOS template for main.cf
