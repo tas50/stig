@@ -26,8 +26,6 @@
 # - Verify Permissions on /etc/group
 # - Verify User/Group Ownership on /etc/group
 
-platform = node['platform']
-
 %w(/etc/anacrontab /etc/crontab).each do |f|
   file f do
     owner 'root'
@@ -49,7 +47,6 @@ end
     owner 'root'
     group 'root'
     mode 0o000
-    only_if { %w(debian ubuntu).include? platform }
   end
 end
 

@@ -34,11 +34,17 @@ AuthorizedKeysCommand <%= @authorized_keys_command %>
 AuthorizedKeysCommandUser <%= @authorized_keys_command_user %>
 <% end -%>
 
+<% if !@authorized_keys_command_run_as.empty? -%>
 AuthorizedKeysCommandRunAs <%= @authorized_keys_command_run_as %>
+<% end -%>
 
-AuthorizedKeysFile	<%= @authorized_keys_file %>
+<% if !@authorized_keys_file.empty? -%>
+AuthorizedKeysFile <%= @authorized_keys_file %>
+<% end -%>
 
+<% if !@authorized_principals_file.empty? -%>
 AuthorizedPrincipalsFile <%= @authorized_principals_file %>
+<% end -%>
 
 Banner <%= @banner_path %>
 

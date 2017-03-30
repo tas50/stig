@@ -3,6 +3,7 @@
 # Author: Ivan Suftin <isuftin@usgs.gov>
 #
 # Description: Configure Sysauth and password-auth
+# TODO: Re-add cracklib.so settings for CentOS 6.x
 
 require 'pathname'
 
@@ -30,63 +31,25 @@ system_auth_file = File.symlink?(system_auth_symlink) ? Pathname.new(system_auth
 password_auth_symlink = "#{pamd_dir}/password-auth"
 password_auth_file = File.symlink?(system_auth_symlink) ? Pathname.new(password_auth_symlink).realpath.to_s : password_auth_symlink
 
-bash 'update_pass_reuse_in_pam_sysauth' do
-  code <<-EOF
-  # Test if the password reuse line is in /etc/pam.d/system-auth
-  grep -q 'password[[:space:]]*sufficient[[:space:]]*pam_unix.so' #{system_auth_file}
-
-  if [ $? -eq 0 ]; then
-    # Line was in the file. Now test whether it has the remember text in it
-    grep -q 'password[[:space:]]*sufficient[[:space:]]*pam_unix.so\(.*\)remember' #{system_auth_file}
-    if [ $? -eq 0 ]; then
-      # It already has a remember value. Just need to replace it
-      sed -i 's/remember=.*/remember=#{pass_reuse_limit}/' #{system_auth_file}
-    else
-      # Remember limit is not in the file. Append it to the end
-      sed -i '/^password[[:space:]]*sufficient[[:space:]]*pam_unix.so/s/$/ remember=#{pass_reuse_limit}/' #{system_auth_file}
-      fi
-    else
-      # Line was not in the file. Add it to the end
-      echo 'password    sufficient    pam_unix.so try_first_pass use_authtok nullok sha512 shadow remember=#{pass_reuse_limit}' >> #{system_auth_file}
-      fi
-      EOF
-  only_if { %w(rhel fedora centos).include? platform }
-  not_if "grep -q 'remember=#{pass_reuse_limit}' #{system_auth_file}"
+template system_auth_file do
+  source 'etc_pam_d_password_system_auth.erb'
+  owner 'root'
+  group 'root'
+  mode 0o644
+  variables(
+    auth_rules: node['stig']['pam_d']['config']['system_auth']
+  )
 end
 
-bash 'update_pass_reuse_in_pam_password_auth' do
-  code <<-EOF
-  # Test if the password reuse line is in /etc/pam.d/password-auth
-  grep -q 'password[[:space:]]*sufficient[[:space:]]*pam_unix.so' #{password_auth_file}
-
-  if [ $? -eq 0 ]; then
-    # Line was in the file. Now test whether it has the remember text in it
-    grep -q 'password[[:space:]]*sufficient[[:space:]]*pam_unix.so\(.*\)remember' #{password_auth_file}
-    if [ $? -eq 0 ]; then
-      # It already has a remember value. Just need to replace it
-      sed -i 's/remember=.*/remember=#{pass_reuse_limit}/' #{password_auth_file}
-    else
-      # Remember limit is not in the file. Append it to the end
-      sed -i '/^password[[:space:]]*sufficient[[:space:]]*pam_unix.so/s/$/ remember=#{pass_reuse_limit}/' #{password_auth_file}
-      fi
-    else
-      # Line was not in the file. Add it to the end
-      echo 'password    sufficient    pam_unix.so try_first_pass use_authtok nullok sha512 shadow remember=#{pass_reuse_limit}' >> #{password_auth_file}
-      fi
-      EOF
-  only_if { %w(rhel fedora centos).include? platform }
-  not_if "grep -q 'remember=#{pass_reuse_limit}' #{password_auth_file}"
+template password_auth_file do
+  source 'etc_pam_d_password_system_auth.erb'
+  owner 'root'
+  group 'root'
+  mode 0o644
+  variables(
+    auth_rules: node['stig']['pam_d']['config']['password_auth']
+  )
 end
-#
-# file system_auth_symlink do
-#   action :delete
-#   not_if "test -L #{system_auth_symlink}"
-# end
-#
-# file password_auth_symlink do
-#   action :delete
-#   not_if "test -L #{password_auth_symlink}"
-# end
 
 link system_auth_symlink do
   to system_auth_file

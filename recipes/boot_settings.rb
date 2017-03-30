@@ -26,6 +26,9 @@
 
 platform = node['platform']
 
+# Get major version for RHEL distro
+major_version = node['platform_version'][0, 1].to_i
+
 template '/etc/grub.d/40_custom' do
   source 'etc_grubd_40_custom.erb'
   variables(
@@ -41,68 +44,54 @@ execute 'update-grub' do
   only_if { %w(debian ubuntu).include? platform }
 end
 
+grub_file = %w(rhel fedora centos redhat).include?(platform) && major_version < 7 ? '/boot/grub/grub.conf' : '/boot/grub2/grub.cfg'
+
 # This is not scored (or even suggested by CIS) in Ubuntu
-
-# Get major version for RHEL distro
-major_version = node['platform_version'][0, 1].to_i
-
-file '/boot/grub/grub.conf' do
+file grub_file do
   owner 'root'
   group 'root'
-  mode '0600'
-  only_if { %w(rhel fedora centos).include? platform }
-  only_if { major_version < 7 }
+  mode '0o600'
+  only_if { %w(rhel fedora centos redhat).include? platform }
 end
 
 # 1.4.1
-execute 'Remove selinux=0 from /etc/grub.conf (CentOS 6.x)' do
-  command "sed -i 's/selinux=0//' /etc/grub.conf"
-  only_if "grep -q 'selinux=0' /etc/grub.conf"
-  only_if { %w(rhel fedora centos).include? platform }
-  only_if { major_version < 7 }
+execute 'Remove selinux=0 from grub file' do
+  command "sed -i 's/selinux=0//' #{grub_file}"
+  only_if "grep -q 'selinux=0' #{grub_file}"
+  only_if { %w(rhel fedora centos redhat).include? platform }
 end
-execute 'Remove enforcing=0 from /etc/grub.conf (CentOS 6.x)' do
-  command "sed -i 's/enforcing=0//' /etc/grub.conf"
-  only_if "grep -q 'enforcing=0' /etc/grub.conf"
-  only_if { %w(rhel fedora centos).include? platform }
-  only_if { major_version < 7 }
+
+execute 'Remove enforcing=0 from grub file' do
+  command "sed -i 's/enforcing=0//' #{grub_file}"
+  only_if "grep -q 'enforcing=0' #{grub_file}"
+  only_if { %w(rhel fedora centos redhat).include? platform }
 end
 
 # 1.5.3
 password = node['stig']['grub']['hashedpassword']
 execute 'Add MD5 password to grub' do
-  command "sed -i '11i password --md5 #{password}' /etc/grub.conf"
-  not_if "grep -q '#{password}' /etc/grub.conf"
-  only_if { %w(rhel fedora centos).include? platform }
+  command "sed -i '11i password --md5 #{password}' #{grub_file}"
+  not_if "grep -q '#{password}' #{grub_file}"
+  only_if { %w(rhel fedora centos redhat).include? platform }
   only_if { major_version < 7 }
   only_if { node['stig']['grub']['hashedpassword'] != '' }
 end
 
 execute 'Add password to grub' do
-  command "sed -i '/password/d' /etc/grub.conf"
-  only_if "grep -q 'password' /etc/grub.conf"
-  only_if { %w(rhel fedora centos).include? platform }
+  command "sed -i '/password/d' #{grub_file}"
+  only_if "grep -q 'password' #{grub_file}"
+  only_if { %w(rhel fedora centos redhat).include? platform }
   only_if { major_version < 7 }
   only_if { node['stig']['grub']['hashedpassword'] == '' }
 end
 
-# 1.4.1
-execute 'Remove selinux=0 from /etc/grub.conf (CentOS 7.x)' do
-  command "sed -i 's/selinux=0//' /boot/grub2/grub.cfg"
-  only_if "grep -q 'selinux=0' /boot/grub2/grub.cfg"
-  only_if { %w(rhel fedora centos).include? platform }
-  only_if { major_version == 7 }
-end
-execute 'Remove enforcing=0 from /etc/grub.conf (CentOS 7.x)' do
-  command "sed -i 's/enforcing=0//' /boot/grub2/grub.cfg"
-  only_if "grep -q 'enforcing=0' /boot/grub2/grub.cfg"
-  only_if { %w(rhel fedora centos).include? platform }
-  only_if { major_version == 7 }
-end
+# TODO: Create adding password to grub for CentOS 7
+# Programtically using grub2-mkpasswd-pbkdf2: echo -e 'mypass\nmypass' | grub2-mkpasswd-pbkdf2 | awk '/grub.pbkdf/{print$NF}'
 
 cookbook_file '/etc/inittab' do
   source 'etc_inittab'
-  only_if { %w(rhel fedora centos).include? platform }
+  only_if { %w(rhel fedora centos redhat).include? platform }
+  only_if { major_version < 7 }
 end
 
 enabled_selinux = node['stig']['selinux']['enabled']
@@ -119,12 +108,12 @@ template '/etc/selinux/config' do
   mode 0o644
   sensitive true
   notifies :run, 'execute[toggle_selinux]', :delayed
-  only_if { %w(rhel fedora centos).include? platform }
+  only_if { %w(rhel fedora centos redhat).include? platform }
 end
 
 link '/etc/sysconfig/selinux' do
   to '/etc/selinux/config'
-  only_if { %w(rhel fedora centos).include? platform }
+  only_if { %w(rhel fedora centos redhat).include? platform }
 end
 
 template '/selinux/enforce' do
@@ -133,7 +122,7 @@ template '/selinux/enforce' do
   group 'root'
   variables(enforcing: (enabled_selinux ? 1 : 0))
   only_if { ::File.directory?('/selinux') }
-  only_if { %w(rhel fedora centos).include? platform }
+  only_if { %w(rhel fedora centos redhat).include? platform }
   mode 0o644
 end
 
@@ -143,15 +132,17 @@ execute 'toggle_selinux' do
   command "setenforce #{(enabled_selinux ? 1 : 0)}"
   not_if "echo $(getenforce) | awk '{print tolower($0)}' | grep -q -E '(#{status_selinux}|disabled)'"
   ignore_failure true
-  only_if { %w(rhel fedora centos).include? platform }
+  only_if { %w(rhel fedora centos redhat).include? platform }
 end
 
+# TODO: Ensure authentication required for single user mode for CentOS 7
 template '/etc/sysconfig/init' do
   source 'etc_sysconfig_init.erb'
   owner 'root'
   group 'root'
   mode 0o644
-  only_if { %w(rhel fedora centos).include? platform }
+  only_if { %w(rhel fedora centos redhat).include? platform }
+  only_if { major_version < 7 }
 end
 
 package 'setroubleshoot' do

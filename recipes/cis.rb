@@ -16,10 +16,12 @@
 # - Disable Mounting of hfsplus Filesystems
 # - Disable Mounting of squashfs Filesystems
 # - Disable Mounting of udf Filesystems
+# - Disable Mounting of vfat Filesystems
 # - Disable DCCP
 # - Disable SCTP
 # - Disable RDS
 # - Disable TIPC
+# - Disable IPV6
 
 template '/etc/modprobe.d/CIS.conf' do
   source 'etc_modprobe.d_CIS.conf.erb'

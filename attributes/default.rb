@@ -103,10 +103,17 @@ default['stig']['mount_disable']['hfs'] = true
 default['stig']['mount_disable']['hfsplus'] = true
 default['stig']['mount_disable']['squashfs'] = true
 default['stig']['mount_disable']['udf'] = true
+default['stig']['mount_disable']['vfat'] = true
 
 # Disable Avahi Server
 # true / false
 default['stig']['network']['zeroconf'] = true
+
+# Ensure IPv6 is disabled
+default['stig']['network']['disable_ipv6'] = true
+
+# Set a hard limit on core dumps
+default['sysctl']['params']['fs.suid_dumpable'] = 0
 
 # Disable IP Forwarding
 # false = IP forwarding disabled
@@ -203,7 +210,23 @@ default['stig']['logging']['rsyslog_rules_rhel'] = [
   'cron.*   /var/log/cron',
   '*.emerg   *',
   'uucp,news.crit   /var/log/spooler',
-  'local7.*    /var/log/boot.log'
+  'local7.*    /var/log/boot.log',
+  '$FileCreateMode 0640',
+  '*.emerg :omusrmsg:*',
+  'mail.* -/var/log/mail',
+  'mail.info -/var/log/mail.info',
+  'mail.warning -/var/log/mail.warn',
+  'mail.err /var/log/mail.err',
+  'news.crit -/var/log/news/news.crit',
+  'news.err -/var/log/news/news.err',
+  'news.notice -/var/log/news/news.notice',
+  '*.=warning;*.=err -/var/log/warn',
+  '*.crit /var/log/warn',
+  '*.*;mail.none;news.none -/var/log/messages',
+  'local0,local1.* -/var/log/localmessages',
+  'local2,local3.* -/var/log/localmessages',
+  'local4,local5.* -/var/log/localmessages',
+  'local6,local7.* -/var/log/localmessages'
 ]
 default['stig']['logging']['rsyslog_rules_debian'] = [
   '*.emerg :omusrmsg:*',
@@ -757,7 +780,7 @@ default['stig']['system_auth']['pass_reuse_limit'] = 10
 default['stig']['login_defs']['pass_max_days'] = 60
 
 # Set Password Change Minimum Number of Days
-default['stig']['login_defs']['pass_min_days'] = 1
+default['stig']['login_defs']['pass_min_days'] = 7
 
 # Set Password Expiring Warning Days
 default['stig']['login_defs']['pass_warn_age'] = 15
@@ -1263,3 +1286,50 @@ default['stig']['postfix']['manpage_directory'] = '/usr/share/man'
 default['stig']['postfix']['sample_directory'] = '/usr/share/doc/postfix-2.6.6/samples'
 # The location of the Postfix README files.
 default['stig']['postfix']['readme_directory'] = '/usr/share/doc/postfix-2.6.6/README_FILES'
+
+# Settings for /etc/pam.d/password-auth and /etc/pam.d/system-auth files
+default['stig']['pam_d']['config']['password_auth'] = [
+  'auth        required      pam_env.so',
+  'auth        required      pam_faillock.so preauth audit silent deny=5 unlock_time=900',
+  'auth        sufficient    pam_unix.so nullok try_first_pass',
+  'auth        sufficient    pam_faillock.so authsucc audit deny=5 unlock_time=900',
+  'auth        requisite     pam_succeed_if.so uid >= 1000 quiet_success',
+  'auth        required      pam_deny.so',
+  'auth        [success=1 default=bad] pam_unix.so',
+  'auth        [default=die] pam_faillock.so authfail audit deny=5 unlock_time=900',
+  'account     required      pam_unix.so',
+  'account     sufficient    pam_localuser.so',
+  'account     sufficient    pam_succeed_if.so uid < 1000 quiet',
+  'account     required      pam_permit.so',
+  'password    requisite     pam_pwquality.so try_first_pass local_users_only retry=3 authtok_type=',
+  'password    sufficient    pam_unix.so sha512 shadow nullok try_first_pass use_authtok remember=5',
+  'password    required      pam_deny.so',
+  'session     optional      pam_keyinit.so revoke',
+  'session     required      pam_limits.so',
+  '-session     optional      pam_systemd.so',
+  'session     [success=1 default=ignore] pam_succeed_if.so service in crond quiet use_uid',
+  'session     required      pam_unix.so'
+]
+
+default['stig']['pam_d']['config']['system_auth'] = [
+  'auth        required      pam_env.so',
+  'auth        required      pam_faillock.so preauth audit silent deny=5 unlock_time=900',
+  'auth        sufficient    pam_unix.so nullok try_first_pass',
+  'auth        sufficient    pam_faillock.so authsucc audit deny=5 unlock_time=900',
+  'auth        requisite     pam_succeed_if.so uid >= 1000 quiet_success',
+  'auth        required      pam_deny.so',
+  'auth        [success=1 default=bad] pam_unix.so',
+  'auth        [default=die] pam_faillock.so authfail audit deny=5 unlock_time=900',
+  'account     required      pam_unix.so',
+  'account     sufficient    pam_localuser.so',
+  'account     sufficient    pam_succeed_if.so uid < 1000 quiet',
+  'account     required      pam_permit.so',
+  'password    requisite     pam_pwquality.so try_first_pass local_users_only retry=3 authtok_type=',
+  'password    sufficient    pam_unix.so sha512 shadow nullok try_first_pass use_authtok remember=5',
+  'password    required      pam_deny.so',
+  'session     optional      pam_keyinit.so revoke',
+  'session     required      pam_limits.so',
+  '-session     optional      pam_systemd.so',
+  'session     [success=1 default=ignore] pam_succeed_if.so service in crond quiet use_uid',
+  'session     required      pam_unix.so'
+]

@@ -11,68 +11,35 @@
 #
 # - Disable IPv6 for RHEL
 
-if %w(rhel fedora centos).include?(node['platform'])
-
+if %w(rhel fedora centos redhat).include?(node['platform'])
   # Install IPTables, turn off Firewalld
-  if node['platform'] == 'centos' && node['platform_version'][0, 1].to_i > 6
+  if node['platform_version'][0, 1].to_i >= 7
 
-    package 'iptables-services' do
-      notifies :run, 'execute[disable_selinux]', :immediately
-      notifies :run, 'execute[mask_firewalld]', :immediately
-      notifies :run, 'execute[enable_iptables]', :immediately
-      notifies :run, 'execute[enable_ip6tables]', :immediately
-      notifies :run, 'execute[stop_firewalld]', :immediately
-      notifies :run, 'execute[start_iptables]', :immediately
-      notifies :run, 'execute[stop_ip6tables]', :immediately
-      notifies :run, 'execute[enable_selinux]', :immediately
-    end
-
-    execute 'disable_selinux' do
-      command 'setenforce 0'
-      user 'root'
-      action :nothing
-    end
-
-    execute 'mask_firewalld' do
-      command 'systemctl mask firewalld'
-      user 'root'
-      action :nothing
-    end
+    package 'iptables-services'
 
     execute 'enable_iptables' do
       command 'systemctl enable iptables'
       user 'root'
-      action :nothing
+      not_if 'systemctl list-unit-files iptables.service | grep -q enabled'
     end
 
     execute 'enable_ip6tables' do
       command 'systemctl enable ip6tables'
       user 'root'
-      action :nothing
-    end
-
-    execute 'stop_firewalld' do
-      command 'systemctl stop firewalld'
-      user 'root'
-      action :nothing
+      not_if 'systemctl list-unit-files ip6tables.service | grep -q enabled'
     end
 
     execute 'start_iptables' do
       command 'systemctl start iptables'
       user 'root'
-      action :nothing
+      not_if 'systemctl is-active iptables.service | grep -q active'
     end
 
-    execute 'stop_ip6tables' do
-      command 'systemctl stop ip6tables'
+    execute 'start_ip6tables' do
+      command 'systemctl start ip6tables'
       user 'root'
-      action :nothing
-    end
-
-    execute 'enable_selinux' do
-      command 'setenforce 1'
-      user 'root'
-      action :nothing
+      not_if 'systemctl is-active ip6tables.service | grep -q active'
+      not_if { node['stig']['network']['ipv6'] == 'no' }
     end
   end
 
@@ -97,12 +64,15 @@ if %w(rhel fedora centos).include?(node['platform'])
     group 'root'
     mode 0o644
     variables(ipv6: ipv6)
-    notifies :run, 'execute[chkconfig_ip6tables_off]', :immediately
   end
 
   execute 'chkconfig_ip6tables_off' do
     user 'root'
     command "/sbin/chkconfig ip6tables #{ipv6onoff}"
-    action :nothing
+    only_if { node['platform_version'][0, 1].to_i < 7 }
+    not_if "chkconfig --list ip6tables  | grep -q '2:#{ipv6onoff}'"
+    not_if "chkconfig --list ip6tables  | grep -q '3:#{ipv6onoff}'"
+    not_if "chkconfig --list ip6tables  | grep -q '4:#{ipv6onoff}'"
+    not_if "chkconfig --list ip6tables  | grep -q '5:#{ipv6onoff}'"
   end
 end
