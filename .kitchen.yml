@@ -9,69 +9,82 @@ verifier:
   name: inspec
 
 platforms:
-  - name: centos-7.2-vbox
-    driver:
-      box: bento/centos-7.2
-      box_url: bento/centos-7.2
-      provider: virtualbox
-  - name: centos-7.2-vmware
-    driver:
-      box: bento/centos-7.2
-      box_url: bento/centos-7.2
-      provider: vmware_fusion
-  - name: centos-7.1-vbox
-    driver:
-      box: bento/centos-7.1
-      box_url: bento/centos-7.1
-      provider: virtualbox
-  - name: centos-7.1-vmware
-    driver:
-      box: bento/centos-7.1
-      box_url: bento/centos-7.1
-      provider: vmware_fusion
-  - name: centos-6.8-vbox
-    driver:
-      box: bento/centos-6.8
-      box_url: bento/centos-6.8
-      provider: virtualbox
-  - name: centos-6.8-vmware
-    driver:
-      box: bento/centos-6.8
-      box_url: bento/centos-6.8
-      provider: vmware_fusion
-  - name: centos-6.7-vbox
-    driver:
-      box: bento/centos-6.7
-      box_url: bento/centos-6.7
-      provider: virtualbox
-  - name: centos-6.7-vmware
-    driver:
-      box: bento/centos-6.7
-      box_url: bento/centos-6.7
-      provider: vmware_fusion
-  - name:  ubuntu-trusty-vbox
-    driver:
-      box: ubuntu/trusty64
-      box_url: ubuntu/trusty64
-      provider: virtualbox
+  - name: centos-6.8
+  - name: centos-7.3
 
-# I could not find an "official" vmware_fusion trusty box
-
-# Adding auditd with cis ruleset addresses CIS CentOS Benchmark V1.0.0 4.2.2 and 4.2.4-18
-# NOTE: 4.2.17 needs to be uncommented. and 4.2.12 needs to be confirmed. See cis template for more info.
-# Note: There is probably a better way to pull in auditd and apply the cis attribute, this works for now.
 suites:
-  - name: default
+  - name: centos7
+    excludes:
+      - centos-6.8
+    verifier:
+      inspec_tests:
+          - name: centos7
+            path: test/integration/centos7/inspec
     run_list:
       - recipe[auditd]
-      - recipe[stig]
       - recipe[stig::auditd]
       - recipe[stig::auditd_rules]
+      - recipe[stig::fstab_tmp]
+      - recipe[stig::aide]
+      - recipe[stig::tcp_wrappers]
+      - recipe[stig::boot_settings]
+      - recipe[stig::proc_hard]
+      - recipe[stig::cis]
+      - recipe[stig::avahi_daemon]
+      - recipe[stig::ipv6]
+      - recipe[stig::dhcp]
+      - recipe[stig::mail_transfer_agent]
+      - recipe[stig::hosts]
+      - recipe[stig::rsyslog]
+      - recipe[logrotate::global]
+      - recipe[stig::sshd_config]
+      - recipe[stig::system_auth]
+      - recipe[stig::login_defs]
+      - recipe[stig::login_banner]
+      - recipe[stig::file_permissions]
+      - recipe[stig::audits]
+      - recipe[stig::audit_scripts]
+      - recipe[stig::su_restriction]
     attributes: {
       "auditd" : {
         "ruleset" : "stig"
       }
     }
-  - name: noauditd
+
+  - name: centos6
+    excludes:
+      - centos-7.3
+    verifier:
+      inspec_tests:
+          - name: centos6
+            path: test/integration/centos6/inspec
     run_list:
-      - recipe[stig::default]
+      - recipe[auditd]
+      - recipe[stig::auditd]
+      - recipe[stig::auditd_rules]
+      - recipe[stig::fstab_tmp]
+      - recipe[stig::aide]
+      - recipe[stig::tcp_wrappers]
+      - recipe[stig::boot_settings]
+      - recipe[stig::proc_hard]
+      - recipe[stig::cis]
+      - recipe[stig::avahi_daemon]
+      - recipe[stig::ipv6]
+      - recipe[stig::dhcp]
+      - recipe[stig::mail_transfer_agent]
+      - recipe[stig::hosts]
+      - recipe[stig::rsyslog]
+      - recipe[logrotate::global]
+      - recipe[stig::sshd_config]
+      - recipe[stig::system_auth]
+      - recipe[stig::login_defs]
+      - recipe[stig::login_banner]
+      - recipe[stig::file_permissions]
+      - recipe[stig::audits]
+      - recipe[stig::audit_scripts]
+      - recipe[stig::su_restriction]
+    attributes: {
+      "auditd" : {
+        "ruleset" : "stig"
+      }
+    }

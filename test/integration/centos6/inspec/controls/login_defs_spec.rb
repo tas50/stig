@@ -10,6 +10,6 @@ describe file('/etc/login.defs') do
   it { should be_grouped_into 'root' }
   its('mode') { should cmp '0644' }
   its(:content) { should match /PASS_MAX_DAYS   60/ }
-  its(:content) { should match /PASS_MIN_DAYS   1/ }
+  its(:content) { should match /PASS_MIN_DAYS   7/ }
   its(:content) { should match /PASS_WARN_AGE   15/ }
 end

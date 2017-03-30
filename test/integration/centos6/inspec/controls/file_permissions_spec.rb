@@ -101,76 +101,43 @@ describe file('/etc/cron.d') do
   it { should be_grouped_into 'root' }
 end
 
-if %w(redhat fedora centos rhel).include?(os['family'])
-  # CENTOS6: 6.1.2
-  describe service('crond') do
-    it { should be_enabled }
-    it { should be_installed }
-    it { should be_running }
-  end
-
-  # CENTOS: 6.1.4
-  describe command('stat -L -c "%a %u %g" /etc/crontab | egrep ".00 0 0"') do
-    its(:stdout) { should match /600 0 0/ }
-  end
-
-  # CENTOS 6.1.10
-  describe file('/etc/at.deny') do
-    it { should_not be_file }
-  end
-  describe command('stat -L -c "%a %u %g" /etc/at.allow | egrep ".00 0 0"') do
-    its(:stdout) { should match /600 0 0/ }
-  end
-
-  # CENTOS 9.1.4
-  # CENTOS 9.1.8
-  describe file('/etc/gshadow') do
-    it { should exist }
-    it { should be_file }
-    its('mode') { should cmp '0000' }
-    it { should be_owned_by 'root' }
-    it { should be_grouped_into 'root' }
-  end
-
-  # CENTOS 9.1.7
-  describe file('/etc/shadow') do
-    it { should exist }
-    it { should be_file }
-    its('mode') { should cmp '0000' }
-    it { should be_owned_by 'root' }
-    it { should be_grouped_into 'root' }
-  end
-
+# CENTOS6: 6.1.2
+describe service('crond') do
+  it { should be_enabled }
+  it { should be_installed }
+  it { should be_running }
 end
 
-if %w(debian ubuntu).include?(os['family'])
-  # UBUNTU: 9.1.1
-  describe command('/sbin/initctl show-config cron') do
-    its(:stdout) { should match /start on runlevel \[2345\]/ }
-    its(:stdout) { should match /stop on runlevel \[\!2345\]/ }
-  end
+# CENTOS: 6.1.4
+describe command('stat -L -c "%a %u %g" /etc/crontab | egrep ".00 0 0"') do
+  its(:stdout) { should match /600 0 0/ }
+end
 
-  # UBUNTU: 9.1.8
-  describe file('/etc/cron.deny') do
-    it { should_not be_file }
-  end
-  describe file('/etc/at.deny') do
-    it { should_not be_file }
-  end
-  describe command('stat -L -c "%a %u %g" /etc/cron.allow | egrep ".00 0 0"') do
-    its(:stdout) { should match /600 0 0/ }
-  end
-  describe command('stat -L -c "%a %u %g" /etc/at.allow | egrep ".00 0 0"') do
-    its(:stdout) { should match /600 0 0/ }
-  end
+# CENTOS 6.1.10
+describe file('/etc/at.deny') do
+  it { should_not be_file }
+end
+describe command('stat -L -c "%a %u %g" /etc/at.allow | egrep ".00 0 0"') do
+  its(:stdout) { should match /600 0 0/ }
+end
 
-  # UBUNTU 12.3
-  # UBUNTU 12.5
-  describe file('/etc/shadow') do
-    its('mode') { should cmp '0640' }
-    it { should be_owned_by 'root' }
-    it { should be_grouped_into 'root' }
-  end
+# CENTOS 9.1.4
+# CENTOS 9.1.8
+describe file('/etc/gshadow') do
+  it { should exist }
+  it { should be_file }
+  its('mode') { should cmp '0000' }
+  it { should be_owned_by 'root' }
+  it { should be_grouped_into 'root' }
+end
+
+# CENTOS 9.1.7
+describe file('/etc/shadow') do
+  it { should exist }
+  it { should be_file }
+  its('mode') { should cmp '0000' }
+  it { should be_owned_by 'root' }
+  it { should be_grouped_into 'root' }
 end
 
 # CENTOS: 6.1.3

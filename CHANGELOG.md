@@ -1,11 +1,26 @@
 ## Changelog
 ---------
 
+- 0.6.6
+
+-- [isuftin@usgs.gov] - Updating the cookbook to work properly with CentOS 7
+-- [isuftin@usgs.gov] - Added disabling vfat and ipv6 to modprobe
+-- [isuftin@usgs.gov] - Update avahi daemon recipe for CentOS 7 (chkconfig vs sysctl)
+-- [isuftin@usgs.gov] - Update ipv6 recipe for CentOS 7
+-- [isuftin@usgs.gov] - Fixed idempotency issue in ipv6 recipe for CentOS 6
+-- [isuftin@usgs.gov] - Update dhcp recipe for CentOS 7
+-- [isuftin@usgs.gov] - Update rsyslog.conf default attributes to the latest CIS recommendations
+-- [isuftin@usgs.gov] - Update sshd_config template to put logic on keywords that may or may not exist in sshd
+-- [isuftin@usgs.gov] - Switched system_auth recipe to use templates instead of very touchy sed/grep
+-- [isuftin@usgs.gov] - Changed default PASS_MIN_DAYS in login_defs to 7 as per stig
+-- [isuftin@usgs.gov] - Updated file_permissions recipe to not branch on ubuntu/rhel
+-- [isuftin@usgs.gov] - Split InSpec tests into CentOS 6 and CentOS 7
+-- [isuftin@usgs.gov] - Updated Gemfile to require a minimal inspec gem version
+
 - 0.6.5
 
 -- [isuftin@usgs.gov] - Leaving sysctl attribute mutation solely to the sysctl cookbook.
--- [isuftin@usgs.gov] - Removing STIG cookbook attributes for sysctl. Using only
-sysctl cookbook attributes
+-- [isuftin@usgs.gov] - Removing STIG cookbook attributes for sysctl. Using only sysctl cookbook attributes
 
 - 0.6.4
 

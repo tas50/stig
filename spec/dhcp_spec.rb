@@ -1,7 +1,51 @@
 require 'spec_helper'
 
-describe 'stig::dhcp' do
-  let(:chef_run) { ChefSpec::SoloRunner.converge(described_recipe) }
+describe 'stig::dhcp CentOS 7.x' do
+  let(:chef_run) { ChefSpec::SoloRunner.new(platform: 'centos', version: '7.3.1611').converge('stig::dhcp') }
+
+  before do
+    stub_command("systemctl >/dev/null 2>&1 && /usr/bin/systemctl list-unit-files | grep -q 'dhcpd'").and_return(true)
+    stub_command("systemctl >/dev/null 2>&1 && /usr/bin/systemctl is-enabled dhcpd | grep -q 'disabled'").and_return(false)
+  end
+
+  it 'removes DHCP' do
+    expect(chef_run).to remove_package('dhcp')
+  end
+
+  it 'does not create /etc/init/isc-dhcp-server.conf template on CentOS' do
+    expect(chef_run).to_not create_template('/etc/init/isc-dhcp-server.conf')
+    .with(
+      source: 'etc_init_isc-dhcp-server.conf.erb',
+      owner: 'root',
+      group: 'root'
+    )
+  end
+
+  it 'does not create /etc/init/isc-dhcp-server6.conf template on CentOS' do
+    expect(chef_run).to_not create_template('/etc/init/isc-dhcp-server6.conf')
+    .with(
+      source: 'etc_init_isc-dhcp-server6.conf.erb',
+      owner: 'root',
+      group: 'root'
+    )
+  end
+
+  it 'Disable dhcpd via sysctl' do
+    expect(chef_run).to run_execute('Disable dhcpd via sysctl').with(
+      user: 'root',
+      command: '/usr/bin/systemctl disable dhcpd'
+    )
+  end
+
+end
+
+describe 'stig::dhcp CentOS 6.x' do
+  let(:chef_run) { ChefSpec::SoloRunner.new(platform: 'centos', version: '6.7').converge('stig::dhcp') }
+
+  before do
+    stub_command("systemctl >/dev/null 2>&1 && /usr/bin/systemctl list-unit-files | grep -q 'dhcpd'").and_return(true)
+    stub_command("systemctl >/dev/null 2>&1 && /usr/bin/systemctl is-enabled dhcpd | grep -q 'disabled'").and_return(false)
+  end
 
   it 'removes DHCP' do
     expect(chef_run).to remove_package('dhcp')

@@ -35,7 +35,7 @@ mount '/run/shm' do
   fstype 'tmpfs'
   device 'none'
   options 'rw,nodev,nosuid,noexec'
-  action [:mount, :enable]
+  action %i(mount enable)
   notifies :run, 'execute[remount]', :immediately
   only_if { %w(debian ubuntu).include? platform }
 end
@@ -54,6 +54,6 @@ mount '/dev/shm' do
   device 'none'
   options 'nodev,nosuid,noexec'
   enabled true
-  action [:mount, :enable]
+  action %i(mount enable)
   only_if { %w(rhel fedora centos).include? platform }
 end

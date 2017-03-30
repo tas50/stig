@@ -33,6 +33,10 @@ install squashfs /bin/true
 install udf /bin/true
 <% end -%>
 
+<% if node["stig"]["mount_disable"]["vfat"] -%>
+install vfat /bin/true
+<% end -%>
+
 <% if node["stig"]["network"]["disable_dcpp"] -%>
 install dccp /bin/true
 <% end -%>
@@ -47,4 +51,8 @@ install rds /bin/true
 
 <% if node["stig"]["network"]["disable_tipc"] -%>
 install tipc /bin/true
+<% end -%>
+
+<% if node["stig"]["network"]["disable_ipv6"] -%>
+options ipv6 disable=1
 <% end -%>

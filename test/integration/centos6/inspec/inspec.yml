@@ -1,5 +1,5 @@
-name: default
-title: Default STIG
+name: centos6
+title: CentOS 6.x STIG
 maintainer: Ivan Suftin (isuftin@usgs.gov)
 license: Public domain
 copyright: None

@@ -1,0 +1,7 @@
+name: centos7
+title: Centos 7.x STIG
+maintainer: Ivan Suftin (isuftin@usgs.gov)
+license: Public domain
+copyright: None
+summary: Verify that the default settings are configured for CentOS 7
+version: 0.0.1
