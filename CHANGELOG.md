@@ -13,7 +13,9 @@
 -- [isuftin@usgs.gov] - Update sshd_config template to put logic on keywords that may or may not exist in sshd
 -- [isuftin@usgs.gov] - Switched system_auth recipe to use templates instead of very touchy sed/grep
 -- [isuftin@usgs.gov] - Changed default PASS_MIN_DAYS in login_defs to 7 as per stig
--- [isuftin@usgs.gov] - Updated file_permissions recipe to not branch on ubuntu/rhel 
+-- [isuftin@usgs.gov] - Updated file_permissions recipe to not branch on ubuntu/rhel
+-- [isuftin@usgs.gov] - Split InSpec tests into CentOS 6 and CentOS 7
+-- [isuftin@usgs.gov] - Updated Gemfile to require a minimal inspec gem version
 
 - 0.6.5
 

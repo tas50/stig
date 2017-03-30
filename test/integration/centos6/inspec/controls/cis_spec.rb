@@ -65,6 +65,9 @@ end
 describe command('/sbin/modprobe -n -v udf') do
   its(:stdout) { should match /install \/bin\/true/ }
 end
+describe command('/sbin/modprobe -n -v vfat') do
+  its(:stdout) { should match /install \/bin\/true/ }
+end
 describe command('/sbin/lsmod | grep udf') do
   its(:stdout) { should match /^$/ }
 end
@@ -91,4 +94,8 @@ end
 # CENTOS 5.6.4
 describe command('grep "install tipc /bin/true" /etc/modprobe.d/CIS.conf | tr -d "\n"') do
   its(:stdout) { should match /install tipc \/bin\/true/ }
+end
+
+describe command('grep "options ipv6 disable=1" /etc/modprobe.d/CIS.conf | tr -d "\n"') do
+  its(:stdout) { should match /options ipv6 disable=1/ }
 end

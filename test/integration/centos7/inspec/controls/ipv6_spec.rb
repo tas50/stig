@@ -1,4 +1,18 @@
+describe package('iptables-services') do
+  it { should be_installed }
+end
 
+describe service('iptables') do
+  it { should be_installed }
+  it { should be_enabled }
+  it { should be_running }
+end
+
+describe service('ip6tables') do
+  it { should be_installed }
+  it { should be_enabled }
+  it { should_not be_running }
+end
 
 describe file('/etc/sysconfig/network') do
   it { should be_file }

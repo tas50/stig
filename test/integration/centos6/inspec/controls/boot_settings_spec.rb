@@ -1,4 +1,3 @@
-
 # CENTOS6 1.4.2
 # CENTOS6 1.4.3
 describe file('/etc/selinux/config') do
@@ -10,24 +9,25 @@ describe file('/etc/selinux/config') do
   its('content') { should include('SELINUX=enforcing') }
   its('content') { should include('SELINUXTYPE=targeted') }
 end
+
 describe command('/usr/sbin/getenforce') do
   its(:stdout) { should match /Enforcing/ }
 end
 
 # CENTOS6: 1.4.1
 # CENTOS6: 1.5.3
-describe file('/etc/grub2.cfg') do
+describe file('/etc/grub.conf') do
   it { should exist }
   it { should be_file }
-  it { should be_linked_to '/boot/grub2/grub.cfg' }
   its('mode') { should cmp '0600' }
+  it { should be_linked_to '/boot/grub/grub.conf' }
   it { should be_owned_by 'root' }
   it { should be_grouped_into 'root' }
   its('content') { should_not include('selinux=0') }
   its('content') { should_not include('enforcing=0') }
   its('content') { should_not include('password --md5') }
 end
-describe file('/boot/grub2/grub.cfg') do
+describe file('/boot/grub/grub.conf') do
   it { should exist }
   it { should be_file }
   its('mode') { should cmp '0600' }
@@ -35,11 +35,11 @@ describe file('/boot/grub2/grub.cfg') do
   it { should be_grouped_into 'root' }
 end
 #
-describe command('stat -L -c "%u %g" /etc/grub2.cfg | egrep "0 0"') do
+describe command('stat -L -c "%u %g" /etc/grub.conf | egrep "0 0"') do
   its(:stdout) { should match /0 0/ }
 end
 # CENTOS6: 1.5.2
-describe command('stat -L -c "%a" /etc/grub2.cfg | egrep ".00"') do
+describe command('stat -L -c "%a" /etc/grub.conf | egrep ".00"') do
   its(:stdout) { should_not match /^$/ }
 end
 
@@ -66,6 +66,7 @@ describe file('/etc/sysconfig/init') do
   its('mode') { should cmp '0644' }
   it { should be_owned_by 'root' }
   it { should be_grouped_into 'root' }
+  its('content') { should include('PROMPT=no') }
 end
 
 # CENTOS6: 3.2
@@ -75,7 +76,7 @@ describe file('/etc/inittab') do
   its('mode') { should cmp '0644' }
   it { should be_owned_by 'root' }
   it { should be_grouped_into 'root' }
-  its('content') { should_not include('id:3:initdefault:') }
+  its('content') { should include('id:3:initdefault:') }
 end
 
 # CENTOS6: 5.2.1

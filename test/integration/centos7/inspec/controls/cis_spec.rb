@@ -11,6 +11,9 @@ end
 describe command('/sbin/modprobe -n -v cramfs') do
   its(:stdout) { should match /install \/bin\/true/ }
 end
+describe command('/sbin/modprobe -n -v vfat') do
+  its(:stdout) { should match /install \/bin\/true/ }
+end
 describe command('/sbin/lsmod | grep cramfs') do
   its(:stdout) { should match /^$/ }
 end
@@ -57,13 +60,6 @@ describe command('/sbin/modprobe -n -v squashfs') do
   its(:stdout) { should match /install \/bin\/true/ }
 end
 describe command('/sbin/lsmod | grep squashfs') do
-  its(:stdout) { should match /^$/ }
-end
-
-describe command('/sbin/modprobe -n -v vfat') do
-  its(:stdout) { should match /install \/bin\/true/ }
-end
-describe command('/sbin/lsmod | grep vfat') do
   its(:stdout) { should match /^$/ }
 end
 

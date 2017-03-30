@@ -16,14 +16,6 @@ describe file('/etc/sysctl.conf') do
   its('mode') { should cmp '0644' }
 end
 
-# UBUNTU
-if %w(debian ubuntu).include?(os['family'])
-  # UBUNTU 7.3.3
-  describe command('ip addr | grep inet6') do
-    its(:stdout) { should match /^$/ }
-  end
-end
-
 # CENTOS 5.1.1
 # UBUNTU 7.1.1
 describe command('/sbin/sysctl net.ipv4.ip_forward') do
