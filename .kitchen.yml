@@ -19,7 +19,7 @@ suites:
     verifier:
       inspec_tests:
           - name: centos7
-            path: test/integration/centos7/inspec/controls
+            path: test/integration/centos7/inspec
     run_list:
       - recipe[auditd]
       - recipe[stig::auditd]
@@ -57,7 +57,7 @@ suites:
     verifier:
       inspec_tests:
           - name: centos6
-            path: test/integration/centos6/inspec/controls
+            path: test/integration/centos6/inspec
     run_list:
       - recipe[auditd]
       - recipe[stig::auditd]
