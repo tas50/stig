@@ -4,10 +4,10 @@ describe 'stig::ipv6 CentOS 7.x' do
   let(:chef_run) { ChefSpec::SoloRunner.new(platform: 'centos', version: '7.3.1611').converge('stig::ipv6') }
 
   before do
-    stub_command("systemctl list-unit-files iptables.service | grep -q enabled").and_return(false)
-    stub_command("systemctl list-unit-files ip6tables.service | grep -q enabled").and_return(false)
-    stub_command("systemctl is-active iptables.service | grep -q active").and_return(false)
-    stub_command("systemctl is-active ip6tables.service | grep -q active").and_return(false)
+    stub_command("systemctl list-unit-files iptables.service | grep -q -w enabled").and_return(false)
+    stub_command("systemctl list-unit-files ip6tables.service | grep -q -w enabled").and_return(false)
+    stub_command("systemctl is-active iptables.service | grep -q -w active").and_return(false)
+    stub_command("systemctl is-active ip6tables.service | grep -q -w active").and_return(false)
   end
 
   it 'installs iptables-services' do
