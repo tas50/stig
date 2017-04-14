@@ -8,8 +8,10 @@ end
 
 # Ubuntu 6.15
 # CENTOS6: 3.16
-describe command('netstat -an | grep LIST | grep ":25 "') do
-  its(:stdout) { should match /127.0.0.1/ }
+port(25).addresses.each do |entry|
+  describe entry do
+    it { should_not match /^(?!127\.0\.0\.1|::1).*$/ }
+  end
 end
 
 describe service('postfix') do

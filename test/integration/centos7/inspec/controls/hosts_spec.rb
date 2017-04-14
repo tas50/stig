@@ -18,6 +18,6 @@ describe file('/etc/hosts.deny') do
   it { should be_file }
   its('mode') { should cmp '0644' }
 end
-describe command(' grep "ALL: ALL" /etc/hosts.deny') do
-  its(:stdout) { should match /ALL: ALL/ }
+describe file('/etc/hosts.deny') do
+  its('content') { should match /ALL: ALL/ }
 end

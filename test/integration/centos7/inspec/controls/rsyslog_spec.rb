@@ -3,6 +3,7 @@
 # CENTOS6: 4.1.3
 # UBUNTU: 8.2.3
 
+# This can produce known false positives, new solution coming soon.
 describe file('/etc/rsyslog.conf') do
   it { should be_file }
   it { should exist }

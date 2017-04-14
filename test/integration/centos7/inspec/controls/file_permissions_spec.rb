@@ -6,12 +6,25 @@
 # CENTOS 9.1.6
 # UBUNTU 12.1
 # UBUNTU 12.4
+# an example of another approach that can be more readible by security auditors
+# it's a bit longer but more in the style of inspec and the intention that we
+# would like it readible by non-techies.
 describe file('/etc/passwd') do
   it { should exist }
   it { should be_file }
-  its('mode') { should cmp '0644' }
   it { should be_owned_by 'root' }
   it { should be_grouped_into 'root' }
+  it { should_not be_executable.by "group" }
+  it { should be_readable.by "group" }
+  it { should_not be_writable.by "group" }
+  it { should_not be_executable.by "other" }
+  it { should be_readable.by "other" }
+  it { should_not be_writable.by "other" }
+  it { should_not be_executable.by "owner" }
+  it { should be_readable.by "owner" }
+  it { should be_writable.by "owner" }
+  its("uid") { should cmp 0 }
+  its("gid") { should cmp 0 }
 end
 
 # CENTOS 9.1.5

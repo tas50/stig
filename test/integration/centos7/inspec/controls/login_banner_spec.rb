@@ -23,12 +23,12 @@ end
 
 # CENTOS 8.2
 # UBUNTU 11.2
-describe command("egrep '(\\v|\\r|\\m|\\s)' /etc/issue") do
-  its(:stdout) { should match /^$/ }
+describe file("/etc/motd") do
+  its("content") { should_not match /(\\v|\\r|\\m|\\s)/ }
 end
-describe command("egrep '(\\v|\\r|\\m|\\s)' /etc/motd") do
-  its(:stdout) { should match /^$/ }
+describe file("/etc/issue") do
+  its("content") { should_not match /(\\v|\\r|\\m|\\s)/ }
 end
-describe command("egrep '(\\v|\\r|\\m|\\s)' /etc/issue.net") do
-  its(:stdout) { should match /^$/ }
+describe file("/etc/issue.net") do
+  its("content") { should_not match /(\\v|\\r|\\m|\\s)/ }
 end
