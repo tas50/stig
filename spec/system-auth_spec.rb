@@ -4,8 +4,9 @@ describe 'stig::system_auth CentOS 7.x' do
   let(:chef_run) { ChefSpec::SoloRunner.new(platform: 'centos', version: '7.3.1611').converge('stig::system_auth') }
 
   before do
-    stub_command('test -L /etc/pam.d/system-auth').and_return(false)
-    stub_command("test -L /etc/pam.d/password-auth").and_return(false)
+    allow(File).to receive(:symlink?).with(anything).and_call_original
+    allow(File).to receive(:symlink?).with('/etc/pam.d/system-auth').and_return(false)
+    allow(File).to receive(:symlink?).with('/etc/pam.d/password-auth').and_return(false)
   end
 
   it 'creates /etc/pam.d/system-auth symlink' do
@@ -40,8 +41,9 @@ describe 'stig::system_auth CentOS 6.x' do
   let(:chef_run) { ChefSpec::SoloRunner.new(platform: 'centos', version: '7.3.1611').converge('stig::system_auth') }
 
   before do
-    stub_command('test -L /etc/pam.d/system-auth').and_return(false)
-    stub_command("test -L /etc/pam.d/password-auth").and_return(false)
+    allow(File).to receive(:symlink?).with(anything).and_call_original
+    allow(File).to receive(:symlink?).with('/etc/pam.d/system-auth').and_return(false)
+    allow(File).to receive(:symlink?).with('/etc/pam.d/password-auth').and_return(false)
   end
 
   it 'creates a paasword-auth template' do
