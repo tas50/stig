@@ -31,13 +31,13 @@ describe 'stig::boot_settings CentOS 7.x' do
   end
 
   it 'does not create /etc/grub.d/40_custom on CentOS' do
-    expect(chef_run).to_not create_template('/etc/grub.d/40_custom').with(
-      source: 'etc_grubd_40_custom.erb'
-    )
+    custom_template = chef_run.template('/etc/grub.d/40_custom')
+    expect(custom_template).to do_nothing
   end
 
   it 'Does not execute update-grub on CentOS' do
-    expect(chef_run).to_not run_execute('update-grub')
+    exec_update_grub = chef_run.execute('update-grub')
+    expect(exec_update_grub).to do_nothing
   end
 
   it 'Executes setenforce for selinux on RHEL' do

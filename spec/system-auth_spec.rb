@@ -28,12 +28,8 @@ describe 'stig::system_auth CentOS 7.x' do
   end
 
   it 'Does not create /etc/pam.d/common-password template' do
-    expect(chef_run).to_not create_template('/etc/pam.d/common-password').with(
-      source: 'etc_pam.d_common-password.erb',
-      owner: 'root',
-      group: 'root',
-      mode: 0o644
-    )
+    pw_template = chef_run.template('/etc/pam.d/common-password')
+    expect(pw_template).to do_nothing
   end
 end
 
