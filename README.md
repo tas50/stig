@@ -1,5 +1,8 @@
 STIG Cookbook
 =============
+
+[![Build Status](https://travis-ci.org/USGS-CIDA/stig.svg?branch=master)](https://travis-ci.org/USGS-CIDA/stig)
+
 Installs and configures the CIS CentOS Linux 6 benchmark.  
 These sets of recipes aim to harden the operating system in order to pass all scored CIS benchmarks and optionally all unscored CIS benchmarks.
 
