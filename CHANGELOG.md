@@ -1,6 +1,13 @@
 ## Changelog
 ---------
 
+- 0.6.7
+
+-- [jmorris@usgs.gov] - Updated defaults for audit.rules to avoid 32/64 bit syscall mismatch warning
+-- [jmorris@usgs.gov] - Removed "redhat" from the test for purging the avahi-daemon package
+-- [jmorris@usgs.gov] - Updated unit tests to work around errors
+-- [jmorris@usgs.gov] - Updated style tests for later version of foodcritic/rubocop
+
 - 0.6.6
 
 -- [isuftin@usgs.gov] - Updating the cookbook to work properly with CentOS 7
