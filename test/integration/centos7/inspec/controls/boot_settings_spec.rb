@@ -34,9 +34,12 @@ describe file('/boot/grub2/grub.cfg') do
   it { should be_owned_by 'root' }
   it { should be_grouped_into 'root' }
 end
-#
-describe command('stat -L -c "%u %g" /etc/grub2.cfg | egrep "0 0"') do
-  its(:stdout) { should match /0 0/ }
+# CENTOS6: 1.5.1
+describe file("/boot/grub2/grub.cfg") do
+  its("gid") { should cmp 0 }
+end
+describe file("/boot/grub2/grub.cfg") do
+  its("uid") { should cmp 0 }
 end
 # CENTOS6: 1.5.2
 describe command('stat -L -c "%a" /etc/grub2.cfg | egrep ".00"') do
@@ -54,10 +57,27 @@ describe package('mcstrans') do
 end
 
 # TODO- Bad test - Will not always be running on VirtualBox
-# CENTOS6: 1.4.6
 # describe command('ps -eZ | egrep "initrc" | egrep -vw "tr|ps|egrep|bash|awk" | tr ":" " " | awk "{ print $NF }"') do
 #   its(:stdout) { should match /^$|VBoxService/ }
 # end
+# CENTOS6: 1.4.6
+control "CIS-1.4.6_Check_for_Unconfined_Daemons" do
+  title "Check for Unconfined Daemons"
+  desc  "Daemons that are not defined in SELinux policy will inherit the security
+        context of their parent process."
+  impact 1.0
+  processes("*").entries.each do |entry|
+    describe entry do
+      its("pid") { should be > 0 }
+    end
+    describe entry do
+      its("command") { should match /.*/ }
+    end
+    describe entry.label.to_s.split(":")[2] do
+      it { should_not cmp "initrc_t" }
+    end
+  end
+end
 
 # CENTOS6: 1.5.5
 describe file('/etc/sysconfig/init') do
@@ -79,25 +99,23 @@ describe file('/etc/inittab') do
 end
 
 # CENTOS6: 5.2.1
-describe command('/sbin/sysctl net.ipv4.conf.all.accept_source_route') do
-  its(:stdout) { should match /net.ipv4.conf.all.accept_source_route = 0/ }
+describe kernel_parameter('net.ipv4.conf.all.accept_source_route') do
+  its(:value) { should eq 0 }
 end
-describe command('/sbin/sysctl net.ipv4.conf.default.accept_source_route') do
-  its(:stdout) { should match /net.ipv4.conf.default.accept_source_route = 0/ }
+describe kernel_parameter('net.ipv4.conf.default.accept_source_route') do
+  its(:value) { should eq 0 }
 end
-
 # CENTOS6: 5.2.2
-describe command('/sbin/sysctl net.ipv4.conf.all.accept_redirects') do
-  its(:stdout) { should match /net.ipv4.conf.all.accept_redirects = 0/ }
+describe kernel_parameter('net.ipv4.conf.all.accept_redirects') do
+  its(:value) { should eq 0 }
 end
-describe command('/sbin/sysctl net.ipv4.conf.default.accept_redirects') do
-  its(:stdout) { should match /net.ipv4.conf.default.accept_redirects = 0/ }
+describe kernel_parameter('net.ipv4.conf.default.accept_redirects') do
+  its(:value) { should eq 0 }
 end
-
 # CENTOS6: 5.2.3
-describe command('/sbin/sysctl net.ipv4.conf.all.secure_redirects') do
-  its(:stdout) { should match /net.ipv4.conf.all.secure_redirects = 0/ }
+describe kernel_parameter('net.ipv4.conf.all.secure_redirects') do
+  its(:value) { should eq 0 }
 end
-describe command('/sbin/sysctl net.ipv4.conf.default.secure_redirects') do
-  its(:stdout) { should match /net.ipv4.conf.default.secure_redirects = 0/ }
+describe kernel_parameter('net.ipv4.conf.default.secure_redirects') do
+  its(:value) { should eq 0 }
 end

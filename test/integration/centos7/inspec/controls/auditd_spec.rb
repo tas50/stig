@@ -1,3 +1,6 @@
+only_if do
+  package('audit').installed?
+end
 
 describe file('/etc/audit') do
   it { should exist }
@@ -10,30 +13,33 @@ describe file('/etc/audit/auditd.conf') do
   its('mode') { should cmp '0640' }
   it { should be_owned_by 'root' }
   it { should be_grouped_into 'root' }
-  its('content') { should include('log_file = /var/log/audit/audit.log') }
-  its('content') { should include('log_format = RAW') }
-  its('content') { should include('log_group = root') }
-  its('content') { should include('priority_boost = 4') }
-  its('content') { should include('flush = INCREMENTAL') }
-  its('content') { should include('freq = 20') }
-  its('content') { should include('num_logs = 5') }
-  its('content') { should include('disp_qos =  lossy') }
-  its('content') { should include('dispatcher = /sbin/audispd') }
-  its('content') { should include('name_format = NONE') }
-  its('content') { should include('max_log_file = 25') }
-  its('content') { should include('max_log_file_action = keep_logs') }
-  its('content') { should include('space_left = 75') }
-  its('content') { should include('space_left_action = email') }
-  its('content') { should include('action_mail_acct = root') }
-  its('content') { should include('admin_space_left = 50') }
-  its('content') { should include('admin_space_left_action = halt') }
-  its('content') { should include('disk_full_action = SUSPEND') }
-  its('content') { should include('disk_error_action = SUSPEND') }
-  its('content') { should include('tcp_listen_queue = 5') }
-  its('content') { should include('tcp_max_per_addr = 1') }
-  its('content') { should include('tcp_client_ports = 1024-65535') }
-  its('content') { should include('use_libwrap = yes') }
-  its('content') { should include('tcp_client_max_idle = 0') }
-  its('content') { should include('enable_krb5 = no') }
-  its('content') { should include('krb5_principal = auditd') }
+end
+
+describe auditd_conf do
+  its('log_file') { should eq '/var/log/audit/audit.log' }
+  its('log_format') { should eq 'RAW' }
+  its('log_group') { should eq 'root' }
+  its('priority_boost') { should eq '4' }
+  its('flush') { should eq 'INCREMENTAL' }
+  its('freq') { should eq '20' }
+  its('num_logs') { should eq '5' }
+  its('disp_qos') { should eq 'lossy' }
+  its('dispatcher') { should eq '/sbin/audispd' }
+  its('name_format') { should eq 'NONE' }
+  its('max_log_file') { should eq '25' }
+  its('max_log_file_action') { should eq 'keep_logs' }
+  its('space_left') { should eq '75' }
+  its('space_left_action') { should eq 'email' }
+  its('action_mail_acct') { should eq 'root' }
+  its('admin_space_left') { should eq '50' }
+  its('admin_space_left_action') { should eq 'halt' }
+  its('disk_full_action') { should eq 'SUSPEND' }
+  its('disk_error_action') { should eq 'SUSPEND' }
+  its('tcp_listen_queue') { should eq '5' }
+  its('tcp_max_per_addr') { should eq '1' }
+  its('tcp_client_ports') { should eq '1024-65535' }
+  its('use_libwrap') { should eq 'yes' }
+  its('tcp_client_max_idle') { should eq '0' }
+  its('enable_krb5') { should eq 'no' }
+  its('krb5_principal') { should eq 'auditd' }
 end
