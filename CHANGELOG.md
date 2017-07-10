@@ -1,6 +1,11 @@
 ## Changelog
 ---------
 
+- 0.6.8
+
+-- [isuftin@usgs.gov] - Updated audit scripts to not double-check file mounts that
+may appear twice in df output
+
 - 0.6.7
 
 -- [jmorris@usgs.gov] - Updated defaults for audit.rules to avoid 32/64 bit syscall mismatch warning
