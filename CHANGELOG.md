@@ -4,6 +4,7 @@
 - 0.6.8
 
 -- [isuftin@usgs.gov] - Updated more audit not included in the last version
+-- [isuftin@usgs.gov] - Combined two audit steps into one to save time/processing
 
 - 0.6.8
 
