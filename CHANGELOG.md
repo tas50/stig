@@ -3,6 +3,10 @@
 
 - 0.6.8
 
+-- [isuftin@usgs.gov] - Updated more audit not included in the last version
+
+- 0.6.8
+
 -- [isuftin@usgs.gov] - Updated audit scripts to not double-check file mounts that
 may appear twice in df output
 
