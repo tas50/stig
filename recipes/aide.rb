@@ -18,6 +18,19 @@ platform = node['platform']
 # Ensure AIDE is installed
 package 'aide'
 
+# Configure aide on redhat family
+# TODO: Apply template to debian and ubuntu platforms
+template node['stig']['aide']['config_file'] do
+  action :create
+  group 'root'
+  mode 0o600
+  owner 'root'
+  source 'aide.conf.erb'
+  variables(config: node['stig']['aide'])
+  only_if { %w[rhel fedora centos redhat].include? platform }
+  notifies :run, 'execute[init_aide]', :delayed
+end
+
 # CIS Benchmarks suggest: The prelinking feature can interfere with AIDE because it alters binaries to
 # speed up their start up times. Run /usr/sbin/prelink -ua to restore the binaries to their prelinked
 # state, thus avoiding false positives from AIDE.
@@ -36,11 +49,11 @@ remote_file '/var/lib/aide/aide.db' do
   only_if { %w[debian ubuntu].include? platform }
 end
 
+aide_database = node['stig']['aide']['database'].gsub('@@{DBDIR}', node['stig']['aide']['dbdir'])
 execute 'init_aide' do
   user 'root'
-  command "/usr/sbin/aide --init -B 'database_out=file:/var/lib/aide/aide.db.gz'"
-  creates '/var/lib/aide/aide.db.gz'
-  action :run
+  command "/usr/sbin/aide --init -B 'database_out=#{aide_database}'"
+  action :nothing
   only_if { %w[rhel fedora centos redhat].include? platform }
 end
 
