@@ -18,6 +18,31 @@ platform = node['platform']
 # Ensure AIDE is installed
 package 'aide'
 
+# Get AIDE attrutes
+# TODO: Add defaults for debian/ubuntu platforms
+aide_config = {}.merge(node['stig']['aide'])
+if %w[rhel fedora centos].include?(node['platform'])
+  # Set the rules by merging node['stig']['aide']['rules'] with
+  # a platform version specific aide_config['rules_rhel']['6'] or
+  # node['stig']['aide']['rules_rhel']['default'], which is for RHEL 7+
+  aide_config['rules'] =
+    if aide_config['rules_rhel'].key?(node['platform_version'].to_i.to_s)
+      aide_config['rules_rhel'][node['platform_version'].to_i.to_s].merge(aide_config['rules'])
+    else
+      aide_config['rules_rhel']['default'].merge(aide_config['rules'])
+    end
+
+  # Set the paths by merging node['stig']['aide']['paths'] with
+  # a platform version specific aide_config['paths_rhel']['6'] or
+  # node['stig']['aide']['paths_rhel']['default'], which is for RHEL 7+
+  aide_config['paths'] =
+    if aide_config['paths_rhel'].key?(node['platform_version'].to_i.to_s)
+      aide_config['paths_rhel'][node['platform_version'].to_i.to_s].merge(aide_config['paths'])
+    else
+      aide_config['paths_rhel']['default'].merge(aide_config['paths'])
+    end
+end
+
 # Configure aide on redhat family
 # TODO: Apply template to debian and ubuntu platforms
 template node['stig']['aide']['config_file'] do
@@ -26,7 +51,7 @@ template node['stig']['aide']['config_file'] do
   mode 0o600
   owner 'root'
   source 'aide.conf.erb'
-  variables(config: node['stig']['aide'])
+  variables(config: aide_config)
   only_if { %w[rhel fedora centos redhat].include? platform }
   notifies :run, 'execute[init_aide]', :delayed
 end

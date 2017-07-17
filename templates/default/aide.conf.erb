@@ -105,22 +105,18 @@ report_url=<%= rpt %>
 # DATAONLY =  p+n+u+g+s+acl+selinux+xattrs+sha256 (Centos 7)
 
 # Define local rules
-<% unless @config['rules'].nil? || @config['rules'].empty? %>
-  <% @config['rules'].each do |name, rule| %>
+<% @config['rules'].each do |name, rule| %>
 <%= name %> = <%= rule %>
-  <%- end %>
 <%- end %>
 
 # Next decide what directories/files you want in the database. Aide
 # uses a first match system. Put file specific instructions before generic
 # matches. e.g. Put file matches before directories.
 
-<% unless @config['paths'].nil? || @config['paths'].empty? %>
-  <% @config['paths'].each do |path, rule| %>
-    <% if rule != '!' %>
+<% @config['paths'].each do |path, rule| %>
+  <% if rule != '!' %>
 <%= path %> <%= rule %>
-    <% else %>
+  <% else %>
 !<%= path %>
-    <%- end %>
   <%- end %>
 <%- end %>
