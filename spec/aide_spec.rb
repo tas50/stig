@@ -18,12 +18,18 @@ describe 'stig::aide CentOS 7.x' do
     expect(exec_aideinit).to do_nothing
   end
 
-  it 'actually initializes aide' do
-    expect(chef_run).to run_execute('init_aide').with(
-      user: 'root',
-      command: "/usr/sbin/aide --init -B 'database_out=file:/var/lib/aide/aide.db.gz'",
-      creates: '/var/lib/aide/aide.db.gz'
-    )
+  it 'should create /etc/aide.conf on RHEL hosts' do
+    expect(chef_run).to create_template('/etc/aide.conf')\
+      .with(user: 'root', group: 'root', mode: 0o600)
+  end
+  it 'should notify aide to initialize database for RHEL' do
+    aide_config = chef_run.template('/etc/aide.conf')
+    expect(aide_config).to notify('execute[init_aide]').to(:run).delayed
+  end
+
+  it 'should not execute init_aide by default for RHEL' do
+    exec_init_aide = chef_run.execute('init_aide')
+    expect(exec_init_aide).to do_nothing
   end
 
   # 1.3.2
@@ -64,12 +70,18 @@ describe 'stig::aide CentOS 6.x' do
     )
   end
 
-  it 'actually initializes aide' do
-    expect(chef_run).to run_execute('init_aide').with(
-      user: 'root',
-      command: "/usr/sbin/aide --init -B 'database_out=file:/var/lib/aide/aide.db.gz'",
-      creates: '/var/lib/aide/aide.db.gz'
-    )
+  it 'should create /etc/aide.conf on RHEL hosts' do
+    expect(chef_run).to create_template('/etc/aide.conf')\
+      .with(user: 'root', group: 'root', mode: 0o600)
+  end
+  it 'should notify aide to initialize database for RHEL' do
+    aide_config = chef_run.template('/etc/aide.conf')
+    expect(aide_config).to notify('execute[init_aide]').to(:run).delayed
+  end
+
+  it 'should not execute init_aide by default for RHEL' do
+    exec_init_aide = chef_run.execute('init_aide')
+    expect(exec_init_aide).to do_nothing
   end
 
   # 1.3.2

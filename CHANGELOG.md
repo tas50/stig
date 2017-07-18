@@ -1,6 +1,13 @@
 ## Changelog
 ---------
 
+- 0.6.10
+
+-- [jmorris@usgs.gov] - Added template for /etc/aide.conf and it updates the aide database
+-- [jmorris@usgs.gov] - Added default attributes for Centos 6 & 7 for /etc/aide.conf
+-- [jmorris@usgs.gov] - Added inspec and unit tests for /etc/aide.conf
+-- [jmorris@usgs.gov] - Corrected inspec tests centos7 to run aide tests for redhat platforms
+
 - 0.6.9
 
 -- [isuftin@usgs.gov] - Updated more audit not included in the last version
