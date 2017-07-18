@@ -22,12 +22,14 @@ package 'aide'
 # TODO: Add defaults for debian/ubuntu platforms
 aide_config = {}.merge(node['stig']['aide'])
 if %w[rhel fedora centos].include?(node['platform'])
+  platform_version = node['platform_version'].to_i.to_s
+
   # Set the rules by merging node['stig']['aide']['rules'] with
   # a platform version specific aide_config['rules_rhel']['6'] or
   # node['stig']['aide']['rules_rhel']['default'], which is for RHEL 7+
   aide_config['rules'] =
-    if aide_config['rules_rhel'].key?(node['platform_version'].to_i.to_s)
-      aide_config['rules_rhel'][node['platform_version'].to_i.to_s].merge(aide_config['rules'])
+    if aide_config['rules_rhel'].key?(platform_version)
+      aide_config['rules_rhel'][platform_version].merge(aide_config['rules'])
     else
       aide_config['rules_rhel']['default'].merge(aide_config['rules'])
     end
@@ -36,8 +38,8 @@ if %w[rhel fedora centos].include?(node['platform'])
   # a platform version specific aide_config['paths_rhel']['6'] or
   # node['stig']['aide']['paths_rhel']['default'], which is for RHEL 7+
   aide_config['paths'] =
-    if aide_config['paths_rhel'].key?(node['platform_version'].to_i.to_s)
-      aide_config['paths_rhel'][node['platform_version'].to_i.to_s].merge(aide_config['paths'])
+    if aide_config['paths_rhel'].key?(platform_version)
+      aide_config['paths_rhel'][platform_version].merge(aide_config['paths'])
     else
       aide_config['paths_rhel']['default'].merge(aide_config['paths'])
     end

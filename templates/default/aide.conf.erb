@@ -21,7 +21,7 @@ gzip_dbout=<%= (@config['gzip_dbout']) ? 'yes' : 'no' %>
 # Default.
 verbose=<%= @config['verbose'] %>
 
-<% unless @config['report_url'].nil? || @config['report_url'].empty? %>
+<% unless @config['report_url'].nil? %>
   <% @config['report_url'].each do |rpt| %>
 report_url=<%= rpt %>
   <%- end %>
