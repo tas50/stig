@@ -57,7 +57,7 @@ describe 'stig::ipv6 CentOS 7.x' do
     expect(chef_run).to start_service("iptables")
   end
 
-  it 'Executes start_ip6tables' do
+  it 'Does not execute start_ip6tables' do
     expect(chef_run).to_not start_service("ip6tables")
   end
 end
