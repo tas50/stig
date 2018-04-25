@@ -3,7 +3,7 @@
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased]
+## [0.6.12] - 2018-04-25
 ### Updated
 -- [isuftin@usgs.gov] - proc_hard recipe now calls on the sysctl cookbook's
 sysctl_param resource instead of any recipe. This allows the this cookbook to use
