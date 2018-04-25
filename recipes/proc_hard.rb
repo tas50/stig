@@ -22,4 +22,8 @@ package 'whoopsie' do
   only_if { %w[debian ubuntu].include? node['platform'] }
 end
 
-include_recipe 'sysctl::apply'
+node['sysctl']['params'].each do |param, value|
+  sysctl_param param do
+    value value
+  end
+end
