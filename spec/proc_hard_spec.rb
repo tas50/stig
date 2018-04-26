@@ -6,6 +6,24 @@ describe 'stig::proc_hard CentOS 7.x' do
   before do
     stub_command('sysctl -n -e fs.suid_dumpable').and_return(true)
     stub_command('sysctl -n -e net.ipv4.ip_forward').and_return(true)
+    stub_command('sysctl -n -e net.ipv4.conf.all.send_redirects').and_return(true)
+    stub_command('sysctl -n -e net.ipv4.conf.default.send_redirects').and_return(true)
+    stub_command('sysctl -n -e net.ipv4.conf.all.accept_redirects').and_return(true)
+    stub_command('sysctl -n -e net.ipv4.conf.default.accept_redirects').and_return(true)
+    stub_command('sysctl -n -e net.ipv4.conf.all.log_martians').and_return(true)
+    stub_command('sysctl -n -e net.ipv4.conf.default.log_martians').and_return(true)
+    stub_command('sysctl -n -e net.ipv4.conf.all.rp_filter').and_return(true)
+    stub_command('sysctl -n -e net.ipv4.conf.default.rp_filter').and_return(true)
+    stub_command('sysctl -n -e net.ipv6.conf.all.accept_redirects').and_return(true)
+    stub_command('sysctl -n -e net.ipv6.conf.default.accept_redirects').and_return(true)
+    stub_command('sysctl -n -e net.ipv4.conf.all.secure_redirects').and_return(true)
+    stub_command('sysctl -n -e net.ipv4.conf.default.secure_redirects').and_return(true)
+    stub_command('sysctl -n -e net.ipv6.conf.all.accept_ra').and_return(true)
+    stub_command('sysctl -n -e net.ipv6.conf.default.accept_ra').and_return(true)
+    stub_command('sysctl -n -e net.ipv6.route.flush').and_return(true)
+    stub_command('sysctl -n -e net.ipv6.conf.all.disable_ipv6').and_return(true)
+    stub_command('sysctl -n -e net.ipv6.conf.default.disable_ipv6').and_return(true)
+    stub_command('sysctl -n -e net.ipv6.conf.lo.disable_ipv6').and_return(true)
   end
 
   it 'creates /etc/security/limits.conf template' do
@@ -34,6 +52,24 @@ describe 'stig::proc_hard CentOS 6.x' do
   before do
     stub_command('sysctl -n -e fs.suid_dumpable').and_return(true)
     stub_command('sysctl -n -e net.ipv4.ip_forward').and_return(true)
+    stub_command('sysctl -n -e net.ipv4.conf.all.send_redirects').and_return(true)
+    stub_command('sysctl -n -e net.ipv4.conf.default.send_redirects').and_return(true)
+    stub_command('sysctl -n -e net.ipv4.conf.all.accept_redirects').and_return(true)
+    stub_command('sysctl -n -e net.ipv4.conf.default.accept_redirects').and_return(true)
+    stub_command('sysctl -n -e net.ipv4.conf.all.log_martians').and_return(true)
+    stub_command('sysctl -n -e net.ipv4.conf.default.log_martians').and_return(true)
+    stub_command('sysctl -n -e net.ipv4.conf.all.rp_filter').and_return(true)
+    stub_command('sysctl -n -e net.ipv4.conf.default.rp_filter').and_return(true)
+    stub_command('sysctl -n -e net.ipv6.conf.all.accept_redirects').and_return(true)
+    stub_command('sysctl -n -e net.ipv6.conf.default.accept_redirects').and_return(true)
+    stub_command('sysctl -n -e net.ipv4.conf.all.secure_redirects').and_return(true)
+    stub_command('sysctl -n -e net.ipv4.conf.default.secure_redirects').and_return(true)
+    stub_command('sysctl -n -e net.ipv6.conf.all.accept_ra').and_return(true)
+    stub_command('sysctl -n -e net.ipv6.conf.default.accept_ra').and_return(true)
+    stub_command('sysctl -n -e net.ipv6.route.flush').and_return(true)
+    stub_command('sysctl -n -e net.ipv6.conf.all.disable_ipv6').and_return(true)
+    stub_command('sysctl -n -e net.ipv6.conf.default.disable_ipv6').and_return(true)
+    stub_command('sysctl -n -e net.ipv6.conf.lo.disable_ipv6').and_return(true)
   end
 
   it 'creates /etc/security/limits.conf template' do
