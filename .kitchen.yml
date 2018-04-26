@@ -9,13 +9,13 @@ verifier:
   name: inspec
 
 platforms:
-  - name: centos-6.8
-  - name: centos-7.3
+  - name: centos-6
+  - name: centos-7
 
 suites:
   - name: centos7
-    excludes:
-      - centos-6.8
+    includes:
+      - centos-7
     verifier:
       inspec_tests:
           - name: centos7
@@ -52,8 +52,8 @@ suites:
     }
 
   - name: centos6
-    excludes:
-      - centos-7.3
+    includes:
+      - centos-6
     verifier:
       inspec_tests:
           - name: centos6
