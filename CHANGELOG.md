@@ -3,13 +3,14 @@
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [0.6.12] - 2018-04-25
+## [UNRELEASED]
 ### Updated
 -- [isuftin@usgs.gov] - proc_hard recipe now calls on the sysctl cookbook's
 sysctl_param resource instead of any recipe. This allows the this cookbook to use
 sysctl cookbook version >= 1.0.0
 -- [isuftin@usgs.gov] - Removed version constraint from Berksfile for sysctl
 -- [isuftin@usgs.gov] - Updated Chefspec test to remove test for sysctl::apply recipe
+-- [isuftin@usgs.gov] - Added boolean flag to sysctl parameters to ignore errors (defaults to true)
 -- [isuftin@usgs.gov] - Switched Changelog format
 -- [isuftin@usgs.gov] - Fixed styling for Rubocop 0.55.0
 
