@@ -13,6 +13,7 @@ sysctl cookbook version >= 1.0.0
 -- [isuftin@usgs.gov] - Added boolean flag to sysctl parameters to ignore errors (defaults to true)
 -- [isuftin@usgs.gov] - Switched Changelog format
 -- [isuftin@usgs.gov] - Fixed styling for Rubocop 0.55.0
+-- [cpoma@mitre.org] - Bugfix in stig/recipes/mail_transfer_agent.rb to use platform_family versus platform
 
 ## [0.6.11]
 ### Updated
