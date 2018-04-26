@@ -395,7 +395,7 @@ default['stig']['network']['disable_ipv6'] = true
 
 # Setting this to false will stop the chef-run with an error if the parameter
 # does not exist on the system.
-default['sysctl']['ignore_error'] = true
+# default['sysctl']['ignore_error'] = True
 
 # Set a hard limit on core dumps
 default['sysctl']['params']['fs.suid_dumpable'] = 0
@@ -444,6 +444,7 @@ default['sysctl']['params']['net.ipv4.conf.default.secure_redirects'] = 0
 # true = Enable IPv6 router advertisements
 default['sysctl']['params']['net.ipv6.conf.all.accept_ra'] = 0
 default['sysctl']['params']['net.ipv6.conf.default.accept_ra'] = 0
+default['sysctl']['params']['net.ipv6.route.flush'] = 1
 
 # Disable IPv6
 # false = Do not disable ipv6

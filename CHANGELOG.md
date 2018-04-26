@@ -11,6 +11,7 @@ sysctl cookbook version >= 1.0.0
 -- [isuftin@usgs.gov] - Removed version constraint from Berksfile for sysctl
 -- [isuftin@usgs.gov] - Updated Chefspec test to remove test for sysctl::apply recipe
 -- [isuftin@usgs.gov] - Added boolean flag to sysctl parameters to ignore errors (defaults to true)
+-- [isuftin@usgs.gov] - Add guard to sysctl call in order to work around bug https://github.com/chef/chef/issues/7189
 -- [isuftin@usgs.gov] - Switched Changelog format
 -- [isuftin@usgs.gov] - Fixed styling for Rubocop 0.55.0
 
