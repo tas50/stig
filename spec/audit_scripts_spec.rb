@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'stig::audit_scripts CentOS 7.x' do
-  let(:chef_run) { ChefSpec::SoloRunner.new(platform: 'centos', version: '7.3.1611').converge('stig::audit_scripts') }
+  cached(:chef_run) { ChefSpec::SoloRunner.new(platform: 'centos', version: '7.3.1611').converge('stig::audit_scripts') }
 
   it 'creates an .audit sub directory in /root' do
     expect(chef_run).to create_directory('/root/.audit').with(
@@ -103,7 +103,7 @@ describe 'stig::audit_scripts CentOS 7.x' do
 end
 
 describe 'stig::audit_scripts CentOS 6.x' do
-  let(:chef_run) { ChefSpec::SoloRunner.new(platform: 'centos', version: '6.9').converge('stig::audit_scripts') }
+  cached(:chef_run) { ChefSpec::SoloRunner.new(platform: 'centos', version: '6.9').converge('stig::audit_scripts') }
 
   it 'creates an .audit sub directory in /root' do
     expect(chef_run).to create_directory('/root/.audit').with(

@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'stig::proc_hard CentOS 7.x' do
-  let(:chef_run) { ChefSpec::SoloRunner.new(platform: 'centos', version: '7.3.1611').converge('stig::proc_hard') }
+  cached(:chef_run) { ChefSpec::SoloRunner.new(platform: 'centos', version: '7.3.1611').converge('stig::proc_hard') }
 
   before do
     stub_command('sysctl -n -e fs.suid_dumpable').and_return(true)
@@ -47,7 +47,7 @@ describe 'stig::proc_hard CentOS 7.x' do
 end
 
 describe 'stig::proc_hard CentOS 6.x' do
-  let(:chef_run) { ChefSpec::SoloRunner.new(platform: 'centos', version: '6.9').converge('stig::proc_hard') }
+  cached(:chef_run) { ChefSpec::SoloRunner.new(platform: 'centos', version: '6.9').converge('stig::proc_hard') }
 
   before do
     stub_command('sysctl -n -e fs.suid_dumpable').and_return(true)

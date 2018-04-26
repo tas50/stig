@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'stig::audits CentOS 7.x' do
-  let(:chef_run) { ChefSpec::SoloRunner.new(platform: 'centos', version: '7.3.1611').converge('stig::audits') }
+  cached(:chef_run) { ChefSpec::SoloRunner.new(platform: 'centos', version: '7.3.1611').converge('stig::audits') }
 
   before do
     stub_command("test -n \"$(/bin/cat /etc/shadow | /bin/awk -F: '($2 == \"\" )')\"").and_return(true)
@@ -82,7 +82,7 @@ describe 'stig::audits CentOS 7.x' do
 end
 
 describe 'stig::audits CentOS 6.x' do
-  let(:chef_run) { ChefSpec::SoloRunner.new(platform: 'centos', version: '6.9').converge('stig::audits') }
+  cached(:chef_run) { ChefSpec::SoloRunner.new(platform: 'centos', version: '6.9').converge('stig::audits') }
 
   before do
     stub_command("test -n \"$(/bin/cat /etc/shadow | /bin/awk -F: '($2 == \"\" )')\"").and_return(true)

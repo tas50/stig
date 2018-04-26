@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'stig::mail_transfer_agent CentOS 7.x' do
-  let(:chef_run) { ChefSpec::SoloRunner.new(platform: 'centos', version: '7.3.1611').converge('stig::mail_transfer_agent') }
+  cached(:chef_run) { ChefSpec::SoloRunner.new(platform: 'centos', version: '7.3.1611').converge('stig::mail_transfer_agent') }
 
   it 'creates /etc/postfix/main.cf' do
     expect(chef_run).to create_template('/etc/postfix/main.cf').with(
@@ -19,7 +19,7 @@ describe 'stig::mail_transfer_agent CentOS 7.x' do
 end
 
 describe 'stig::mail_transfer_agent CentOS 6.x' do
-  let(:chef_run) { ChefSpec::SoloRunner.new(platform: 'centos', version: '6.9').converge('stig::mail_transfer_agent') }
+  cached(:chef_run) { ChefSpec::SoloRunner.new(platform: 'centos', version: '6.9').converge('stig::mail_transfer_agent') }
 
   it 'creates /etc/postfix/main.cf' do
     expect(chef_run).to create_template('/etc/postfix/main.cf').with(

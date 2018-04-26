@@ -2,12 +2,12 @@ require 'spec_helper'
 
 describe 'stig::boot_settings CentOS 7.x' do
 
-  # let(:chef_run) do
+  # cached(:chef_run) do
   #   ChefSpec::SoloRunner.new do |node|
   #     node.normal['stig']['grub']['hashedpassword'] = 'hello'
   #   end.converge(described_recipe)
   # end
-  let(:chef_run) { ChefSpec::SoloRunner.new(platform: 'centos', version: '7.3.1611').converge('stig::boot_settings') }
+  cached(:chef_run) { ChefSpec::SoloRunner.new(platform: 'centos', version: '7.3.1611').converge('stig::boot_settings') }
 
   grub_file = "/boot/grub2/grub.cfg"
 

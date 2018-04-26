@@ -6,7 +6,7 @@ describe 'stig::auditd_rules CentOS 7.x' do
       ChefSpec::SoloRunner.new(platform: 'centos', version: '7.3.1611')
     end
 
-    let(:chef_run) do
+    cached(:chef_run) do
       solo.converge('stig::auditd_rules') do
         solo.resource_collection.insert(Chef::Resource::Service.new('auditd', solo.run_context))
       end
@@ -34,7 +34,7 @@ describe 'stig::auditd_rules CentOS 6.x' do
       ChefSpec::SoloRunner.new(platform: 'centos', version: '6.9')
     end
 
-    let(:chef_run) do
+    cached(:chef_run) do
       solo.converge('stig::auditd_rules') do
         solo.resource_collection.insert(Chef::Resource::Service.new('auditd', solo.run_context))
       end

@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'stig::ipv6 CentOS 7.x' do
-  let(:chef_run) { ChefSpec::SoloRunner.new(platform: 'centos', version: '7.3.1611').converge('stig::ipv6') }
+  cached(:chef_run) { ChefSpec::SoloRunner.new(platform: 'centos', version: '7.3.1611').converge('stig::ipv6') }
 
   before do
     stub_command("systemctl list-unit-files iptables.service | grep -q -w enabled").and_return(false)

@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'stig::avahi_daemon CentOS 7.x' do
-  let(:chef_run) { ChefSpec::SoloRunner.new(platform: 'centos', version: '7.3.1611').converge('stig::avahi_daemon') }
+  cached(:chef_run) { ChefSpec::SoloRunner.new(platform: 'centos', version: '7.3.1611').converge('stig::avahi_daemon') }
 
 
   before do
@@ -35,7 +35,7 @@ describe 'stig::avahi_daemon CentOS 7.x' do
 end
 
 describe 'stig::avahi_daemon CentOS 6.x' do
-  let(:chef_run) { ChefSpec::SoloRunner.new(platform: 'centos', version: '6.9').converge('stig::avahi_daemon') }
+  cached(:chef_run) { ChefSpec::SoloRunner.new(platform: 'centos', version: '6.9').converge('stig::avahi_daemon') }
 
   grep_avahi_daemon_cmd = "/sbin/chkconfig | grep 'avahi-daemon' | grep 'on'"
   grep_zeroconf = 'grep NOZEROCONF -i /etc/sysconfig/network'

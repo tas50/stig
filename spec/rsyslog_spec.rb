@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe 'stig::rsyslog CentOS 7.x' do
-  let(:chef_run) { ChefSpec::SoloRunner.new(platform: 'centos', version: '7.3.1611').converge('stig::rsyslog') }
+  cached(:chef_run) { ChefSpec::SoloRunner.new(platform: 'centos', version: '7.3.1611').converge('stig::rsyslog') }
 
   it 'creates /etc/rsyslog.conf template' do
     expect(chef_run).to create_template('/etc/rsyslog.conf').with(
@@ -19,7 +19,7 @@ describe 'stig::rsyslog CentOS 7.x' do
 end
 
 describe 'stig::rsyslog CentOS 6.x' do
-  let(:chef_run) { ChefSpec::SoloRunner.new(platform: 'centos', version: '6.9').converge('stig::rsyslog') }
+  cached(:chef_run) { ChefSpec::SoloRunner.new(platform: 'centos', version: '6.9').converge('stig::rsyslog') }
 
   it 'creates /etc/rsyslog.conf template' do
     expect(chef_run).to create_template('/etc/rsyslog.conf').with(
