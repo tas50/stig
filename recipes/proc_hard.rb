@@ -25,5 +25,6 @@ end
 node['sysctl']['params'].each do |param, value|
   sysctl_param param do
     value value
+    ignore_error node['sysctl']['ignore_error']
   end
 end
