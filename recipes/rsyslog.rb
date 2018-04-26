@@ -15,13 +15,13 @@ node['stig']['logging']['rsyslog_rules'].each do |rule|
   syslog_rules << rule
 end
 
-if %w[debian ubuntu].include?(node['platform'])
+if platform_family?('debian')
   node['stig']['logging']['rsyslog_rules_debian'].each do |rule|
     syslog_rules << rule
   end
 end
 
-if %w[rhel fedora centos].include?(node['platform'])
+if platform_family?('rhel', 'fedora')
   node['stig']['logging']['rsyslog_rules_rhel'].each do |rule|
     syslog_rules << rule
   end

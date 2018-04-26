@@ -14,12 +14,12 @@ end
 
 package 'apport' do
   action :remove
-  only_if { %w[debian ubuntu].include? node['platform'] }
+  only_if { platform_family?('debian') }
 end
 
 package 'whoopsie' do
   action :remove
-  only_if { %w[debian ubuntu].include? node['platform'] }
+  only_if { platform_family?('debian') }
 end
 
 node['sysctl']['params'].each do |param, value|

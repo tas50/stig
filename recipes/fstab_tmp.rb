@@ -37,7 +37,7 @@ mount '/run/shm' do
   options 'rw,nodev,nosuid,noexec'
   action %i[mount enable]
   notifies :run, 'execute[remount]', :immediately
-  only_if { %w[debian ubuntu].include? platform }
+  only_if { platform_family?('debian') }
 end
 
 # The initial mount for whatever reason doesn't seem to mount
@@ -46,7 +46,7 @@ end
 execute 'remount' do
   command 'mount -o remount /run/shm'
   action :nothing
-  only_if { %w[debian ubuntu].include? platform }
+  only_if { platform_family?('debian') }
 end
 
 mount '/dev/shm' do

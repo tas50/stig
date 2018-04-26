@@ -18,10 +18,10 @@ platform = node['platform']
 # Ensure AIDE is installed
 package 'aide'
 
-# Get AIDE attrutes
+# Get AIDE attributes
 # TODO: Add defaults for debian/ubuntu platforms
 aide_config = {}.merge(node['stig']['aide'].to_h)
-if %w[rhel fedora centos].include?(node['platform'])
+if platform_family?('rhel', 'fedora')
   platform_version = node['platform_version'].to_i.to_s
 
   # Set the rules by merging node['stig']['aide']['rules'] with
@@ -54,7 +54,7 @@ template node['stig']['aide']['config_file'] do
   owner 'root'
   source 'aide.conf.erb'
   variables(config: aide_config)
-  only_if { %w[rhel fedora centos redhat].include? platform }
+  only_if { platform_family?('rhel', 'fedora') }
   notifies :run, 'execute[init_aide]', :delayed
 end
 
@@ -67,13 +67,13 @@ execute 'aideinit' do
   user 'root'
   creates '/var/lib/aide/aide.db.new'
   action :run
-  only_if { %w[debian ubuntu].include? platform }
+  only_if { platform_family?('debian') }
 end
 
 remote_file '/var/lib/aide/aide.db' do
   user 'root'
   source 'file:///var/lib/aide/aide.db.new'
-  only_if { %w[debian ubuntu].include? platform }
+  only_if { platform_family?('debian') }
 end
 
 aide_database = node['stig']['aide']['database'].gsub('@@{DBDIR}', node['stig']['aide']['dbdir'])
@@ -81,7 +81,7 @@ execute 'init_aide' do
   user 'root'
   command "/usr/sbin/aide --init -B 'database_out=#{aide_database}'"
   action :nothing
-  only_if { %w[rhel fedora centos redhat].include? platform }
+  only_if { platform_family?('rhel', 'fedora') }
 end
 
 cron 'aide_cron' do

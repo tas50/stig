@@ -12,13 +12,13 @@
 source = ''
 # Fixed to check platform_family versus platform
 #    'redhat', 'fedora', 'centos' are platforms;
-#    'rhel' is the platform_family that includes those platforms
-source = 'etc_main.cf_rhel.erb' if node['platform_family'] == 'rhel'
+#    'rhel' & 'fedora' are the platform families that includes those platforms
+source = 'etc_main.cf_rhel.erb' if platform_family?('rhel', 'fedora')
 
 # Fixed to check platform_family versus platform
 #    'debian', 'ubuntu', 'linuxmint' are platforms;
 #    'debian' is the platform_family that includes those platforms
-source = 'etc_main.cf_ubuntu.erb' if node['platform_family'] == 'debian'
+source = 'etc_main.cf_ubuntu.erb' if platform_family?('debian')
 
 template '/etc/postfix/main.cf' do
   source source
