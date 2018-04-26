@@ -106,7 +106,7 @@ raise "node['stig']['sshd_config']['syslog_facility'] must be one of #{valid_sys
 
 template '/etc/ssh/sshd_config' do
   source 'etc_ssh_sshd_config.erb'
-  mode 0o600
+  mode '0600'
   owner 'root'
   group 'root'
   variables(vars)

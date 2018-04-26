@@ -8,7 +8,7 @@ describe 'stig::cis CentOS 7.x' do
       source: 'etc_modprobe.d_CIS.conf.erb',
       owner: 'root',
       group: 'root',
-      mode: 0o644
+      mode: '0644'
     )
   end
 end
@@ -21,7 +21,7 @@ describe 'stig::cis CentOS 6.x' do
       source: 'etc_modprobe.d_CIS.conf.erb',
       owner: 'root',
       group: 'root',
-      mode: 0o644
+      mode: '0644'
     )
   end
 end

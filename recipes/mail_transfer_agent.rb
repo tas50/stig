@@ -24,7 +24,7 @@ template '/etc/postfix/main.cf' do
   source source
   owner 'root'
   group 'root'
-  mode 0o644
+  mode '0644'
   notifies :restart, 'service[postfix]', :immediately
 end
 

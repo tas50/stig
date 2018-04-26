@@ -21,7 +21,7 @@ describe 'stig::auditd CentOS 7.x' do
       expect(chef_run).to create_template('/etc/audit/auditd.conf').with(
       user: 'root',
       group: 'root',
-      mode: 0o640
+      mode: '0640'
       )
     end
 
@@ -49,7 +49,7 @@ describe 'stig::auditd CentOS 6.x' do
       expect(chef_run).to create_template('/etc/audit/auditd.conf').with(
       user: 'root',
       group: 'root',
-      mode: 0o640
+      mode: '0640'
       )
     end
 

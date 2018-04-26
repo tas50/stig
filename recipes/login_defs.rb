@@ -17,7 +17,7 @@ template '/etc/login.defs' do
   source 'etc_login.defs.erb'
   owner 'root'
   group 'root'
-  mode 0o644
+  mode '0644'
   variables(
     pass_max_days: node['stig']['login_defs']['pass_max_days'],
     pass_min_days: node['stig']['login_defs']['pass_min_days'],

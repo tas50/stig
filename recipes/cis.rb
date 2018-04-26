@@ -27,5 +27,5 @@ template '/etc/modprobe.d/CIS.conf' do
   source 'etc_modprobe.d_CIS.conf.erb'
   owner 'root'
   group 'root'
-  mode 0o644
+  mode '0644'
 end

@@ -7,7 +7,7 @@ describe 'stig::file_permissions CentOS 7.x' do
     expect(chef_run).to create_file('/etc/anacrontab').with(
       owner: 'root',
       group: 'root',
-      mode: 0o600
+      mode: '0600'
     )
   end
 
@@ -15,7 +15,7 @@ describe 'stig::file_permissions CentOS 7.x' do
     expect(chef_run).to create_file('/etc/crontab').with(
       owner: 'root',
       group: 'root',
-      mode: 0o600
+      mode: '0600'
     )
   end
 
@@ -23,7 +23,7 @@ describe 'stig::file_permissions CentOS 7.x' do
     expect(chef_run).to create_directory('/etc/cron.hourly').with(
       owner: 'root',
       group: 'root',
-      mode: 0o600
+      mode: '0600'
     )
   end
 
@@ -31,7 +31,7 @@ describe 'stig::file_permissions CentOS 7.x' do
     expect(chef_run).to create_directory('/etc/cron.daily').with(
       owner: 'root',
       group: 'root',
-      mode: 0o600
+      mode: '0600'
     )
   end
 
@@ -39,7 +39,7 @@ describe 'stig::file_permissions CentOS 7.x' do
     expect(chef_run).to create_directory('/etc/cron.weekly').with(
       owner: 'root',
       group: 'root',
-      mode: 0o600
+      mode: '0600'
     )
   end
 
@@ -47,7 +47,7 @@ describe 'stig::file_permissions CentOS 7.x' do
     expect(chef_run).to create_directory('/etc/cron.monthly').with(
       owner: 'root',
       group: 'root',
-      mode: 0o600
+      mode: '0600'
     )
   end
 
@@ -55,7 +55,7 @@ describe 'stig::file_permissions CentOS 7.x' do
     expect(chef_run).to create_directory('/etc/cron.d').with(
       owner: 'root',
       group: 'root',
-      mode: 0o600
+      mode: '0600'
     )
   end
 
@@ -71,7 +71,7 @@ describe 'stig::file_permissions CentOS 7.x' do
     expect(chef_run).to create_file('/etc/passwd').with(
       owner: 'root',
       group: 'root',
-      mode: 0o644
+      mode: '0644'
     )
   end
 
@@ -79,7 +79,7 @@ describe 'stig::file_permissions CentOS 7.x' do
     expect(chef_run).to create_file('/etc/group').with(
       owner: 'root',
       group: 'root',
-      mode: 0o644
+      mode: '0644'
     )
   end
 
@@ -87,7 +87,7 @@ describe 'stig::file_permissions CentOS 7.x' do
     expect(chef_run).to create_file('/etc/cron.allow').with(
       owner: 'root',
       group: 'root',
-      mode: 0o600
+      mode: '0600'
     )
   end
 
@@ -119,7 +119,7 @@ describe 'stig::file_permissions CentOS 6.x' do
     expect(chef_run).to create_file('/etc/anacrontab').with(
       owner: 'root',
       group: 'root',
-      mode: 0o600
+      mode: '0600'
     )
   end
 
@@ -127,7 +127,7 @@ describe 'stig::file_permissions CentOS 6.x' do
     expect(chef_run).to create_file('/etc/crontab').with(
       owner: 'root',
       group: 'root',
-      mode: 0o600
+      mode: '0600'
     )
   end
 
@@ -135,7 +135,7 @@ describe 'stig::file_permissions CentOS 6.x' do
     expect(chef_run).to create_directory('/etc/cron.hourly').with(
       owner: 'root',
       group: 'root',
-      mode: 0o600
+      mode: '0600'
     )
   end
 
@@ -143,7 +143,7 @@ describe 'stig::file_permissions CentOS 6.x' do
     expect(chef_run).to create_directory('/etc/cron.daily').with(
       owner: 'root',
       group: 'root',
-      mode: 0o600
+      mode: '0600'
     )
   end
 
@@ -151,7 +151,7 @@ describe 'stig::file_permissions CentOS 6.x' do
     expect(chef_run).to create_directory('/etc/cron.weekly').with(
       owner: 'root',
       group: 'root',
-      mode: 0o600
+      mode: '0600'
     )
   end
 
@@ -159,7 +159,7 @@ describe 'stig::file_permissions CentOS 6.x' do
     expect(chef_run).to create_directory('/etc/cron.monthly').with(
       owner: 'root',
       group: 'root',
-      mode: 0o600
+      mode: '0600'
     )
   end
 
@@ -167,7 +167,7 @@ describe 'stig::file_permissions CentOS 6.x' do
     expect(chef_run).to create_directory('/etc/cron.d').with(
       owner: 'root',
       group: 'root',
-      mode: 0o600
+      mode: '0600'
     )
   end
 
@@ -183,7 +183,7 @@ describe 'stig::file_permissions CentOS 6.x' do
     expect(chef_run).to create_file('/etc/passwd').with(
       owner: 'root',
       group: 'root',
-      mode: 0o644
+      mode: '0644'
     )
   end
 
@@ -191,7 +191,7 @@ describe 'stig::file_permissions CentOS 6.x' do
     expect(chef_run).to create_file('/etc/group').with(
       owner: 'root',
       group: 'root',
-      mode: 0o644
+      mode: '0644'
     )
   end
 
@@ -199,7 +199,7 @@ describe 'stig::file_permissions CentOS 6.x' do
     expect(chef_run).to create_file('/etc/cron.allow').with(
       owner: 'root',
       group: 'root',
-      mode: 0o600
+      mode: '0600'
     )
   end
 

@@ -19,7 +19,7 @@ describe 'stig::ipv6 CentOS 7.x' do
       source: 'etc_sysconfig_network.erb',
       owner: 'root',
       group: 'root',
-      mode: 0o644
+      mode: '0644'
     )
   end
 
@@ -28,7 +28,7 @@ describe 'stig::ipv6 CentOS 7.x' do
       source: 'etc_sysconfig_network.erb',
       owner: 'root',
       group: 'root',
-      mode: 0o644
+      mode: '0644'
     )
   end
 
@@ -37,7 +37,7 @@ describe 'stig::ipv6 CentOS 7.x' do
       source: 'etc_modprobe.d_ipv6.conf.erb',
       owner: 'root',
       group: 'root',
-      mode: 0o644
+      mode: '0644'
     )
   end
 
@@ -63,7 +63,7 @@ describe 'stig::ipv6 CentOS 7.x' do
 end
 
 describe 'stig::ipv6 CentOS 6.x' do
-  let(:chef_run) { ChefSpec::SoloRunner.new(platform: 'centos', version: '6.9').converge('stig::ipv6') }
+  cached(:chef_run) { ChefSpec::SoloRunner.new(platform: 'centos', version: '6.9').converge('stig::ipv6') }
 
   before do
     stub_command("chkconfig --list ip6tables  | grep -q '2:off'").and_return(false)
@@ -77,7 +77,7 @@ describe 'stig::ipv6 CentOS 6.x' do
       source: 'etc_sysconfig_network.erb',
       owner: 'root',
       group: 'root',
-      mode: 0o644
+      mode: '0644'
     )
   end
 
@@ -86,7 +86,7 @@ describe 'stig::ipv6 CentOS 6.x' do
       source: 'etc_sysconfig_network.erb',
       owner: 'root',
       group: 'root',
-      mode: 0o644
+      mode: '0644'
     )
   end
 
@@ -95,7 +95,7 @@ describe 'stig::ipv6 CentOS 6.x' do
       source: 'etc_modprobe.d_ipv6.conf.erb',
       owner: 'root',
       group: 'root',
-      mode: 0o644
+      mode: '0644'
     )
   end
 

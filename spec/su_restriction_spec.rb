@@ -8,7 +8,7 @@ describe 'stig::su_restriction CentOS 7.x' do
     source: 'etc_pam_d_su_centos',
     user: 'root',
     group: 'root',
-    mode: 0o644
+    mode: '0644'
     )
   end
 
@@ -30,7 +30,7 @@ describe 'stig::su_restriction 6.x' do
     source: 'etc_pam_d_su_centos',
     user: 'root',
     group: 'root',
-    mode: 0o644
+    mode: '0644'
     )
   end
 
@@ -43,7 +43,7 @@ describe 'stig::su_restriction 6.x' do
       source: 'etc_pam_d_su_ubuntu',
       user: 'root',
       group: 'root',
-      mode: 0o644
+      mode: '0644'
     )
   end
 

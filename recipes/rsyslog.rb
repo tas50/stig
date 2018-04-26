@@ -31,7 +31,7 @@ template '/etc/rsyslog.conf' do
   source 'etc_rsyslog.conf.erb'
   owner 'root'
   group 'root'
-  mode 0o644
+  mode '0644'
   variables(
     rsyslog_rules: syslog_rules
   )

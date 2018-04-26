@@ -8,7 +8,7 @@ describe 'stig::rsyslog CentOS 7.x' do
       source: 'etc_rsyslog.conf.erb',
       owner: 'root',
       group: 'root',
-      mode: 0o644
+      mode: '0644'
     )
   end
 
@@ -26,7 +26,7 @@ describe 'stig::rsyslog CentOS 6.x' do
       source: 'etc_rsyslog.conf.erb',
       owner: 'root',
       group: 'root',
-      mode: 0o644
+      mode: '0644'
     )
   end
 

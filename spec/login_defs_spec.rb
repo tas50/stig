@@ -7,7 +7,7 @@ describe 'stig::login_defs CentOS 7.x' do
       source: 'etc_login.defs.erb',
       owner: 'root',
       group: 'root',
-      mode: 0o644
+      mode: '0644'
     )
   end
 end
@@ -19,7 +19,7 @@ describe 'stig::login_defs CentOS 6.x' do
       source: 'etc_login.defs.erb',
       owner: 'root',
       group: 'root',
-      mode: 0o644
+      mode: '0644'
     )
   end
 end

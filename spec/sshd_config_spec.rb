@@ -9,7 +9,7 @@ describe 'stig::sshd_config CentOS 7.x' do
       source: 'etc_ssh_sshd_config.erb',
       owner: 'root',
       group: 'root',
-      mode: 0o600
+      mode: '0600'
     )
     expect(template).to notify('service[sshd]').delayed
   end
@@ -29,7 +29,7 @@ describe 'stig::sshd_config CentOS 6.x' do
       source: 'etc_ssh_sshd_config.erb',
       owner: 'root',
       group: 'root',
-      mode: 0o600
+      mode: '0600'
     )
     expect(template).to notify('service[sshd]').delayed
   end

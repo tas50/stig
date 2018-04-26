@@ -20,7 +20,7 @@ describe 'stig::aide CentOS 7.x' do
 
   it 'should create /etc/aide.conf on RHEL hosts' do
     expect(chef_run).to create_template('/etc/aide.conf')\
-      .with(user: 'root', group: 'root', mode: 0o600)
+      .with(user: 'root', group: 'root', mode: '0600')
   end
   it 'should notify aide to initialize database for RHEL' do
     aide_config = chef_run.template('/etc/aide.conf')
@@ -72,7 +72,7 @@ describe 'stig::aide CentOS 6.x' do
 
   it 'should create /etc/aide.conf on RHEL hosts' do
     expect(chef_run).to create_template('/etc/aide.conf')\
-      .with(user: 'root', group: 'root', mode: 0o600)
+      .with(user: 'root', group: 'root', mode: '0600')
   end
   it 'should notify aide to initialize database for RHEL' do
     aide_config = chef_run.template('/etc/aide.conf')

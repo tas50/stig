@@ -17,7 +17,7 @@
 template '/etc/hosts.allow' do
   owner 'root'
   group 'root'
-  mode 0o644
+  mode '0644'
   source 'etc_hosts.allow.erb'
   variables(
     hosts_allow: node['stig']['network']['hosts_allow']
@@ -27,7 +27,7 @@ end
 template '/etc/hosts.deny' do
   owner 'root'
   group 'root'
-  mode 0o644
+  mode '0644'
   source 'etc_hosts.deny.erb'
   variables(
     hosts_deny: node['stig']['network']['hosts_deny']

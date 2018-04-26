@@ -50,7 +50,7 @@ end
 template node['stig']['aide']['config_file'] do
   action :create
   group 'root'
-  mode 0o600
+  mode '0600'
   owner 'root'
   source 'aide.conf.erb'
   variables(config: aide_config)

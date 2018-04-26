@@ -16,7 +16,7 @@ template 'motd' do
   path '/etc/motd'
   owner 'root'
   group 'root'
-  mode 0o644
+  mode '0644'
   variables(
     banner_text: node['stig']['login_banner']['motd']
   )
@@ -26,7 +26,7 @@ template 'issue' do
   path '/etc/issue'
   owner 'root'
   group 'root'
-  mode 0o644
+  mode '0644'
   variables(
     banner_text: node['stig']['login_banner']['issue']
   )
@@ -36,7 +36,7 @@ template 'issue.net' do
   path '/etc/issue.net'
   owner 'root'
   group 'root'
-  mode 0o644
+  mode '0644'
   variables(
     banner_text: node['stig']['login_banner']['issue_net']
   )

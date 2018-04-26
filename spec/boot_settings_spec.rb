@@ -26,7 +26,7 @@ describe 'stig::boot_settings CentOS 7.x' do
       source: 'selinux_enforce.erb',
       owner: 'root',
       group: 'root',
-      mode: 0o644
+      mode: '0644'
     )
   end
 
@@ -56,7 +56,7 @@ describe 'stig::boot_settings CentOS 7.x' do
     expect(chef_run).to create_file(grub_file).with(
       user:   'root',
       group:  'root',
-      mode: '0o600'
+      mode:   '0600'
     )
   end
 
@@ -65,7 +65,7 @@ describe 'stig::boot_settings CentOS 7.x' do
       source: 'etc_selinux_config.erb',
       owner: 'root',
       group: 'root',
-      mode: 0o644
+      mode:  '0644'
     )
   end
 
@@ -104,7 +104,7 @@ end
 
 describe 'stig::boot_settings CentOS 6.x' do
 
-  # let(:chef_run) do
+  # cached(:chef_run) do
   #   ChefSpec::SoloRunner.new do |node|
   #     node.normal['stig']['grub']['hashedpassword'] = 'hello'
   #   end.converge(described_recipe)
@@ -128,7 +128,7 @@ describe 'stig::boot_settings CentOS 6.x' do
       source: 'selinux_enforce.erb',
       owner: 'root',
       group: 'root',
-      mode: 0o644
+      mode: '0644'
     )
   end
 
@@ -137,7 +137,7 @@ describe 'stig::boot_settings CentOS 6.x' do
       source: 'etc_sysconfig_init.erb',
       owner: 'root',
       group: 'root',
-      mode: 0o644
+      mode: '0644'
     )
   end
 
@@ -183,7 +183,7 @@ describe 'stig::boot_settings CentOS 6.x' do
     expect(chef_run).to create_file('/boot/grub/grub.conf').with(
       user:   'root',
       group:  'root',
-      mode: '0o600'
+      mode: '0600'
     )
   end
 
@@ -192,7 +192,7 @@ describe 'stig::boot_settings CentOS 6.x' do
       source: 'etc_selinux_config.erb',
       owner: 'root',
       group: 'root',
-      mode: 0o644
+      mode: '0644'
     )
   end
 

@@ -30,7 +30,7 @@
   file f do
     owner 'root'
     group 'root'
-    mode 0o600
+    mode '0600'
   end
 end
 
@@ -38,7 +38,7 @@ end
   directory d do
     owner 'root'
     group 'root'
-    mode 0o600
+    mode '0600'
   end
 end
 
@@ -54,19 +54,19 @@ end
   file f do
     owner 'root'
     group 'root'
-    mode 0o644
+    mode '0644'
   end
 end
 
 file '/etc/at.allow' do
-  mode 0o600
+  mode '0600'
   owner 'root'
   group 'root'
   action :create
 end
 
 file '/etc/cron.allow' do
-  mode 0o600
+  mode '0600'
   owner 'root'
   group 'root'
   action :create

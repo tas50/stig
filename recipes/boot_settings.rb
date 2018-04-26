@@ -50,7 +50,7 @@ grub_file = platform_family?('rhel', 'fedora') && major_version < 7 ? '/boot/gru
 file grub_file do
   owner 'root'
   group 'root'
-  mode '0o600'
+  mode '0600'
   only_if { platform_family?('rhel', 'fedora') }
 end
 
@@ -105,7 +105,7 @@ template '/etc/selinux/config' do
   variables(enabled_selinux: enabled_selinux,
             status_selinux: status_selinux,
             type_selinux: type_selinux)
-  mode 0o644
+  mode '0644'
   sensitive true
   notifies :run, 'execute[toggle_selinux]', :delayed
   only_if { platform_family?('rhel', 'fedora') }
@@ -122,8 +122,8 @@ template '/selinux/enforce' do
   group 'root'
   variables(enforcing: (enabled_selinux ? 1 : 0))
   only_if { ::File.directory?('/selinux') }
-  mode 0o644
   only_if { platform_family?('rhel', 'fedora') }
+  mode '0644'
 end
 
 # Do not run this if selinux is already in the state we expect or if disabled.
@@ -140,7 +140,7 @@ template '/etc/sysconfig/init' do
   source 'etc_sysconfig_init.erb'
   owner 'root'
   group 'root'
-  mode 0o644
+  mode '0644'
   only_if { platform_family?('rhel', 'fedora') }
   only_if { major_version < 7 }
 end

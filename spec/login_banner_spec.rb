@@ -8,7 +8,7 @@ describe 'stig::login_banner CentOS 7.x' do
       path: '/etc/motd',
       owner: 'root',
       group: 'root',
-      mode: 0o644
+      mode: '0644'
     )
   end
 
@@ -17,7 +17,7 @@ describe 'stig::login_banner CentOS 7.x' do
       path: '/etc/issue',
       owner: 'root',
       group: 'root',
-      mode: 0o644
+      mode: '0644'
     )
   end
 
@@ -26,7 +26,7 @@ describe 'stig::login_banner CentOS 7.x' do
       path: '/etc/issue.net',
       owner: 'root',
       group: 'root',
-      mode: 0o644
+      mode: '0644'
     )
   end
 end
@@ -39,7 +39,7 @@ describe 'stig::login_banner CentOS 6.x' do
       path: '/etc/motd',
       owner: 'root',
       group: 'root',
-      mode: 0o644
+      mode: '0644'
     )
   end
 
@@ -48,7 +48,7 @@ describe 'stig::login_banner CentOS 6.x' do
       path: '/etc/issue',
       owner: 'root',
       group: 'root',
-      mode: 0o644
+      mode: '0644'
     )
   end
 
@@ -57,7 +57,7 @@ describe 'stig::login_banner CentOS 6.x' do
       path: '/etc/issue.net',
       owner: 'root',
       group: 'root',
-      mode: 0o644
+      mode: '0644'
     )
   end
 end

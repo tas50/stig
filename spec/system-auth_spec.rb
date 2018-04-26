@@ -65,7 +65,7 @@ describe 'stig::system_auth CentOS 6.x' do
       source: 'etc_pam.d_common-password.erb',
       owner: 'root',
       group: 'root',
-      mode: 0o644
+      mode: '0644'
     )
   end
 end

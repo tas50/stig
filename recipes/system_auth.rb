@@ -35,7 +35,7 @@ template system_auth_file do
   source 'etc_pam_d_password_system_auth.erb'
   owner 'root'
   group 'root'
-  mode 0o644
+  mode '0644'
   variables(
     auth_rules: node['stig']['pam_d']['config']['system_auth']
   )
@@ -45,7 +45,7 @@ template password_auth_file do
   source 'etc_pam_d_password_system_auth.erb'
   owner 'root'
   group 'root'
-  mode 0o644
+  mode '0644'
   variables(
     auth_rules: node['stig']['pam_d']['config']['password_auth']
   )
@@ -65,7 +65,7 @@ template '/etc/pam.d/common-password' do
   source 'etc_pam.d_common-password.erb'
   owner 'root'
   group 'root'
-  mode 0o644
+  mode '0644'
   variables(
     pass_reuse_limit: pass_reuse_limit
   )

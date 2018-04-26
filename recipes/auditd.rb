@@ -16,6 +16,6 @@ template File.join(auditd_config_dir, 'auditd.conf') do
   source 'etc_audit_auditd.conf.erb'
   owner 'root'
   group 'root'
-  mode 0o640
+  mode '0640'
   notifies :reload, 'service[auditd]', :immediately
 end

@@ -7,7 +7,7 @@ describe 'stig::audit_scripts CentOS 7.x' do
     expect(chef_run).to create_directory('/root/.audit').with(
       owner: 'root',
       group: 'root',
-      mode: 0o600
+      mode: '0600'
     )
   end
 
@@ -16,7 +16,7 @@ describe 'stig::audit_scripts CentOS 7.x' do
       path: '/root/.audit/find_suid_system_executables.sh',
       owner: 'root',
       group: 'root',
-      mode: 0o700
+      mode: '0700'
     )
   end
 
@@ -25,7 +25,7 @@ describe 'stig::audit_scripts CentOS 7.x' do
       path: '/root/.audit/find_sgid_system_executables.sh',
       owner: 'root',
       group: 'root',
-      mode: 0o700
+      mode: '0700'
     )
   end
 
@@ -34,7 +34,7 @@ describe 'stig::audit_scripts CentOS 7.x' do
       path: '/root/.audit/path_integrity_check.sh',
       owner: 'root',
       group: 'root',
-      mode: 0o700
+      mode: '0700'
     )
   end
 
@@ -43,7 +43,7 @@ describe 'stig::audit_scripts CentOS 7.x' do
       path: '/root/.audit/rhosts_check.sh',
       owner: 'root',
       group: 'root',
-      mode: 0o700
+      mode: '0700'
     )
   end
 
@@ -52,7 +52,7 @@ describe 'stig::audit_scripts CentOS 7.x' do
       path: '/root/.audit/check_groups_in_etc_passwd.sh',
       owner: 'root',
       group: 'root',
-      mode: 0o700
+      mode: '0700'
     )
   end
 
@@ -61,7 +61,7 @@ describe 'stig::audit_scripts CentOS 7.x' do
       path: '/root/.audit/validate_users_homedirs.sh',
       owner: 'root',
       group: 'root',
-      mode: 0o700
+      mode: '0700'
     )
   end
 
@@ -70,7 +70,7 @@ describe 'stig::audit_scripts CentOS 7.x' do
       path: '/root/.audit/check_duplicate_uid.sh',
       owner: 'root',
       group: 'root',
-      mode: 0o700
+      mode: '0700'
     )
   end
 
@@ -79,7 +79,7 @@ describe 'stig::audit_scripts CentOS 7.x' do
       path: '/root/.audit/check_duplicate_gid.sh',
       owner: 'root',
       group: 'root',
-      mode: 0o700
+      mode: '0700'
     )
   end
 
@@ -88,7 +88,7 @@ describe 'stig::audit_scripts CentOS 7.x' do
       path: '/root/.audit/check_duplicate_usernames.sh',
       owner: 'root',
       group: 'root',
-      mode: 0o700
+      mode: '0700'
     )
   end
 
@@ -97,7 +97,7 @@ describe 'stig::audit_scripts CentOS 7.x' do
       path: '/root/.audit/check_duplicate_groupnames.sh',
       owner: 'root',
       group: 'root',
-      mode: 0o700
+      mode: '0700'
     )
   end
 end
@@ -109,7 +109,7 @@ describe 'stig::audit_scripts CentOS 6.x' do
     expect(chef_run).to create_directory('/root/.audit').with(
       owner: 'root',
       group: 'root',
-      mode: 0o600
+      mode: '0600'
     )
   end
 
@@ -118,7 +118,7 @@ describe 'stig::audit_scripts CentOS 6.x' do
       path: '/root/.audit/find_suid_system_executables.sh',
       owner: 'root',
       group: 'root',
-      mode: 0o700
+      mode: '0700'
     )
   end
 
@@ -127,7 +127,7 @@ describe 'stig::audit_scripts CentOS 6.x' do
       path: '/root/.audit/find_sgid_system_executables.sh',
       owner: 'root',
       group: 'root',
-      mode: 0o700
+      mode: '0700'
     )
   end
 
@@ -136,7 +136,7 @@ describe 'stig::audit_scripts CentOS 6.x' do
       path: '/root/.audit/path_integrity_check.sh',
       owner: 'root',
       group: 'root',
-      mode: 0o700
+      mode: '0700'
     )
   end
 
@@ -145,7 +145,7 @@ describe 'stig::audit_scripts CentOS 6.x' do
       path: '/root/.audit/rhosts_check.sh',
       owner: 'root',
       group: 'root',
-      mode: 0o700
+      mode: '0700'
     )
   end
 
@@ -154,7 +154,7 @@ describe 'stig::audit_scripts CentOS 6.x' do
       path: '/root/.audit/check_groups_in_etc_passwd.sh',
       owner: 'root',
       group: 'root',
-      mode: 0o700
+      mode: '0700'
     )
   end
 
@@ -163,7 +163,7 @@ describe 'stig::audit_scripts CentOS 6.x' do
       path: '/root/.audit/validate_users_homedirs.sh',
       owner: 'root',
       group: 'root',
-      mode: 0o700
+      mode: '0700'
     )
   end
 
@@ -172,7 +172,7 @@ describe 'stig::audit_scripts CentOS 6.x' do
       path: '/root/.audit/check_duplicate_uid.sh',
       owner: 'root',
       group: 'root',
-      mode: 0o700
+      mode: '0700'
     )
   end
 
@@ -181,7 +181,7 @@ describe 'stig::audit_scripts CentOS 6.x' do
       path: '/root/.audit/check_duplicate_gid.sh',
       owner: 'root',
       group: 'root',
-      mode: 0o700
+      mode: '0700'
     )
   end
 
@@ -190,7 +190,7 @@ describe 'stig::audit_scripts CentOS 6.x' do
       path: '/root/.audit/check_duplicate_usernames.sh',
       owner: 'root',
       group: 'root',
-      mode: 0o700
+      mode: '0700'
     )
   end
 
@@ -199,7 +199,7 @@ describe 'stig::audit_scripts CentOS 6.x' do
       path: '/root/.audit/check_duplicate_groupnames.sh',
       owner: 'root',
       group: 'root',
-      mode: 0o700
+      mode: '0700'
     )
   end
 end

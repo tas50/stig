@@ -7,7 +7,7 @@ describe 'stig::hosts CentOS 7.x' do
       source: 'etc_hosts.allow.erb',
       owner: 'root',
       group: 'root',
-      mode: 0o644
+      mode: '0644'
     )
   end
 
@@ -16,7 +16,7 @@ describe 'stig::hosts CentOS 7.x' do
       source: 'etc_hosts.deny.erb',
       owner: 'root',
       group: 'root',
-      mode: 0o644
+      mode: '0644'
     )
   end
 end
@@ -28,7 +28,7 @@ describe 'stig::hosts CentOS 6.x' do
       source: 'etc_hosts.allow.erb',
       owner: 'root',
       group: 'root',
-      mode: 0o644
+      mode: '0644'
     )
   end
 
@@ -37,7 +37,7 @@ describe 'stig::hosts CentOS 6.x' do
       source: 'etc_hosts.deny.erb',
       owner: 'root',
       group: 'root',
-      mode: 0o644
+      mode: '0644'
     )
   end
 end

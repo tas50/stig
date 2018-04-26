@@ -61,14 +61,14 @@ if platform_family?('rhel', 'fedora')
     source 'etc_sysconfig_network.erb'
     user 'root'
     group 'root'
-    mode 0o644
+    mode '0644'
   end
 
   template '/etc/modprobe.d/ipv6.conf' do
     source 'etc_modprobe.d_ipv6.conf.erb'
     user 'root'
     group 'root'
-    mode 0o644
+    mode '0644'
     variables(ipv6: ipv6)
   end
 end

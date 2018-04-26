@@ -31,7 +31,7 @@ describe 'stig::proc_hard CentOS 7.x' do
       source: 'limits.conf.erb',
       owner: 'root',
       group: 'root',
-      mode: 0o644
+      mode: '0644'
     )
   end
 
@@ -77,7 +77,7 @@ describe 'stig::proc_hard CentOS 6.x' do
       source: 'limits.conf.erb',
       owner: 'root',
       group: 'root',
-      mode: 0o644
+      mode: '0644'
     )
   end
 
