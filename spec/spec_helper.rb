@@ -6,5 +6,3 @@ RSpec.configure do |config|
   config.version = '6.7'
   config.color = true
 end
-
-at_exit { ChefSpec::Coverage.report! }
