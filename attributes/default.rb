@@ -395,7 +395,7 @@ default['stig']['network']['disable_ipv6'] = true
 
 # Setting this to false will stop the chef-run with an error if the parameter
 # does not exist on the system.
-default['sysctl']['ignore_error'] = True
+default['sysctl']['ignore_error'] = true
 
 # Set a hard limit on core dumps
 default['sysctl']['params']['fs.suid_dumpable'] = 0
