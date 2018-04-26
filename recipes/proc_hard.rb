@@ -26,7 +26,6 @@ node['sysctl']['params'].each do |param, value|
   sysctl_param param do
     key param
     value value
-    ignore_error node['sysctl']['ignore_error']
     only_if "sysctl -n -e #{param}"
   end
 end
